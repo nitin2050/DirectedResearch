@@ -51,5 +51,5 @@ public class Square {
 	}
 
 	//other API functions needed by the SQUARE class will be added here...
-	//test yumin
+	//test change yumin
 }
