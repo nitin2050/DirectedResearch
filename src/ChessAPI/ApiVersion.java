@@ -5,7 +5,7 @@ public class ApiVersion {
 
 	public static String getVersionNo()
 	{
-		//return the version no.
+		//return the version
 		return versionNo;
 	}
 
