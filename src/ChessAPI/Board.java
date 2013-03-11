@@ -5,7 +5,7 @@ import ChessAPI.Piece.Color;
 public class Board {
 	static final int ROWS = 8;
 	static final int COLS = 8;
-	private Square[][] board;
+	private static Square[][] board;
 	
 	
 	public Board(){
