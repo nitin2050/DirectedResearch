@@ -5,6 +5,7 @@ public class ApiVersion {
 
 	public static String getVersionNo()
 	{
+		//return the version
 		return versionNo;
 	}
 
@@ -12,5 +13,7 @@ public class ApiVersion {
 	{
 		System.out.println("Current VersionNo. is:" + versionNo);
 	}
+	
+	
 
 }
