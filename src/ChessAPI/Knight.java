@@ -6,8 +6,8 @@ public class Knight extends Piece{
 		super();
 	}
 	
-	public Knight(Color c, Square s) {
-		super(c,s);
+	public Knight(Color c, Square s,Type t) {
+		super(c,s,t);
 	}
 
 	@Override

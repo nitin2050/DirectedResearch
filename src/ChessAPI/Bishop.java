@@ -6,8 +6,8 @@ public class Bishop extends Piece{
 		super();
 	}
 	
-	public Bishop(Color c, Square s) {
-		super(c,s);
+	public Bishop(Color c, Square s, Type t) {
+		super(c,s,t);
 	}
 
 	@Override

@@ -1,10 +1,8 @@
 package ChessAPI;
 
+import ChessAPI.Piece.Color;
+
 public class Square {
-	
-	public enum Color{
-		black,white
-	}
 	
 	private Color color;
 	private Piece piece;
@@ -51,5 +49,5 @@ public class Square {
 	}
 
 	//other API functions needed by the SQUARE class will be added here...
-	//test yumin
+
 }

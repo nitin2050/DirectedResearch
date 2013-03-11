@@ -6,8 +6,8 @@ public class Rook extends Piece{
 		super();
 	}
 	
-	public Rook(Color c, Square s) {
-		super(c,s);
+	public Rook(Color c, Square s,Type t) {
+		super(c,s,t);
 	}
 
 	@Override

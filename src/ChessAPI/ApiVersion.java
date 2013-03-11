@@ -1,7 +1,7 @@
 package ChessAPI;
 
 public class ApiVersion {
-	private static String versionNo = "1.0";
+	private static String versionNo = "2.0";
 
 	public static String getVersionNo()
 	{

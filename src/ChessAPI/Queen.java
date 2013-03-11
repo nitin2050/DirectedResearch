@@ -6,8 +6,8 @@ public class Queen extends Piece{
 		super();
 	}
 	
-	public Queen(Color c, Square s) {
-		super(c,s);
+	public Queen(Color c, Square s, Type t) {
+		super(c,s,t);
 	}
 
 	@Override
