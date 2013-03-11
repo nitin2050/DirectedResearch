@@ -58,6 +58,22 @@ public class Player {
 		return noOfDead;
 	}
 	
+	public boolean moveTo(Square s, Square d){
+		if(s.getPiece()==null){
+			System.out.println("piece object not found at the source location specified");
+			return false;
+		}else{
+			boolean result = s.getPiece().moveTo(d);
+			//if a valid move is completed remove piece from souce
+			if(result){
+				s.setPiece(null);
+				System.out.println("move completed");
+			}
+			return result;
+		}
+		
+	}
+	
 	//other functions needed by the Player class....
 	
 }
