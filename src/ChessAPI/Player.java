@@ -12,8 +12,9 @@ public class Player {
 	King king;
 	Queen queen;
 	private Color color;
-	int noOfAlive, noOfDead;
-	
+	int noOfAlive, noOfDead, noOfMoves;
+	boolean myTurn;
+
 	public Player(Color c)
 	{
 		color = c;
@@ -37,6 +38,8 @@ public class Player {
 			rook[i] = new Rook(c,null,Type.Rook);
 		}
 	
+		noOfMoves = 0;
+		myTurn = false;
 	}
 	
 	void initPlayer() {
@@ -69,11 +72,24 @@ public class Player {
 				s.setPiece(null);
 				System.out.println("move completed");
 			}
+			myTurn = false;
 			return result;
 		}
-		
 	}
-	
+
+	public int getNoMoves()
+	{
+		return noOfMoves;
+	}
+
+	public void incMoves()
+	{
+		noOfMoves++;
+	}
+
+	public boolean getTurn()
+	{
+		return myTurn;
+	}
 	//other functions needed by the Player class....
-	
 }

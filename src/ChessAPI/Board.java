@@ -95,4 +95,31 @@ public class Board {
 			System.out.println();
 		}//end outer for
 	}
+	
+	public GameDump getDump()
+	{
+		int i, j;
+		Player P1, P2;
+		P1 = new Player(Color.black);
+		P2 = new Player(Color.white);
+
+		GameDump currentDump;
+		currentDump = new GameDump();
+
+		for (i = 0; i < 8; i++)
+			for (j = 0; j < 8; j++)
+			{
+				currentDump.sq[i][j] = this.board[i][j];
+			}
+			// noOfMovesTillNow get it from Player class object
+			// If Player1.isMyTurn = true then turn = 1
+			// Else turn = 2
+
+		currentDump.noOfMovesTillNow = P1.getNoMoves() + P2.getNoMoves();
+		if (P1.getTurn() == true)
+			currentDump.turn = 1;
+		else
+			currentDump.turn = 2;
+		return currentDump;
+	}
 }

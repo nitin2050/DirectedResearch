@@ -13,7 +13,4 @@ public class ApiVersion {
 	{
 		System.out.println("Current VersionNo. is:" + versionNo);
 	}
-	
-	
-
 }
