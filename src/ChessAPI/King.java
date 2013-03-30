@@ -24,7 +24,8 @@ public class King extends Piece{
 			this.setSquare(destination);
 			return true;			
 		}else{
-			System.out.println("the move is not completed due to existance of another piece in the destination square");
+			// Print error message and return false as the moveTo was not successful
+			System.out.println(err);
 			return false;
 		}
 		//logic for checking if the King can move from current Location to this Destination
@@ -47,7 +48,7 @@ public class King extends Piece{
 		}
 		if(!this.validateAgainstRule(s, d)){
 			decision=false;
-			err="Not a valid move for a Biship, the requested move is rejected.";
+			err="Not a valid move for a King, the requested move is rejected.";
 			return decision;
 		}
 

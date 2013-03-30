@@ -33,7 +33,7 @@ public class UserProgram {
 		pl1.moveTo(b.getSquare(2, 1), b.getSquare(3, 1));
 		b.displayBoard();
 		
-		//pl1.moveTo(b.getSquare(8, 5), b.getSquare(8, 6));
+		//pl1.moveTo(b.getSquare(8, 5), b.getSquare(6, 5));
 		//b.displayBoard();
 
 		//	pl1.moveTo(b.getSquare(2, 1), b.getSquare(3, 1));
