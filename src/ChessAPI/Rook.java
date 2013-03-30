@@ -24,7 +24,7 @@ public class Rook extends Piece{
 			this.setSquare(destination);
 			return true;			
 		}else{
-			System.out.println("the move is not completed due to existance of another piece in the destination square");
+			System.out.println(err);
 			return false;
 		}
 		//logic for checking if the Rook can move from current Location to this Destination
