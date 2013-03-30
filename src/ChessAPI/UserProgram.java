@@ -11,7 +11,7 @@ public class UserProgram {
 	public static void main(String s[]){
 		GameDump D;
 		Board b;
-		//req.4 create a dump
+		//req4 create a dump
 		b = new Board();
 		D = b.getDump();
 
@@ -25,12 +25,14 @@ public class UserProgram {
 		Player pl2 = new Player(Color.black);
 		
 		b.initBoard(pl1, pl2);
-		//req.5 print board
+		//req5 print board
 		b.displayBoard();
 		
-		//req.6 move a piece, the next line moves W_Pawn from (2,1) to (3,1)
+		//req6 move a piece, the next line moves W_Pawn from (2,1) to (3,1)
 		pl1.moveTo(b.getSquare(2, 1), b.getSquare(3, 1));	
 		b.displayBoard();
+		
+		//nitin playing around
 
 	}
 }
