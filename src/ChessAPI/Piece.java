@@ -13,27 +13,27 @@ public abstract class Piece {
 	private Square square;	//current Square the piece is on the Board
 	private Type type;      //stores type of the piece
 	
-	public Piece() {
+	public Piece() { 
 	}
 	
 	public Piece(Color c, Square s, Type t) {
-		color = c;
-		square = s;
-		type = t;
+		this.color = c;
+		this.square = s;
+		this.type = t;
 	}
 	
 	public void setColor(Color c) {
 		this.color = c;
 	}
 	public Color getColor() {
-		return color;
+		return this.color;
 	}
 	
 	public void setSquare(Square s) {
 		this.square = s;
 	}
 	public Square getSquare() {
-		return square;
+		return this.square;
 	}
 	
 	public void setType(Type t) {

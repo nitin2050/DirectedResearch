@@ -66,7 +66,15 @@ public class Player {
 			System.out.println("piece object not found at the source location specified");
 			return false;
 		}else{
-			boolean result = s.getPiece().moveTo(d);
+			boolean result = true;
+			
+			if (d.getPiece() != null)
+			{
+				System.out.println(" Another piece found at the destination location specified");
+				return false;
+			} else {
+				result = s.getPiece().moveTo(d);
+			}
 			//if a valid move is completed remove piece from souce
 			if(result){
 				s.setPiece(null);

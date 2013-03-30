@@ -34,6 +34,22 @@ public class Board {
 		for(int i=1;i<=8;i++) {
 			board[2][i].setPiece(p1.pawn[i-1]);
 		}
+
+		
+		// Set Squares for Pieces of Player 1		
+		p1.rook[0].setSquare(board[1][1]);
+		p1.knight[0].setSquare(board[1][2]);
+		p1.bishop[0].setSquare(board[1][3]);
+		p1.queen.setSquare(board[1][4]);
+		p1.king.setSquare(board[1][5]);
+		p1.rook[1].setSquare(board[1][6]);
+		p1.knight[1].setSquare(board[1][7]);
+		p1.bishop[1].setSquare(board[1][8]);
+		for(int i=1;i<=8;i++) {
+			p1.pawn[i-1].setSquare(board[2][i]);
+		}
+		
+
 		
 		//initialize board for Player 2
 		//This sets Square.Piece
@@ -48,7 +64,21 @@ public class Board {
 		board[8][6].setPiece(p2.rook[1]);
 		board[8][7].setPiece(p2.knight[1]);
 		board[8][8].setPiece(p2.bishop[1]);
-		
+
+		//This sets Square for each Piece
+		for(int i=1;i<=8;i++) {
+			p2.pawn[i-1].setSquare(board[7][i]);
+			
+		}
+		p2.rook[0].setSquare(board[8][1]);
+		p2.knight[0].setSquare(board[8][2]);
+		p2.bishop[0].setSquare(board[8][3]);
+		p2.queen.setSquare(board[8][4]);
+		p2.king.setSquare(board[8][5]);
+		p2.rook[1].setSquare(board[8][6]);
+		p2.knight[1].setSquare(board[8][7]);
+		p2.bishop[1].setSquare(board[8][8]);
+
 		//Also set the square in Piece to point to the initializtion
 		//This sets Piece.Square
 		p1.initPlayer();

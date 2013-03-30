@@ -29,9 +29,16 @@ public class UserProgram {
 		b.displayBoard();
 		
 		//req6 move a piece, the next line moves W_Pawn from (2,1) to (3,1)
-		pl1.moveTo(b.getSquare(2, 1), b.getSquare(3, 1));	
+		//pl1.moveTo(b.getSquare(2, 1), b.getSquare(3, 1));
+		pl1.moveTo(b.getSquare(2, 1), b.getSquare(3, 1));
 		b.displayBoard();
 		
+		//pl1.moveTo(b.getSquare(8, 5), b.getSquare(8, 6));
+		//b.displayBoard();
+
+		//	pl1.moveTo(b.getSquare(2, 1), b.getSquare(3, 1));
+		//	b.displayBoard();
+
 		//nitin playing around
 
 	}
