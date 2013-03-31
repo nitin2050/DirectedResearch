@@ -32,7 +32,7 @@ public class Bishop extends Piece{
 		
 	}		
 	
-	private boolean validateMove(Square s, Square d){
+	public boolean validateMove(Square s, Square d){
 		boolean decision = true;
 		if(d.get_x()>8 || d.get_y()>8 || d.get_x()<1 || d.get_y()<1){
 			decision = false;
