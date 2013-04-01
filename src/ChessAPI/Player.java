@@ -27,11 +27,11 @@ public class Player {
 		king = new King(c,null,Type.King);
 		queen = new Queen(c,null,Type.Queen);
 		
-		for (int i = 0; i < 8; i++){
+		for (int i = 1; i <= 8; i++){
 			pawn[i] = new Pawn(c,null,Type.Pawn);
 		}
 
-		for (int i = 0; i < 2; i++)
+		for (int i = 1; i <= 2; i++)
 		{
 			knight[i] = new Knight(c,null,Type.Knight);
 			bishop[i] = new Bishop(c,null,Type.Bishop);
@@ -40,9 +40,6 @@ public class Player {
 	
 		noOfMoves = 0;
 		myTurn = false;
-	}
-	
-	void initPlayer() {
 	}
 	
 	public void setColor(Color color) {
@@ -84,7 +81,44 @@ public class Player {
 			return result;
 		}
 	}
-
+	
+	//returns true if the player's King is in Check
+	//Logic: if a valid move of any of the opponents piece can replace the King
+	//than it is in check
+	public boolean isInCheck() {
+		Boolean isInCheck = false;
+		Board currentBoard = Board.getBoardInstance(); //get the Board
+		Square kingPosition = this.king.getSquare(); //get Kings current position
+		
+		if (kingPosition != null) {
+			
+			for (int i=1; i<Board.ROWS ; i++){
+				for (int j=1; j<Board.COLS ; j++) {
+					
+					Square currentSquare = currentBoard.getSquare(i, j);
+					if (currentSquare.getPiece() != null ){
+						if (currentSquare.getPiece().getColor() != this.color) {
+							
+							//if I am here, this means that the Board's square[i][j] has opponents piece
+							//now I need to check if this Piece's valid move can capture my King or not
+							//If yes, I am in check else I am not
+							if (currentSquare.getPiece().validateMove(currentSquare, kingPosition)) {
+								//the piece on square[i][j] can Kill my King
+								isInCheck = true;
+								return isInCheck;
+							}
+						}
+					}
+					
+				}//end inner for
+			}//end outer for
+			
+		}
+		
+		return isInCheck;
+	}//end isInCheck()
+	
+	
 	public int getNoMoves()
 	{
 		return noOfMoves;

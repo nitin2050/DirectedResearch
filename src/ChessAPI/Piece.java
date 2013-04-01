@@ -45,5 +45,8 @@ public abstract class Piece {
 	
 	//Move the piece to Destination square is the move is valid
 	public abstract boolean moveTo(Square destination);
+	
+	//validate and return true or false
+	public abstract boolean validateMove(Square source, Square destination);
 
 }

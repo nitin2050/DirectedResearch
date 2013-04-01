@@ -16,7 +16,7 @@ public class Pawn extends Piece {
 	public boolean moveTo(Square destination) {
 		//System.out.println("Pawn");
 
-		if(this.validateMove(destination) == true){
+		if(this.validateMove(this.getSquare(), destination) == true){
 			System.out.println("Piece moved to "+destination.get_x()+","+destination.get_y());
 			//move piece to destination 
 			destination.setPiece(this);
@@ -33,10 +33,8 @@ public class Pawn extends Piece {
 		//return true and move else return false
 	}
 
-	private boolean validateMove(Square d){
-		Square s = null;
+	public boolean validateMove(Square s, Square d){
 		boolean decision = true;
-		s = this.getSquare();
 		if(d.get_x()>8 || d.get_y()>8 || d.get_x()<1 || d.get_y()<1){
 			decision = false;
 			err="Destination square is not a part of the game board, the requested moved is rejected.";
