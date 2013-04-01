@@ -68,9 +68,14 @@ public class Knight extends Piece{
 	
 	private boolean isObstructed(Square s, Square d) {
 		
-		//Knight will never be obstructed
-		
+		Board board = new Board();
 		boolean result = false;		
+		
+		int d_x = d.get_x();
+		int d_y = d.get_y();
+		
+		if(board.getSquare(d_x, d_y).getPiece() != null)
+			result = true;
 		
 		return result;
 	}
