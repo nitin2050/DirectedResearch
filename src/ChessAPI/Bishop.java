@@ -46,7 +46,7 @@ public class Bishop extends Piece{
 		}
 		if(!this.validateAgainstRule(s, d)){
 			decision=false;
-			err="Not a valid move for a Biship, the requested move is rejected.";
+			err="Not a valid move for a Bishop, the requested move is rejected.";
 			return decision;
 		}
 		if(this.isObstructed(s, d)){
@@ -67,8 +67,8 @@ public class Bishop extends Piece{
 	
 	
 	private boolean isObstructed(Square s, Square d) {
-		Board board = new Board();
-		boolean result = true;		
+		Board board = Board.getBoardInstance();
+		boolean result = false;		
 		int s_x = s.get_x();
 		int s_y = s.get_y();
 		int d_x = d.get_x();
@@ -80,7 +80,7 @@ public class Bishop extends Piece{
 			s_x=s_x+diff_x/Math.abs(diff_x);
 			s_y=s_y+diff_y/Math.abs(diff_y);
 			if(board.getSquare(s_x, s_y).getPiece() != null){
-				result = false;
+				result = true;
 				break;
 			}
 		}
