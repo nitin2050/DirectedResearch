@@ -102,5 +102,10 @@ public class King extends Piece{
 		return result;
 	}
 
-	//the class will also include other functions specific to King Object
+	//add your code here, and return appropriate value
+	//I am returning null for syntax purposes right now
+	public Square selectRandomSquare(){
+		
+		return null;
+	}
 }

@@ -20,10 +20,10 @@ public class Player {
 		color = c;
 		noOfAlive = 16;
 		noOfDead = 0;
-		pawn = new Pawn[8];
-		knight = new Knight[2];
-		bishop = new Bishop[2];
-		rook = new Rook[2];
+		pawn = new Pawn[9];
+		knight = new Knight[3];
+		bishop = new Bishop[3];
+		rook = new Rook[3];
 		king = new King(c,null,Type.King);
 		queen = new Queen(c,null,Type.Queen);
 		
@@ -118,6 +118,48 @@ public class Player {
 		return isInCheck;
 	}//end isInCheck()
 	
+		
+	//Randomly select a Piece and return a random Square where it can move legally, out of all the possible legal moves
+	//If this method returns null, than there is no valid move possible for the randomly selected Piece
+	//Suggestion: Reinvoke this method till it returns a non-null value
+	public Square randomMove() {
+		int min = 1;
+		int max = 16;
+		
+		Square suggestedSquare = null;
+		int randomNum = min + (int) ( Math.random() * ((max - min)+1) );
+		
+		if(randomNum >=1 && randomNum <= 8) {
+			//if random number is between 1-8, select the corresponding Pawn out of 8
+			suggestedSquare = this.pawn[randomNum].selectRandomSquare();
+		} else if (randomNum == 9) {
+			suggestedSquare = this.rook[1].selectRandomSquare();
+			
+		} else if (randomNum == 10) {
+			suggestedSquare = this.rook[2].selectRandomSquare();
+			
+		} else if (randomNum == 11) {
+			suggestedSquare = this.bishop[1].selectRandomSquare();
+			
+		} else if (randomNum == 12) {
+			suggestedSquare = this.bishop[2].selectRandomSquare();
+			
+		} else if (randomNum == 13) {
+			suggestedSquare = this.knight[1].selectRandomSquare();
+			
+		} else if (randomNum == 14) {
+			suggestedSquare = this.knight[2].selectRandomSquare();
+			
+		} else if (randomNum == 15) {
+			suggestedSquare = this.king.selectRandomSquare();
+			
+		} else if (randomNum == 16) {
+			suggestedSquare = this.queen.selectRandomSquare();
+			
+		}
+		
+		return suggestedSquare;
+	}
 	
 	public int getNoMoves()
 	{
