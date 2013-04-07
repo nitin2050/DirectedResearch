@@ -111,8 +111,7 @@ public class Board {
 	}
 	
 	//temporary implementation
-	public void setSquare(Square s, int x, int y){
-		
+	public void setSquare(Square s, int x, int y){	
 		board[x-1][y-1] = s;
 	}
 	
