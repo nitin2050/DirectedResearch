@@ -1,5 +1,7 @@
 package ChessAPI;
 
+import java.nio.channels.SelectableChannel;
+
 import ChessAPI.Piece.Color;
 import ChessAPI.Piece.Type;
 
@@ -14,16 +16,17 @@ public class Player {
 	private Color color;
 	int noOfAlive, noOfDead, noOfMoves;
 	boolean myTurn;
+	public Square originalSquare = null;
 
 	public Player(Color c)
 	{
 		color = c;
 		noOfAlive = 16;
 		noOfDead = 0;
-		pawn = new Pawn[8];
-		knight = new Knight[2];
-		bishop = new Bishop[2];
-		rook = new Rook[2];
+		pawn = new Pawn[9];
+		knight = new Knight[3];
+		bishop = new Bishop[3];
+		rook = new Rook[3];
 		king = new King(c,null,Type.King);
 		queen = new Queen(c,null,Type.Queen);
 		
@@ -67,7 +70,7 @@ public class Player {
 			
 			if (d.getPiece() != null)
 			{
-				System.out.println(" Another piece found at the destination location specified");
+				//System.out.println(" Another piece found at the destination location specified");
 				return false;
 			} else {
 				result = s.getPiece().moveTo(d);
@@ -75,7 +78,7 @@ public class Player {
 			//if a valid move is completed remove piece from souce
 			if(result){
 				s.setPiece(null);
-				System.out.println("move completed");
+				//System.out.println(" move completed from : " + s.get_x() + ", " + s.get_y() + ") to (" + d.get_x() + ", " + d.get_y() + ") ");
 			}
 			myTurn = false;
 			return result;
@@ -118,7 +121,59 @@ public class Player {
 		return isInCheck;
 	}//end isInCheck()
 	
-	
+		
+	//Randomly select a Piece and return a random Square where it can move legally, out of all the possible legal moves
+	//If this method returns null, than there is no valid move possible for the randomly selected Piece
+	//Suggestion: Reinvoke this method till it returns a non-null value
+	public Square randomMove() {
+		int min = 1;
+		int max = 16;
+		
+		Square suggestedSquare = null;
+		int randomNum = min + (int) ( Math.random() * ((max - min)+1) );
+
+		if(randomNum >=1 && randomNum <= 8) {
+			//if random number is between 1-8, select the corresponding Pawn out of 8
+			originalSquare = this.pawn[randomNum].getSquare();
+			suggestedSquare = originalSquare.getPiece().selectRandomSquare();
+
+		} else if (randomNum == 9) {
+			originalSquare = this.rook[1].getSquare();
+			suggestedSquare = this.rook[1].selectRandomSquare();
+			
+		} else if (randomNum == 10) {
+			originalSquare = this.rook[2].getSquare();
+			suggestedSquare = this.rook[2].selectRandomSquare();
+			
+		} else if (randomNum == 11) {
+			originalSquare = this.bishop[1].getSquare();
+			suggestedSquare = this.bishop[1].selectRandomSquare();
+			
+		} else if (randomNum == 12) {
+			originalSquare = this.bishop[2].getSquare();
+			suggestedSquare = this.bishop[2].selectRandomSquare();
+			
+		} else if (randomNum == 13) {
+			originalSquare = this.knight[1].getSquare();
+			suggestedSquare = this.knight[1].selectRandomSquare();
+			
+		} else if (randomNum == 14) {
+			originalSquare = this.knight[2].getSquare();
+			suggestedSquare = this.knight[2].selectRandomSquare();
+			
+		} else if (randomNum == 15) {
+			originalSquare = this.king.getSquare();
+			suggestedSquare = this.king.selectRandomSquare();
+			
+		} else if (randomNum == 16) {
+			originalSquare = this.queen.getSquare();
+			suggestedSquare = this.queen.selectRandomSquare();
+			
+		}
+
+		return suggestedSquare;
+	}
+
 	public int getNoMoves()
 	{
 		return noOfMoves;

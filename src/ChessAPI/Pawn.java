@@ -1,5 +1,8 @@
 package ChessAPI;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Pawn extends Piece {
 
 	public Pawn() {
@@ -14,10 +17,8 @@ public class Pawn extends Piece {
 
 	@Override
 	public boolean moveTo(Square destination) {
-		//System.out.println("Pawn");
 
 		if(this.validateMove(this.getSquare(), destination) == true){
-			System.out.println("Piece moved to "+destination.get_x()+","+destination.get_y());
 			//move piece to destination 
 			destination.setPiece(this);
 			//set piece.square to destination square
@@ -25,7 +26,7 @@ public class Pawn extends Piece {
 			return true;			
 		}else{
 			// Print error message and return false as the moveTo was not successful
-			System.out.println(err);
+			//System.out.println(err);
 			return false;
 		}
 		//logic for checking if the Pawn can move from current Location to this Destination
@@ -70,7 +71,7 @@ public class Pawn extends Piece {
 		// Or it can move by two squares when it is starting from its initial position 
 		if(diff_x == 1 && diff_y == 0)
 			result = true;
-		else if (diff_x == 2 && (s.get_x() == 7 || s.get_x() == 2))
+		else if (diff_x == 2 && (s.get_x() == 7 || s.get_x() == 2) && diff_y == 0)
 			result = true;
 
 		return result;
@@ -92,7 +93,13 @@ public class Pawn extends Piece {
 				s_x=s_x+diff_x/Math.abs(diff_x);
 			if (diff_y != 0)
 				s_y=s_y+diff_y/Math.abs(diff_y);
-			
+
+			if (s_x <= 0 || s_y <= 0)
+				break;
+
+			if (s_x > 8 || s_y > 8)
+				break;
+
 			if(board.getSquare(s_x, s_y).getPiece() != null){
 				result = true;
 				break;
@@ -102,7 +109,59 @@ public class Pawn extends Piece {
 		return result;
 	}
 	
+	//add your code here, and return appropriate value
+	public Square selectRandomSquare(){
 
-	
+		Board currentBoard = Board.getBoardInstance(); //get the Board
+		List<Square> validSquares = new ArrayList<Square>();
+		Square currentSquare = null;
+		
+		currentSquare = this.getSquare();
+
+		Square s_ret = null;
+		
+		if (currentSquare.getPiece().getColor() == Color.white)
+		{
+			for(int i = currentSquare.get_x(); i < Board.ROWS + 1; i++) {
+				for(int j = currentSquare.get_y(); j < Board.COLS + 1; j++) {
+					if(this.validateMove(this.getSquare(), currentBoard.getSquare(i, j))) {
+						//we can move from current position of this piece to Square(i,j) on the Board
+						//add it to the list
+						validSquares.add(currentBoard.getSquare(i, j));
+					}
+				}
+			}
+		} else {
+			for(int i = currentSquare.get_x(); i > 1; i--) {
+				for(int j = currentSquare.get_y(); j > 1; j--) {
+					if(this.validateMove(this.getSquare(), currentBoard.getSquare(i, j))) {
+						//we can move from current position of this piece to Square(i,j) on the Board
+						//add it to the list
+						validSquares.add(currentBoard.getSquare(i, j));
+					}
+				}
+			}			
+		}
+		if(validSquares.isEmpty()) {
+			//list is empty i.e no possible move for this Piece
+			
+			return null;
+		} else {
+			//list has atleast one Square i.e atleast one move possible for this piece
+			if(validSquares.size() == 1){
+				//if only one square in the list, no need for randomization
+				return validSquares.get(0);
+			} else {
+				int min = 0;
+				int max = validSquares.size() - 1;
+				//else randomize
+				int randomNum = min + (int) ( Math.random() * ((max - min)+1) );
+
+				s_ret = validSquares.get(randomNum);
+				return s_ret;
+			}
+		}		
+	}// end selectRandomSquare
+
 	//the class will also include other functions specific to Pawn Object
 }

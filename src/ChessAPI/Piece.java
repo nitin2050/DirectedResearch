@@ -48,5 +48,9 @@ public abstract class Piece {
 	
 	//validate and return true or false
 	public abstract boolean validateMove(Square source, Square destination);
+	
+	//find a list of valid Squares where this piece can move legally from its & 
+	//return a randomly selectd piece from that list. If list empty then return null
+	public abstract Square selectRandomSquare();
 
 }
