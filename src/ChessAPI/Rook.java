@@ -18,7 +18,7 @@ public class Rook extends Piece{
 	@Override
 	public boolean moveTo(Square destination) {
 		
-		System.out.println("Rook");
+		//System.out.println("Rook");
 		if(this.validateMove(this.getSquare(), destination)){
 			System.out.println("Piece moved to "+destination.get_x()+","+destination.get_y());
 			//move piece to destination 

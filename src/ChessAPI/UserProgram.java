@@ -187,7 +187,7 @@ public class UserProgram {
 						} else {
 							do {
 								s_rand = pl2.randomMove();
-								originalType = pl2.originalSquare.getPiece().getType().toString();
+								originalType = pl2.originalSquare.getPiece().getType().toString(); 
 								result = pl2.moveTo(b.getSquare(pl2.originalSquare.get_x(), pl2.originalSquare.get_y()), b.getSquare(s_rand.get_x(), s_rand.get_y()));
 							} while(result == false);
 							System.out.println("Now moving " + originalType + " from (" + pl2.originalSquare.get_x() + ", " + pl2.originalSquare.get_y() + ") to (" + s_rand.get_x() + ", " + s_rand.get_y() + ") ");
@@ -227,7 +227,7 @@ public class UserProgram {
 						{
 							do {
 								s_rand = pl1.randomMove();
-								originalType = pl1.originalSquare.getPiece().getType().toString();
+								originalType = pl1.originalSquare.getPiece().getType().toString();								
 								result = pl1.moveTo(b.getSquare(pl1.originalSquare.get_x(), pl1.originalSquare.get_y()), b.getSquare(s_rand.get_x(), s_rand.get_y()));
 							} while(result == false);
 							System.out.println("Now moving " + originalType + " from (" + pl1.originalSquare.get_x() + ", " + pl1.originalSquare.get_y() + ") to (" + s_rand.get_x() + ", " + s_rand.get_y() + ") ");
@@ -235,6 +235,7 @@ public class UserProgram {
 							do {
 								s_rand = pl2.randomMove();
 								originalType = pl2.originalSquare.getPiece().getType().toString();
+								
 								result = pl2.moveTo(b.getSquare(pl2.originalSquare.get_x(), pl2.originalSquare.get_y()), b.getSquare(s_rand.get_x(), s_rand.get_y()));
 							} while(result == false);
 							System.out.println("Now moving " + originalType + " from (" + pl2.originalSquare.get_x() + ", " + pl2.originalSquare.get_y() + ") to (" + s_rand.get_x() + ", " + s_rand.get_y() + ") ");

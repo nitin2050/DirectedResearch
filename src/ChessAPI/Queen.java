@@ -20,7 +20,7 @@ public class Queen extends Piece{
 	@Override
 	public boolean moveTo(Square destination) {
 
-		System.out.println("Queen");
+		//System.out.println("Queen");
 		if(this.validateMove(this.getSquare(), destination)){
 			System.out.println("Piece moved to "+destination.get_x()+","+destination.get_y());
 			//move piece to destination 
@@ -72,23 +72,31 @@ public class Queen extends Piece{
 		int d_y = d.get_y();
 		int diff_x = d_x - s_x;
 		int diff_y = d_y - s_y;
-		if(s_x==d_x){
+		if(s_x==d_x) {
+			if (diff_y != 0)
 			for(int i = s_y+diff_y/Math.abs(diff_y); i<=d_y; i=i+diff_y/Math.abs(diff_y)){
+				if (i < 1 || i > 8)
+					break;
 				if(board.getSquare(s_x, i).getPiece() != null)
 					result = true;
 			}
 		}
 
-		if(s_y==d_y){
+		if(s_y == d_y) {
+			if (diff_x != 0)
 			for(int i = s_x+diff_x/Math.abs(diff_x); i<=d_x; i=i+diff_x/Math.abs(diff_x)){
+				if (i < 1 || i > 8)
+					break;
 				if(board.getSquare(i, s_y).getPiece() != null)
 					result = true;
 			}
 		}
 
 		while(s_x != d_x || s_y != d_y){
-			s_x=s_x+diff_x/Math.abs(diff_x);
-			s_y=s_y+diff_y/Math.abs(diff_y);
+			if (diff_x != 0)
+				s_x=s_x+diff_x/Math.abs(diff_x);
+			if (diff_y != 0)
+				s_y=s_y+diff_y/Math.abs(diff_y);
 			if(board.getSquare(s_x, s_y).getPiece() != null){
 				result = true;
 				break;

@@ -130,6 +130,9 @@ public class Player {
 		int max = 16;
 		
 		Square suggestedSquare = null;
+		
+		do {
+		suggestedSquare = null;
 		int randomNum = min + (int) ( Math.random() * ((max - min)+1) );
 
 		if(randomNum >=1 && randomNum <= 8) {
@@ -170,6 +173,8 @@ public class Player {
 			suggestedSquare = this.queen.selectRandomSquare();
 			
 		}
+
+	} while (suggestedSquare == null);
 
 		return suggestedSquare;
 	}

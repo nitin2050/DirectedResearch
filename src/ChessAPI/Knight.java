@@ -20,7 +20,7 @@ public class Knight extends Piece{
 	@Override
 	public boolean moveTo(Square destination) {
 		
-		System.out.println("Knight");
+		//System.out.println("Knight");
 		if(this.validateMove(this.getSquare(), destination)){
 			System.out.println("Piece moved to "+destination.get_x()+","+destination.get_y());
 			//move piece to destination 

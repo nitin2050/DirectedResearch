@@ -17,7 +17,7 @@ public class Bishop extends Piece{
 	@Override
 	public boolean moveTo(Square destination) {
 
-		System.out.println("Bishop");
+		//System.out.println("Bishop");
 		if(this.validateMove(this.getSquare(), destination)){
 			System.out.println("Piece moved to "+destination.get_x()+","+destination.get_y());
 			//move piece to destination 
@@ -129,7 +129,7 @@ public class Bishop extends Piece{
 				s_ret = validSquares.get(randomNum);
 				return s_ret;
 			}
-		}		
+		}
 	}// end selectRandomSquare
 
 
