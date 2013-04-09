@@ -7,11 +7,11 @@ import ChessAPI.Piece.Color;
 
 
 public class Queen extends Piece{
-	
+
 	public Queen() {
 		super();
 	}
-	
+
 	public Queen(Color c, Square s, Type t) {
 		super(c,s,t);
 	}
@@ -19,7 +19,7 @@ public class Queen extends Piece{
 
 	@Override
 	public boolean moveTo(Square destination) {
-		
+
 		System.out.println("Queen");
 		if(this.validateMove(this.getSquare(), destination)){
 			System.out.println("Piece moved to "+destination.get_x()+","+destination.get_y());
@@ -35,9 +35,9 @@ public class Queen extends Piece{
 		//logic for checking if the Queen can move from current Location to this Destination
 		//i.e validate()
 		//return true and move else return false
-		
+
 	}
-	
+
 	//validates the requested move
 	public boolean validateMove(Square s, Square d){
 		boolean decision = true;
@@ -78,7 +78,7 @@ public class Queen extends Piece{
 					result = true;
 			}
 		}
-		
+
 		if(s_y==d_y){
 			for(int i = s_x+diff_x/Math.abs(diff_x); i<=d_x; i=i+diff_x/Math.abs(diff_x)){
 				if(board.getSquare(i, s_y).getPiece() != null)
@@ -105,7 +105,7 @@ public class Queen extends Piece{
 			result = true;			
 		return result;
 	}
-	
+
 	//add your code here, and return appropriate value
 
 	public Square selectRandomSquare(){
@@ -113,11 +113,11 @@ public class Queen extends Piece{
 		Board currentBoard = Board.getBoardInstance(); //get the Board
 		List<Square> validSquares = new ArrayList<Square>();
 		Square currentSquare = null;
-		
+
 		currentSquare = this.getSquare();
 
 		Square s_ret = null;
-	
+
 			for(int i = 1; i < Board.ROWS + 1; i++) {
 				for(int j = 1; j < Board.COLS + 1; j++) {
 					if(this.validateMove(this.getSquare(), currentBoard.getSquare(i, j))) {
@@ -127,10 +127,10 @@ public class Queen extends Piece{
 					}
 				}
 			}
-		 
+
 		if(validSquares.isEmpty()) {
 			//list is empty i.e no possible move for this Piece
-			
+
 			return null;
 		} else {
 			//list has atleast one Square i.e atleast one move possible for this piece
@@ -149,5 +149,5 @@ public class Queen extends Piece{
 		}		
 	}// end selectRandomSquare
 
-	
+
 }

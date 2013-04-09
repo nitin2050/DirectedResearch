@@ -1,5 +1,10 @@
 package ChessAPI;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import ChessAPI.Piece.Color;
+
 public class Knight extends Piece{
 
 	public String err="";
@@ -35,26 +40,33 @@ public class Knight extends Piece{
 	
 	public boolean validateMove(Square s, Square d){
 		boolean decision = true;
-		if(d.get_x()>8 || d.get_y()>8 || d.get_x()<1 || d.get_y()<1){
+		if(d==null){
+			
 			decision = false;
-			err="Destination square is not a part of the game board, the requested moved is rejected.";
 			return decision;
 		}
-		if(s.get_x()==d.get_x() && s.get_y()==d.get_y()){
-			decision = false;
-			err="Source square and destination square can not be the same, the requested move is rejected.";
+		else{
+			if(d.get_x()>8 || d.get_y()>8 || d.get_x()<1 || d.get_y()<1){
+				decision = false;
+				err="Destination square is not a part of the game board, the requested moved is rejected.";
+				return decision;
+			}
+			if(s.get_x()==d.get_x() && s.get_y()==d.get_y()){
+				decision = false;
+				err="Source square and destination square can not be the same, the requested move is rejected.";
+				return decision;
+			}
+			if(!this.validateAgainstRule(s, d)){
+				decision=false;
+				err="Not a valid move for a Knight, the requested move is rejected.";
+				return decision;
+			}
+			if(this.isObstructed(s, d)){
+				decision=false;
+				err="Another piece exists in the path to the destination square, the requested move is rejected.";
+			}
 			return decision;
 		}
-		if(!this.validateAgainstRule(s, d)){
-			decision=false;
-			err="Not a valid move for a Knight, the requested move is rejected.";
-			return decision;
-		}
-		if(this.isObstructed(s, d)){
-			decision=false;
-			err="Another piece exists in the path to the destination square, the requested move is rejected.";
-		}
-		return decision;
 	}
 	
 	private boolean validateAgainstRule(Square s, Square d) {
@@ -69,7 +81,7 @@ public class Knight extends Piece{
 	
 	private boolean isObstructed(Square s, Square d) {
 		
-		Board board = new Board();
+		Board board = Board.getBoardInstance();
 		boolean result = false;		
 		
 		int d_x = d.get_x();
@@ -84,8 +96,69 @@ public class Knight extends Piece{
 	//add your code here, and return appropriate value
 	//I am returning null for syntax purposes right now
 	public Square selectRandomSquare(){
+
+		Board currentBoard = Board.getBoardInstance(); //get the Board
+		List<Square> validSquares = new ArrayList<Square>();
+		Square currentSquare = null;
+		
+		currentSquare = this.getSquare();
+		
+		int current_x = currentSquare.get_x();
+		int current_y = currentSquare.get_y();
+
+		Square s_ret = null;
+		
+		if(this.validateMove(this.getSquare(), currentBoard.getSquare(current_x+1, current_y+2))) {
+					
+			validSquares.add(currentBoard.getSquare(current_x+1, current_y+2));
+		}
+		if(this.validateMove(this.getSquare(), currentBoard.getSquare(current_x+1, current_y-2))) {
 			
-		return null;
+			validSquares.add(currentBoard.getSquare(current_x+1, current_y-2));
+		}
+		if(this.validateMove(this.getSquare(), currentBoard.getSquare(current_x-1, current_y+2))) {
+			
+			validSquares.add(currentBoard.getSquare(current_x-1, current_y+2));
+		}
+		if(this.validateMove(this.getSquare(), currentBoard.getSquare(current_x-1, current_y-2))) {
+			
+			validSquares.add(currentBoard.getSquare(current_x-1, current_y-2));
+		}
+		if(this.validateMove(this.getSquare(), currentBoard.getSquare(current_x+2, current_y+1))) {
+			
+			validSquares.add(currentBoard.getSquare(current_x+2, current_y+1));
+		}
+		if(this.validateMove(this.getSquare(), currentBoard.getSquare(current_x+2, current_y-1))) {
+			
+			validSquares.add(currentBoard.getSquare(current_x+2, current_y-1));
+		}
+		if(this.validateMove(this.getSquare(), currentBoard.getSquare(current_x-2, current_y+1))) {
+			
+			validSquares.add(currentBoard.getSquare(current_x-2, current_y+1));
+		}
+		if(this.validateMove(this.getSquare(), currentBoard.getSquare(current_x-2, current_y-1))) {
+			
+			validSquares.add(currentBoard.getSquare(current_x-2, current_y-1));
+		}
+		if(validSquares.isEmpty()) {
+			//list is empty i.e no possible move for this Piece
+			
+			return null;
+		} else {
+			//list has atleast one Square i.e atleast one move possible for this piece
+			if(validSquares.size() == 1){
+				//if only one square in the list, no need for randomization
+				return validSquares.get(0);
+			} else {
+				int min = 0;
+				int max = validSquares.size() - 1;
+				//else randomize
+				int randomNum = min + (int) ( Math.random() * ((max - min)+1) );
+
+				s_ret = validSquares.get(randomNum);
+				return s_ret;
+			}
+		}		
 	}
 	
 }

@@ -79,7 +79,7 @@ public class King extends Piece{
 	}
 
 	private boolean isObstructed(Square s, Square d) {
-		Board board = new Board();
+		Board board = Board.getBoardInstance();
 		boolean result = false;
 		int s_x = s.get_x();
 		int s_y = s.get_y();

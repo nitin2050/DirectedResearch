@@ -71,7 +71,7 @@ public class Rook extends Piece{
 	
 	
 	private boolean isObstructed(Square s, Square d) {
-		Board board = new Board();
+		Board board = Board.getBoardInstance();
 		boolean result = false;		
 		int s_x = s.get_x();
 		int s_y = s.get_y();
@@ -81,16 +81,36 @@ public class Rook extends Piece{
 		int diff_y = d_y - s_y;
 
 		if(s_x==d_x){
-			for(int i = s_y+diff_y/Math.abs(diff_y); i<=d_y; i=i+diff_y/Math.abs(diff_y)){
+			if(d_y>s_y){
+			
+				for(int i = s_y+1; i<=d_y; i++){
 				if(board.getSquare(s_x, i).getPiece() != null)
 					result = true;
+				}
+			}
+			else{
+				
+				for(int i = s_y-1; i>=d_y; i--){
+					if(board.getSquare(s_x, i).getPiece() != null)
+						result = true;
+				}
 			}
 		}
 		
 		if(s_y==d_y){
-			for(int i = s_x+diff_x/Math.abs(diff_x); i<=d_x; i=i+diff_x/Math.abs(diff_x)){
+			if(d_x>s_x){
+				
+				for(int i = s_x+1; i<=d_x; i++){
 				if(board.getSquare(i, s_y).getPiece() != null)
 					result = true;
+				}
+			}
+			else{
+				
+				for(int i = s_x-1; i>=d_x; i--){
+					if(board.getSquare(i, s_y).getPiece() != null)
+						result = true;
+				}
 			}
 		}
 		return result;

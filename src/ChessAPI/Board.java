@@ -50,9 +50,9 @@ public class Board {
 		board[1][3].setPiece(p1.bishop[1]);
 		board[1][4].setPiece(p1.queen);
 		board[1][5].setPiece(p1.king);
-		board[1][6].setPiece(p1.rook[2]);
+		board[1][6].setPiece(p1.bishop[2]);
 		board[1][7].setPiece(p1.knight[2]);
-		board[1][8].setPiece(p1.bishop[2]);
+		board[1][8].setPiece(p1.rook[2]);
 		for(int i=1;i<=8;i++) {
 			board[2][i].setPiece(p1.pawn[i]);
 		}
@@ -63,9 +63,9 @@ public class Board {
 		p1.bishop[1].setSquare(board[1][3]);
 		p1.queen.setSquare(board[1][4]);
 		p1.king.setSquare(board[1][5]);
-		p1.rook[2].setSquare(board[1][6]);
+		p1.bishop[2].setSquare(board[1][6]);
 		p1.knight[2].setSquare(board[1][7]);
-		p1.bishop[2].setSquare(board[1][8]);
+		p1.rook[2].setSquare(board[1][8]);
 		for(int i=1;i<=8;i++) {
 			p1.pawn[i].setSquare(board[2][i]);
 		}
@@ -80,9 +80,9 @@ public class Board {
 		board[8][3].setPiece(p2.bishop[1]);
 		board[8][4].setPiece(p2.queen);
 		board[8][5].setPiece(p2.king);
-		board[8][6].setPiece(p2.rook[2]);
+		board[8][6].setPiece(p2.bishop[2]);
 		board[8][7].setPiece(p2.knight[2]);
-		board[8][8].setPiece(p2.bishop[2]);
+		board[8][8].setPiece(p2.rook[2]);
 
 		//This sets Square for each Piece
 		for(int i=1;i<=8;i++) {
@@ -93,9 +93,9 @@ public class Board {
 		p2.bishop[1].setSquare(board[8][3]);
 		p2.queen.setSquare(board[8][4]);
 		p2.king.setSquare(board[8][5]);
-		p2.rook[2].setSquare(board[8][6]);
+		p2.bishop[2].setSquare(board[8][6]);
 		p2.knight[2].setSquare(board[8][7]);
-		p2.bishop[2].setSquare(board[8][8]);
+		p2.rook[2].setSquare(board[8][8]);
 		
 	}
 	
@@ -106,8 +106,12 @@ public class Board {
 	
 	//temporary implementation
 	public Square getSquare(int x, int y){
-		
-		return board[x][y];
+		if(x>8 || y>8 || x<1 || y<1){
+			
+			return null;
+		}
+		else
+			return board[x][y];
 	}
 	
 	//temporary implementation
