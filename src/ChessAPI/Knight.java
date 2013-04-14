@@ -1,10 +1,5 @@
 package ChessAPI;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import ChessAPI.Piece.Color;
-
 public class Knight extends Piece{
 
 	public String err="";
@@ -97,104 +92,6 @@ public class Knight extends Piece{
 			result = true;
 		
 		return result;
-	}
-	
-	//add your code here, and return appropriate value
-	//I am returning null for syntax purposes right now
-	public Square selectRandomSquare(){
-		Square board[][] = new Square[10][10];	
-		for (int i = 1; i <= 8; i++)
-			for (int j = 1; j <= 8; j++)
-			{
-				board[i][j] = Board.getBoard(i, j); 
-			}
-		List<Square> validSquares = new ArrayList<Square>();
-		Square currentSquare = null;
-		
-		currentSquare = this.getSquare();
-		
-		int current_x = currentSquare.get_x();
-		int current_y = currentSquare.get_y();
-
-		Square s_ret = null;
-		
-		if ((current_x + 1) <= 8 && (current_y + 2) <= 8)
-		{	
-			if(this.validateMove(this.getSquare(), board[current_x+1][current_y+2])) {
-						
-				validSquares.add(board[current_x+1][current_y+2]);
-			}
-		}
-
-		if ((current_x + 1) <= 8 && (current_y - 2) > 0)
-		{			
-			if(this.validateMove(this.getSquare(), board[current_x+1][current_y-2])) {
-				
-				validSquares.add(board[current_x+1][current_y-2]);
-			}
-		}
-
-		if ((current_x-1) > 0 && (current_y+2) <= 8)
-		{
-			if(this.validateMove(this.getSquare(), board[current_x-1][current_y+2])) {				
-				validSquares.add(board[current_x-1][current_y+2]);
-			}
-		}
-		
-		if ((current_x-1) > 0 && (current_y-2) > 0)
-		{
-			if(this.validateMove(this.getSquare(), board[current_x-1][current_y-2])) {				
-				validSquares.add(board[current_x-1][current_y-2]);
-			}
-		}
-		
-		if ((current_x + 2) <= 8 && (current_y+1) <= 8)
-		{
-			if(this.validateMove(this.getSquare(), board[current_x+2][current_y+1])) {				
-				validSquares.add(board[current_x+2][current_y+1]);
-			}
-		}
-		
-		if ((current_x + 2) <= 8 && (current_y - 1) > 0)
-		{
-			if(this.validateMove(this.getSquare(), board[current_x+2][current_y-1])) {	
-				validSquares.add(board[current_x+2][current_y-1]);
-			}
-		}
-		
-		if ((current_x-2) > 0 && (current_y+1) <= 8)
-		{
-			if(this.validateMove(this.getSquare(), board[current_x-2][current_y+1])) {	
-				validSquares.add(board[current_x-2][current_y+1]);
-			}
-		}
-		
-		if ((current_x - 2) > 0 && (current_y - 1) > 0)
-		{
-			if(this.validateMove(this.getSquare(), board[current_x-2][current_y-1])) {				
-				validSquares.add(board[current_x-2][current_y-1]);
-			}
-		}
-		
-		if(validSquares.isEmpty()) {
-			//list is empty i.e no possible move for this Piece
-			
-			return null;
-		} else {
-			//list has atleast one Square i.e atleast one move possible for this piece
-			if(validSquares.size() == 1){
-				//if only one square in the list, no need for randomization
-				return validSquares.get(0);
-			} else {
-				int min = 0;
-				int max = validSquares.size() - 1;
-				//else randomize
-				int randomNum = min + (int) ( Math.random() * ((max - min)+1) );
-
-				s_ret = validSquares.get(randomNum);
-				return s_ret;
-			}
-		}		
 	}
 	
 }

@@ -1,6 +1,7 @@
 package ChessAPI;
 
-import java.nio.channels.SelectableChannel;
+import java.util.ArrayList;
+import java.util.List;
 
 import ChessAPI.Piece.Color;
 import ChessAPI.Piece.Type;
@@ -139,102 +140,108 @@ public class Player {
 	//Randomly select a Piece and return a random Square where it can move legally, out of all the possible legal moves
 	//If this method returns null, than there is no valid move possible for the randomly selected Piece
 	//Suggestion: Re-invoke this method till it returns a non-null value
-	public Square randomMove() {
-		int min = 1;
-		int max = 16;
-		
-		Square suggestedSquare = null;
-
+	public Square selectBestMove() {
+	
 		// If King is InCheck condition Move the King
-
 		if (this.isInCheck() == true)
 		{
+			Move suggestedMove = null;
 			do {
-				originalSquare = this.king.getSquare();
-				suggestedSquare = this.king.selectRandomSquare();			
-			} while (suggestedSquare == null);
-			return suggestedSquare;
+				//originalSquare = this.king.getSquare();
+				suggestedMove = this.king.selectBestMove();			
+			} while (suggestedMove == null);
+			
+			return suggestedMove.getDestinationSquare();
 		}
 
-		do {
-		suggestedSquare = null;
-		int randomNum = min + (int) ( Math.random() * ((max - min)+1) );
-
-		if(randomNum >=1 && randomNum <= 8) {
-			//if random number is between 1-8, select the corresponding Pawn out of 8
-			if (this.pawn[randomNum].isPieceDead() == true)
-				suggestedSquare = null;
-			else {
-				originalSquare = this.pawn[randomNum].getSquare();
-				suggestedSquare = originalSquare.getPiece().selectRandomSquare();
+		//If King is not in check, we can move other pieces
+		//This list will store best moves obtained for each possible alive piece from calling selectBestMove() for that piece
+		List<Move> setOfMoves = new ArrayList<Move>();
+		
+		//find the best possible move for each Pawn and add it to setOfMoves
+		for (int i=1; i<=8; i++) {
+			if ( this.pawn[i].isPieceDead() == false) {
+				//Piece is alive
+				if(this.pawn[i].selectBestMove() != null) {
+					//A valid Move exists for this piece, so add it to the list of setOfMoves
+					setOfMoves.add(this.pawn[i].selectBestMove());
+				}	
 			}
-		} else if (randomNum == 9) {
-
-			if (this.rook[1].isPieceDead() == true)
-				suggestedSquare = null;
-			else {
-					originalSquare = this.rook[1].getSquare();
-					suggestedSquare = this.rook[1].selectRandomSquare();
+		}
+		
+		//find the best possible move for each Rook and add it to setOfMoves
+		for (int i=1; i<=2; i++) {
+			if ( this.rook[i].isPieceDead() == false) {
+				//Rook is alive
+				if(this.rook[i].selectBestMove() != null) {
+					//A valid Move exists for this Rook, so add it to the list of setOfMoves
+					setOfMoves.add(this.rook[i].selectBestMove());
 				}
-		} else if (randomNum == 10) {
-			if (this.rook[2].isPieceDead() == true)
-				suggestedSquare = null;
-			else {
-				originalSquare = this.rook[2].getSquare();
-				suggestedSquare = this.rook[2].selectRandomSquare();
-			}
-		} else if (randomNum == 11) {
-			if (this.bishop[1].isPieceDead() == true)
-				suggestedSquare = null;
-			else {
-				originalSquare = this.bishop[1].getSquare();
-				suggestedSquare = this.bishop[1].selectRandomSquare();
-			}
-		} else if (randomNum == 12) {
-			if (this.bishop[2].isPieceDead() == true)
-				suggestedSquare = null;
-			else {
-				originalSquare = this.bishop[2].getSquare();
-				suggestedSquare = this.bishop[2].selectRandomSquare();
-			}
-		} else if (randomNum == 13) {
-			if (this.knight[1].isPieceDead() == true)
-				suggestedSquare = null;
-			else {
-				originalSquare = this.knight[1].getSquare();
-				suggestedSquare = this.knight[1].selectRandomSquare();
-			}
-		} else if (randomNum == 14) {
-			if (this.knight[2].isPieceDead() == true)
-				suggestedSquare = null;
-			else {
-				originalSquare = this.knight[2].getSquare();
-				suggestedSquare = this.knight[2].selectRandomSquare();
-			}
-		} else if (randomNum == 15) {
-			// Don't move King unless it is at Check condition
-
-			/*
-			if (this.king.isPieceDead() == true)
-				suggestedSquare = null;
-			else {	
-				originalSquare = this.king.getSquare();
-				suggestedSquare = this.king.selectRandomSquare();
-			}
-			*/
-		} else if (randomNum == 16) {
-			if (this.queen.isPieceDead() == true)
-				suggestedSquare = null;
-			else {
-				originalSquare = this.queen.getSquare();
-				suggestedSquare = this.queen.selectRandomSquare();
 			}
 		}
+	
+		//find the best possible move for each Bishop and add it to setOfMoves
+		for (int i=1; i<=2; i++) {
+			if ( this.bishop[i].isPieceDead() == false) {
+				//Bishop is alive
+				if(this.bishop[i].selectBestMove() != null) {
+					//A valid Move exists for this Bishop, so add it to the list of setOfMoves
+					setOfMoves.add(this.bishop[i].selectBestMove());
+				}
+			}
+		}
+		
+		//find the best possible move for each Knight and add it to setOfMoves
+		for (int i=1; i<=2; i++) {
+			if ( this.knight[i].isPieceDead() == false) {
+				//Knight is alive
+				if(this.knight[i].selectBestMove() != null) {
+					//A valid Move exists for this Knight, so add it to the list of setOfMoves
+					setOfMoves.add(this.knight[i].selectBestMove());
+				}
+			}
+		}
+		
+		//find the best possible move for a Queen and add it to setOfMoves
+		if ( this.queen.isPieceDead() == false) {
+			//Queen is alive
+			if(this.queen.selectBestMove() != null) {
+				//A valid Move exists for this Queen, so add it to the list of setOfMoves
+				setOfMoves.add(this.queen.selectBestMove());
+			}
+		}
+		
+		//At this stage we have a list of best possible move for each alive piece
+		//Now we need to find the best of this list, so that we can find the best Heuristic move out of all
+		
+		if(!setOfMoves.isEmpty()) {
+			Move bestMove = setOfMoves.get(0);
+			float bestHeuristicValue = bestMove.getHeuristicValue();
+			
+			if(setOfMoves.size() > 1){
+				//there are more than one moves in the list, lets find the best
+				for(int i=1; i<setOfMoves.size(); i++) {
+					//check if the current Move's Heuristic value is better than the bestHeuristicValue
+					if(setOfMoves.get(i).getHeuristicValue() > bestHeuristicValue){
+						//it is better. So update bestMove & bestHeuristicValue else don't do anything
+						bestMove = setOfMoves.get(i);
+						bestHeuristicValue = setOfMoves.get(i).getHeuristicValue();
+					}
+				}
+				
+				return bestMove.getDestinationSquare();
+				
+			}else {
+				//there is only one move in the list, so that is the best move
+				return bestMove.getDestinationSquare();
+			}
+			
+		}else {
+			//There is no possible move for this player
+			return null;
+		}
 
-	} while (suggestedSquare == null);
-
-		return suggestedSquare;
-	}
+	}//end randomMove()
 
 	public int getNoMoves()
 	{

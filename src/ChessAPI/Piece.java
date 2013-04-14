@@ -54,15 +54,52 @@ public abstract class Piece {
 	{
 		isPieceDead = dead;
 	}
+	
+	//Gives the Heuristic for a Move starting from the Piece's currentPosition to the Destination square passed as a parameter to this method 
+	public float getHeuristic(Square destination) {
+		Square start = this.getSquare();
+		//Calculate the Heuristic for a Move from start to destination
+		
+		return (float) Math.random();
+	}
 
+	//returns best Move for a piece from its current position, if it exists 
+	public Move selectBestMove(){
+		
+		Square currentBoard[][] = new Square[10][10];	
+		for (int i = 1; i <= 8; i++)
+			for (int j = 1; j <= 8; j++)
+			{
+				currentBoard[i][j] = Board.getBoard(i, j); 
+			}
+		
+		Move bestMove = null;
+		float bestHeuristic = 0; // Temporary value. We will set this to lower than the lowest possible value for our heuristic
+		
+		for(int i=1; i<Board.ROWS+1; i++  ) {
+			for(int j=1; j<Board.COLS+1; j++  ){
+				if( this.validateMove(this.getSquare(), currentBoard[i][j])) {
+					
+					//we can move from current position of this piece to Square(i,j) on the Board
+					float currentHeuristic = this.getHeuristic(currentBoard[i][j]);
+					//Now check if this move is Heuristically better than bestMove we have.
+					if(currentHeuristic > bestHeuristic) {
+						//this Move has better Heuristic. So update the best
+						bestMove = new Move(currentBoard[i][j], currentHeuristic);
+						bestHeuristic = currentHeuristic;
+					}
+					
+				}
+			}
+		}
+		
+		return bestMove;	
+	}
+	
 	//Move the piece to Destination square is the move is valid
 	public abstract boolean moveTo(Square destination);
 	
 	//validate and return true or false
 	public abstract boolean validateMove(Square source, Square destination);
 	
-	//find a list of valid Squares where this piece can move legally from its & 
-	//return a randomly selectd piece from that list. If list empty then return null
-	public abstract Square selectRandomSquare();
-
 }

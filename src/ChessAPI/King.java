@@ -1,8 +1,5 @@
 package ChessAPI;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class King extends Piece{
 	
 	public King() {
@@ -110,44 +107,4 @@ public class King extends Piece{
 		return result;
 	}
 
-	//add your code here, and return appropriate value
-	//I am returning null for syntax purposes right now
-	public Square selectRandomSquare(){
-	
-		List<Square> validSquares = new ArrayList<Square>();
-		Square board[][] = new Square[10][10];	
-		for (int i = 1; i <= 8; i++)
-			for (int j = 1; j <= 8; j++)
-			{
-				board[i][j] = Board.getBoard(i, j); 
-			}
-
-		for(int i=1; i<Board.ROWS+1; i++  ) {
-			for(int j=1; j<Board.COLS+1; j++  ){
-				if( this.validateMove(this.getSquare(),board[i][j]) ) {
-					//we can move from current position of this piece to Square(i,j) on the Board
-					//add it to the list
-					validSquares.add(board[i][j]);
-				}
-			}
-		}
-
-		if(validSquares.isEmpty()) {
-			//list is empty i.e no possible move for this Piece
-			return null;
-		} else {
-			//list has atleast one Square i.e atleast one move possible for this piece
-			if(validSquares.size() == 1){
-				//if only one square in the list, no need for randomization
-				return validSquares.get(0);
-			} else {
-				int min = 0;
-				int max = validSquares.size()-1;
-				//else randomize
-				int randomNum = min + (int) ( Math.random() * ((max - min)+1) );
-
-				return validSquares.get(randomNum);
-			}
-		}
-	}
 }
