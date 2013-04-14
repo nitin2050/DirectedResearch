@@ -85,7 +85,7 @@ public abstract class Piece {
 					//Now check if this move is Heuristically better than bestMove we have.
 					if(currentHeuristic > bestHeuristic) {
 						//this Move has better Heuristic. So update the best
-						bestMove = new Move(currentBoard[i][j], currentHeuristic);
+						bestMove = new Move(currentBoard[i][j], currentHeuristic, null);
 						bestHeuristic = currentHeuristic;
 					}
 					

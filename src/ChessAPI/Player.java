@@ -140,18 +140,24 @@ public class Player {
 	//Randomly select a Piece and return a random Square where it can move legally, out of all the possible legal moves
 	//If this method returns null, than there is no valid move possible for the randomly selected Piece
 	//Suggestion: Re-invoke this method till it returns a non-null value
-	public Square selectBestMove() {
+	public Move selectBestMove() {
 	
-		// If King is InCheck condition Move the King
+		// If King is InCheck condition Move the King(priority) else we can move anything
 		if (this.isInCheck() == true)
 		{
-			Move suggestedMove = null;
-			do {
-				//originalSquare = this.king.getSquare();
-				suggestedMove = this.king.selectBestMove();			
-			} while (suggestedMove == null);
+			if(this.king.selectBestMove() != null) {
+				//A valid Move exists for the King, return it
+				//here we also need to check if King is in check even after applying this bestmove
+				Move bestMove = this.king.selectBestMove();
+				bestMove.setPieceName("King");
+				return bestMove;
+				
+			} else {
+				//King is in check and there is no valid move that exists for King
+				//GAME OVER
+				return null;
+			}
 			
-			return suggestedMove.getDestinationSquare();
 		}
 
 		//If King is not in check, we can move other pieces
@@ -164,7 +170,9 @@ public class Player {
 				//Piece is alive
 				if(this.pawn[i].selectBestMove() != null) {
 					//A valid Move exists for this piece, so add it to the list of setOfMoves
-					setOfMoves.add(this.pawn[i].selectBestMove());
+					Move bestMove = this.pawn[i].selectBestMove();
+					bestMove.setPieceName("Pawn"+i);
+					setOfMoves.add(bestMove);
 				}	
 			}
 		}
@@ -175,7 +183,9 @@ public class Player {
 				//Rook is alive
 				if(this.rook[i].selectBestMove() != null) {
 					//A valid Move exists for this Rook, so add it to the list of setOfMoves
-					setOfMoves.add(this.rook[i].selectBestMove());
+					Move bestMove = this.rook[i].selectBestMove();
+					bestMove.setPieceName("Rook"+i);
+					setOfMoves.add(bestMove);
 				}
 			}
 		}
@@ -186,7 +196,9 @@ public class Player {
 				//Bishop is alive
 				if(this.bishop[i].selectBestMove() != null) {
 					//A valid Move exists for this Bishop, so add it to the list of setOfMoves
-					setOfMoves.add(this.bishop[i].selectBestMove());
+					Move bestMove = this.bishop[i].selectBestMove();
+					bestMove.setPieceName("Bishop"+i);
+					setOfMoves.add(bestMove);
 				}
 			}
 		}
@@ -197,7 +209,9 @@ public class Player {
 				//Knight is alive
 				if(this.knight[i].selectBestMove() != null) {
 					//A valid Move exists for this Knight, so add it to the list of setOfMoves
-					setOfMoves.add(this.knight[i].selectBestMove());
+					Move bestMove = this.knight[i].selectBestMove();
+					bestMove.setPieceName("Knight"+i);
+					setOfMoves.add(bestMove);
 				}
 			}
 		}
@@ -207,7 +221,20 @@ public class Player {
 			//Queen is alive
 			if(this.queen.selectBestMove() != null) {
 				//A valid Move exists for this Queen, so add it to the list of setOfMoves
-				setOfMoves.add(this.queen.selectBestMove());
+				Move bestMove = this.queen.selectBestMove();
+				bestMove.setPieceName("Queen");
+				setOfMoves.add(bestMove);
+			}
+		}
+		
+		//find the best possible move for a King and add it to setOfMoves
+		if ( this.king.isPieceDead() == false) {
+			//Queen is alive
+			if(this.king.selectBestMove() != null) {
+				//A valid Move exists for this Queen, so add it to the list of setOfMoves
+				Move bestMove = this.king.selectBestMove();
+				bestMove.setPieceName("King");
+				setOfMoves.add(bestMove);
 			}
 		}
 		
@@ -229,11 +256,11 @@ public class Player {
 					}
 				}
 				
-				return bestMove.getDestinationSquare();
+				return bestMove;
 				
 			}else {
 				//there is only one move in the list, so that is the best move
-				return bestMove.getDestinationSquare();
+				return bestMove;
 			}
 			
 		}else {
