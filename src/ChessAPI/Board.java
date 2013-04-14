@@ -4,8 +4,11 @@ import ChessAPI.Piece.Color;
 
 public class Board {
 	//singleton instance
-	private static Board instance;
-	
+	public static Board instance;
+	static final int ROWS = 8;
+	static final int COLS = 8;
+	private Square[][] board;
+
 	//to prevent multiple instantiations
 	protected Board(){
 		board = new Square[ROWS+1][COLS+1];
@@ -31,94 +34,165 @@ public class Board {
 		}
 	}
 
-	public static Board getBoardInstance() {
+	public static Square getBoard(int i, int j) {
 		if(instance == null) {
 			instance = new Board();
+		} else {
+			
 		}
-		return instance;
+		return instance.board[i][j];
 	}
-	
-	static final int ROWS = 8;
-	static final int COLS = 8;
-	private Square[][] board;
-	
+
+	public void updateInstance() {
+		for (int i = 1; i <= 8; i++)
+			for (int j = 1; j <= 8; j++)
+			{
+				instance.board[i][j] = board[i][j];
+				instance.board[i][j].setPiece(board[i][j].getPiece());
+			}		
+	}
+
 	public void initBoard(Player p1, Player p2){
 		//initialize board for Player 1 
 		//This sets Square.Piece
-		board[1][1].setPiece(p2.rook[1]);
-		board[1][2].setPiece(p2.knight[1]);
-		board[1][3].setPiece(p2.bishop[1]);
-		board[1][4].setPiece(p2.queen);
-		board[1][5].setPiece(p2.king);
-		board[1][6].setPiece(p2.bishop[2]);
-		board[1][7].setPiece(p2.knight[2]);
-		board[1][8].setPiece(p2.rook[2]);
+		this.board[1][1].setPiece(p2.rook[1]);
+		this.board[1][2].setPiece(p2.knight[1]);
+		this.board[1][3].setPiece(p2.bishop[1]);
+		this.board[1][4].setPiece(p2.queen);
+		this.board[1][5].setPiece(p2.king);
+		this.board[1][6].setPiece(p2.bishop[2]);
+		this.board[1][7].setPiece(p2.knight[2]);
+		this.board[1][8].setPiece(p2.rook[2]);
 		for(int i=1;i<=8;i++) {
-			board[2][i].setPiece(p2.pawn[i]);
+			this.board[2][i].setPiece(p2.pawn[i]);
 		}
-		
+
 		// Set Squares for Pieces of Player 1		
-		p2.rook[1].setSquare(board[1][1]);
-		p2.knight[1].setSquare(board[1][2]);
-		p2.bishop[1].setSquare(board[1][3]);
-		p2.queen.setSquare(board[1][4]);
-		p2.king.setSquare(board[1][5]);
-		p2.bishop[2].setSquare(board[1][6]);
-		p2.knight[2].setSquare(board[1][7]);
-		p2.rook[2].setSquare(board[1][8]);
+		p2.rook[1].setSquare(this.board[1][1]);
+		p2.knight[1].setSquare(this.board[1][2]);
+		p2.bishop[1].setSquare(this.board[1][3]);
+		p2.queen.setSquare(this.board[1][4]);
+		p2.king.setSquare(this.board[1][5]);
+		p2.bishop[2].setSquare(this.board[1][6]);
+		p2.knight[2].setSquare(this.board[1][7]);
+		p2.rook[2].setSquare(this.board[1][8]);
 		for(int i=1;i<=8;i++) {
-			p2.pawn[i].setSquare(board[2][i]);
+			p2.pawn[i].setSquare(this.board[2][i]);
 		}
 		
 		//initialize board for Player 2
 		//This sets Square.Piece
 		for(int i=1;i<=8;i++) {
-			board[7][i].setPiece(p1.pawn[i]);
+			this.board[7][i].setPiece(p1.pawn[i]);
 		}
-		board[8][1].setPiece(p1.rook[1]);
-		board[8][2].setPiece(p1.knight[1]);
-		board[8][3].setPiece(p1.bishop[1]);
-		board[8][4].setPiece(p1.queen);
-		board[8][5].setPiece(p1.king);
-		board[8][6].setPiece(p1.bishop[2]);
-		board[8][7].setPiece(p1.knight[2]);
-		board[8][8].setPiece(p1.rook[2]);
+		this.board[8][1].setPiece(p1.rook[1]);
+		this.board[8][2].setPiece(p1.knight[1]);
+		this.board[8][3].setPiece(p1.bishop[1]);
+		this.board[8][4].setPiece(p1.queen);
+		this.board[8][5].setPiece(p1.king);
+		this.board[8][6].setPiece(p1.bishop[2]);
+		this.board[8][7].setPiece(p1.knight[2]);
+		this.board[8][8].setPiece(p1.rook[2]);
 
 		//This sets Square for each Piece
 		for(int i=1;i<=8;i++) {
-			p1.pawn[i].setSquare(board[7][i]);
+			p1.pawn[i].setSquare(this.board[7][i]);
 		}
-		p1.rook[1].setSquare(board[8][1]);
-		p1.knight[1].setSquare(board[8][2]);
-		p1.bishop[1].setSquare(board[8][3]);
-		p1.queen.setSquare(board[8][4]);
-		p1.king.setSquare(board[8][5]);
-		p1.bishop[2].setSquare(board[8][6]);
-		p1.knight[2].setSquare(board[8][7]);
-		p1.rook[2].setSquare(board[8][8]);
-		
+		p1.rook[1].setSquare(this.board[8][1]);
+		p1.knight[1].setSquare(this.board[8][2]);
+		p1.bishop[1].setSquare(this.board[8][3]);
+		p1.queen.setSquare(this.board[8][4]);
+		p1.king.setSquare(this.board[8][5]);
+		p1.bishop[2].setSquare(this.board[8][6]);
+		p1.knight[2].setSquare(this.board[8][7]);
+		p1.rook[2].setSquare(this.board[8][8]);
+
+		////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+		instance = new Board();
+
+		instance.board[1][1].setPiece(p2.rook[1]);
+		instance.board[1][2].setPiece(p2.knight[1]);
+		instance.board[1][3].setPiece(p2.bishop[1]);
+		instance.board[1][4].setPiece(p2.queen);
+		instance.board[1][5].setPiece(p2.king);
+		instance.board[1][6].setPiece(p2.bishop[2]);
+		instance.board[1][7].setPiece(p2.knight[2]);
+		instance.board[1][8].setPiece(p2.rook[2]);
+		for(int i=1;i<=8;i++) {
+			instance.board[2][i].setPiece(p2.pawn[i]);
+		}
+
+		// Set Squares for Pieces of Player 1		
+		p2.rook[1].setSquare(instance.board[1][1]);
+		p2.knight[1].setSquare(instance.board[1][2]);
+		p2.bishop[1].setSquare(instance.board[1][3]);
+		p2.queen.setSquare(instance.board[1][4]);
+		p2.king.setSquare(instance.board[1][5]);
+		p2.bishop[2].setSquare(instance.board[1][6]);
+		p2.knight[2].setSquare(instance.board[1][7]);
+		p2.rook[2].setSquare(instance.board[1][8]);
+		for(int i=1;i<=8;i++) {
+			p2.pawn[i].setSquare(instance.board[2][i]);
+		}
+
+		//initialize board for Player 2
+		//This sets Square.Piece
+		for(int i=1;i<=8;i++) {
+			instance.board[7][i].setPiece(p1.pawn[i]);
+		}
+		instance.board[8][1].setPiece(p1.rook[1]);
+		instance.board[8][2].setPiece(p1.knight[1]);
+		instance.board[8][3].setPiece(p1.bishop[1]);
+		instance.board[8][4].setPiece(p1.queen);
+		instance.board[8][5].setPiece(p1.king);
+		instance.board[8][6].setPiece(p1.bishop[2]);
+		instance.board[8][7].setPiece(p1.knight[2]);
+		instance.board[8][8].setPiece(p1.rook[2]);
+
+		//This sets Square for each Piece
+		for(int i=1;i<=8;i++) {
+			p1.pawn[i].setSquare(instance.board[7][i]);
+		}
+		p1.rook[1].setSquare(instance.board[8][1]);
+		p1.knight[1].setSquare(instance.board[8][2]);
+		p1.bishop[1].setSquare(instance.board[8][3]);
+		p1.queen.setSquare(instance.board[8][4]);
+		p1.king.setSquare(instance.board[8][5]);
+		p1.bishop[2].setSquare(instance.board[8][6]);
+		p1.knight[2].setSquare(instance.board[8][7]);
+		p1.rook[2].setSquare(instance.board[8][8]);
+
 	}
-	
+
 	public void resetBoard(){
-		
 		//Wait to be complete when related classes are more polished
 	}
-	
+
 	//temporary implementation
 	public Square getSquare(int x, int y){
-		if(x>8 || y>8 || x<1 || y<1){
-			
+		if(x > 8 || y > 8 || x < 1 || y < 1) {			
 			return null;
 		}
 		else
-			return board[x][y];
+			return this.board[x][y];
 	}
-	
+
 	//temporary implementation
 	public void setSquare(Square s, int x, int y){	
-		board[x-1][y-1] = s;
+		this.board[x][y] = s;
+		this.board[x][y].setPiece(s.getPiece());
+		instance.board[x][y].setPiece(s.getPiece());
+		System.out.println(" Setting (" + x + ", " + y + ") ");
 	}
-	
+
+	public static void setBoard(Square s, int x, int y){	
+		instance.board[x][y].setPiece(s.getPiece());
+	}
+
+	public static void setNull(int x, int y){	
+		instance.board[x][y].setPiece(null);
+	}
+
 	//display Board {Req 5}
 	public void displayBoard() {
 		

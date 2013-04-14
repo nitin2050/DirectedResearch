@@ -12,14 +12,15 @@ public abstract class Piece {
 	private Color color;	//color of the Piece
 	private Square square;	//current Square the piece is on the Board
 	private Type type;      //stores type of the piece
-	
-	public Piece() { 
+	private boolean isPieceDead;
+	public Piece() {
 	}
 	
 	public Piece(Color c, Square s, Type t) {
 		this.color = c;
 		this.square = s;
 		this.type = t;
+		this.isPieceDead = false;
 	}
 	
 	public void setColor(Color c) {
@@ -39,10 +40,21 @@ public abstract class Piece {
 	public void setType(Type t) {
 		this.type = t;
 	}
+
 	public Type getType() {
 		return this.type;
 	}
 	
+	public boolean isPieceDead()
+	{
+		return isPieceDead;
+	}
+
+	public void setIsDead(boolean dead)
+	{
+		isPieceDead = dead;
+	}
+
 	//Move the piece to Destination square is the move is valid
 	public abstract boolean moveTo(Square destination);
 	

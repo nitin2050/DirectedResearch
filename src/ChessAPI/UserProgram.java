@@ -32,7 +32,7 @@ public class UserProgram {
 		b.initBoard(pl1, pl2);
 		//req5 print board
 		//b.displayBoard();
-		
+
 		//req6 move a piece, the next line moves W_Pawn from (2,1) to (3,1)
 		//pl1.moveTo(b.getSquare(2, 1), b.getSquare(3, 1));
 		//pl1.moveTo(b.getSquare(2, 1), b.getSquare(3, 1));
@@ -86,7 +86,6 @@ public class UserProgram {
 						else
 							System.out.println("\n\n -------------------------------- Black's Turn ---------------------------------------- ");
 			
-			
 						if (i % 2 == 0)
 						{
 							int s_x=0,s_y=0,d_x=0,d_y=0;
@@ -110,7 +109,7 @@ public class UserProgram {
 								result = pl1.moveTo(b.getSquare(s_x, s_y), b.getSquare(d_x, d_y));
 								
 							} while(result == false);
-							System.out.println("Now moving " + originalType + " from (" + s_x + ", " + s_y + ") to (" + d_x + ", " + d_y + ") ");
+							System.out.println("Now moving (" + b.getSquare(s_x, s_y).getPiece().getColor() + ") "+ originalType + " from (" + s_x + ", " + s_y + ") to (" + d_x + ", " + d_y + ") ");
 						} else {
 							int s_x2=0,s_y2=0,d_x2=0,d_y2=0;
 							do {
@@ -133,26 +132,28 @@ public class UserProgram {
 								result = pl2.moveTo(b.getSquare(s_x2, s_y2), b.getSquare(d_x2, d_y2));
 								
 							} while(result == false);
-							System.out.println("Now moving " + originalType + " from (" + s_x2 + ", " + s_y2 + ") to (" + d_x2 + ", " + d_y2 + ") ");
+							System.out.println("Now moving (" + pl2.originalSquare.getPiece().getColor()  + ") " + originalType + " from (" + s_x2 + ", " + s_y2 + ") to (" + d_x2 + ", " + d_y2 + ") ");
 						}
 						b.displayBoard();
 						System.out.println(" ====================================================================================== ");
 						i++;
 						more = "n";
 						System.out.println("Do you want to continue ? (y/n) : ");
-						try {
-							more = br.readLine();
-						} catch (IOException e) {
-							System.out.println("Error!");
-							System.exit(1);
-						}
+						do {
+							try {
+								more = br.readLine();
+							} catch (IOException e) {
+								System.out.println("Error!");
+								System.exit(1);
+							}
+						} while (more.isEmpty() == true);
 					} while (more.charAt(0) == 'y');
 					//nitin playing around
 					playMode = 0;
 				  
 			  }
-			  
-			  if(playMode == 2){
+
+			  if(playMode == 2) {
 				  boolean result;
 				  String originalType = "";
 				  Square s_rand = null;
@@ -189,14 +190,14 @@ public class UserProgram {
 								result = pl1.moveTo(b.getSquare(s_x, s_y), b.getSquare(d_x, d_y));
 								
 							} while(result == false);
-							System.out.println("Now moving " + originalType + " from (" + s_x + ", " + s_y + ") to (" + d_x + ", " + d_y + ") ");
+							System.out.println("Now moving " + b.getSquare(s_x, s_y).getPiece().getColor() + " " + originalType + " from (" + s_x + ", " + s_y + ") to (" + d_x + ", " + d_y + ") ");
 						} else {
 							do {
 								s_rand = pl2.randomMove();
 								originalType = pl2.originalSquare.getPiece().getType().toString(); 
 								result = pl2.moveTo(b.getSquare(pl2.originalSquare.get_x(), pl2.originalSquare.get_y()), b.getSquare(s_rand.get_x(), s_rand.get_y()));
 							} while(result == false);
-							System.out.println("Now moving " + originalType + " from (" + pl2.originalSquare.get_x() + ", " + pl2.originalSquare.get_y() + ") to (" + s_rand.get_x() + ", " + s_rand.get_y() + ") ");
+							System.out.println("Now moving " + pl2.originalSquare.getPiece().getColor() + " " + originalType + " from (" + pl2.originalSquare.get_x() + ", " + pl2.originalSquare.get_y() + ") to (" + s_rand.get_x() + ", " + s_rand.get_y() + ") ");
 						}
 						b.displayBoard();
 						System.out.println(" ====================================================================================== ");
@@ -215,7 +216,7 @@ public class UserProgram {
 				  
 			  }
 			
-			  if(playMode == 3){
+			  if(playMode == 3) {
 					Square s_rand = null;
 					String originalType = "";
 					boolean result;
@@ -227,8 +228,7 @@ public class UserProgram {
 							System.out.println("\n\n -------------------------------- White's Turn ---------------------------------------- ");
 						else
 							System.out.println("\n\n -------------------------------- Black's Turn ---------------------------------------- ");
-			
-			
+
 						if (i % 2 == 0)
 						{
 							do {
@@ -236,7 +236,7 @@ public class UserProgram {
 								originalType = pl1.originalSquare.getPiece().getType().toString();								
 								result = pl1.moveTo(b.getSquare(pl1.originalSquare.get_x(), pl1.originalSquare.get_y()), b.getSquare(s_rand.get_x(), s_rand.get_y()));
 							} while(result == false);
-							System.out.println("Now moving " + originalType + " from (" + pl1.originalSquare.get_x() + ", " + pl1.originalSquare.get_y() + ") to (" + s_rand.get_x() + ", " + s_rand.get_y() + ") ");
+							System.out.println("Now moving " + b.getSquare(s_rand.get_x(), s_rand.get_y()).getPiece().getColor() + " " + originalType + " from (" + pl1.originalSquare.get_x() + ", " + pl1.originalSquare.get_y() + ") to (" + s_rand.get_x() + ", " + s_rand.get_y() + ") ");
 						} else {
 							do {
 								s_rand = pl2.randomMove();
@@ -244,11 +244,18 @@ public class UserProgram {
 								
 								result = pl2.moveTo(b.getSquare(pl2.originalSquare.get_x(), pl2.originalSquare.get_y()), b.getSquare(s_rand.get_x(), s_rand.get_y()));
 							} while(result == false);
-							System.out.println("Now moving " + originalType + " from (" + pl2.originalSquare.get_x() + ", " + pl2.originalSquare.get_y() + ") to (" + s_rand.get_x() + ", " + s_rand.get_y() + ") ");
+							System.out.println("Now moving " + b.getSquare(s_rand.get_x(), s_rand.get_y()).getPiece().getColor() + " " + originalType + " from (" + pl2.originalSquare.get_x() + ", " + pl2.originalSquare.get_y() + ") to (" + s_rand.get_x() + ", " + s_rand.get_y() + ") ");
 						}
 						b.displayBoard();
 						System.out.println(" ====================================================================================== ");
 						i++;
+			
+						// Checking if Game is Over
+						if (pl1.isGameOver() == true)
+							break;
+						else if (pl2.isGameOver() == true)
+							break;
+
 						more = "n";
 						System.out.println("Do you want to continue ? (y/n) : ");
 						try {

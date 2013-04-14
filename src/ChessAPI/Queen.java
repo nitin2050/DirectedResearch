@@ -64,7 +64,12 @@ public class Queen extends Piece{
 	}
 
 	private boolean isObstructed(Square s, Square d) {
-		Board board = Board.getBoardInstance();
+		Square board[][] = new Square[10][10];	
+		for (int i = 1; i <= 8; i++)
+			for (int j = 1; j <= 8; j++)
+			{
+				board[i][j] = Board.getBoard(i, j); 
+			}
 		boolean result = false;		
 		int s_x = s.get_x();
 		int s_y = s.get_y();
@@ -77,7 +82,7 @@ public class Queen extends Piece{
 			for(int i = s_y+diff_y/Math.abs(diff_y); i<=d_y; i=i+diff_y/Math.abs(diff_y)){
 				if (i < 1 || i > 8)
 					break;
-				if(board.getSquare(s_x, i).getPiece() != null)
+				if(board[s_x][i].getPiece() != null)
 					result = true;
 			}
 		}
@@ -87,7 +92,7 @@ public class Queen extends Piece{
 			for(int i = s_x+diff_x/Math.abs(diff_x); i<=d_x; i=i+diff_x/Math.abs(diff_x)){
 				if (i < 1 || i > 8)
 					break;
-				if(board.getSquare(i, s_y).getPiece() != null)
+				if(board[i][s_y].getPiece() != null)
 					result = true;
 			}
 		}
@@ -97,7 +102,7 @@ public class Queen extends Piece{
 				s_x=s_x+diff_x/Math.abs(diff_x);
 			if (diff_y != 0)
 				s_y=s_y+diff_y/Math.abs(diff_y);
-			if(board.getSquare(s_x, s_y).getPiece() != null){
+			if(board[s_x][s_y].getPiece() != null){
 				result = true;
 				break;
 			}
@@ -117,8 +122,12 @@ public class Queen extends Piece{
 	//add your code here, and return appropriate value
 
 	public Square selectRandomSquare(){
-
-		Board currentBoard = Board.getBoardInstance(); //get the Board
+		Square currentBoard[][] = new Square[10][10];	
+		for (int i = 1; i <= 8; i++)
+			for (int j = 1; j <= 8; j++)
+			{
+				currentBoard[i][j] = Board.getBoard(i, j); 
+			}
 		List<Square> validSquares = new ArrayList<Square>();
 		Square currentSquare = null;
 
@@ -128,10 +137,10 @@ public class Queen extends Piece{
 
 			for(int i = 1; i < Board.ROWS + 1; i++) {
 				for(int j = 1; j < Board.COLS + 1; j++) {
-					if(this.validateMove(this.getSquare(), currentBoard.getSquare(i, j))) {
+					if(this.validateMove(this.getSquare(), currentBoard[i][j])) {
 						//we can move from current position of this piece to Square(i,j) on the Board
 						//add it to the list
-						validSquares.add(currentBoard.getSquare(i, j));
+						validSquares.add(currentBoard[i][j]);
 					}
 				}
 			}

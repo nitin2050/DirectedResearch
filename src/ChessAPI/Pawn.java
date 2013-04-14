@@ -21,9 +21,12 @@ public class Pawn extends Piece {
 		if(this.validateMove(this.getSquare(), destination) == true){
 			//move piece to destination 
 			destination.setPiece(this);
+			Board.setNull(this.getSquare().get_x(), this.getSquare().get_y());
+
 			//set piece.square to destination square
 			this.setSquare(destination);
-			return true;			
+			Board.setBoard(destination, this.getSquare().get_x(), this.getSquare().get_y());
+			return true;		
 		}else{
 			// Print error message and return false as the moveTo was not successful
 			//System.out.println(err);
@@ -34,34 +37,34 @@ public class Pawn extends Piece {
 		//return true and move else return false
 	}
 
-	public boolean validateMove(Square s, Square d){
+	public boolean validateMove(Square s, Square d) {
 		boolean decision = true;
-		if(d.get_x()>8 || d.get_y()>8 || d.get_x()<1 || d.get_y()<1){
+		if(d.get_x() > 8 || d.get_y() > 8 || d.get_x() < 1 || d.get_y() < 1) {
 			decision = false;
 			err="Destination square is not a part of the game board, the requested moved is rejected.";
 			return decision;
 		}
 
-		if(s.get_x()==d.get_x() && s.get_y()==d.get_y()){
+		if(s.get_x() == d.get_x() && s.get_y() == d.get_y()) {
 			decision = false;
 			err="Source square and destination square can not be the same, the requested move is rejected.";
 			return decision;
 		}
 
-		if(!this.validateAgainstRule(s, d)){
+		if(!this.validateAgainstRule(s, d)) {
 			decision=false;
 			err="Not a valid move for a Pawn, the requested move is rejected.";
 			return decision;
 		}
 		
-		if(this.isObstructed(s, d) == true){
+		if(this.isObstructed(s, d) == true) {
 			decision=false;
 			err="Another piece exists in the path to the destination square, the requested move is rejected.";
 		}
-		
+
 		return decision;
 	}
-	
+
 	private boolean validateAgainstRule(Square s, Square d) {
 		boolean result = false; 
 		int diff_x = Math.abs(s.get_x() - d.get_x());
@@ -69,16 +72,23 @@ public class Pawn extends Piece {
 
 		// Pawn can move by one squares in X direction
 		// Or it can move by two squares when it is starting from its initial position 
-		if(diff_x == 1 && diff_y == 0)
+		if(diff_x == 1 && diff_y == 0 && d.getPiece() == null)
+		{
 			result = true;
-		else if (diff_x == 2 && (s.get_x() == 7 || s.get_x() == 2) && diff_y == 0)
+		} else if (diff_x == 2 && (s.get_x() == 7 || s.get_x() == 2) && diff_y == 0 && d.getPiece() == null)
+		{
 			result = true;
-
+		}
+		// Or it can move diagonally by one square
+		// When a piece of opponent is present there
+		else if (diff_x == 1 && diff_y == 1 && d.getPiece() != null && d.getPiece().getColor() != this.getColor())
+		{
+			result = true;
+		}
 		return result;
 	}
 
 	private boolean isObstructed(Square s, Square d) {
-		Board board = Board.getBoardInstance();
 		boolean result = false;
 		int s_x = s.get_x();
 		int s_y = s.get_y();
@@ -86,7 +96,14 @@ public class Pawn extends Piece {
 		int d_y = d.get_y();
 		int diff_x = d_x - s_x;
 		int diff_y = d_y - s_y;
-	
+
+		Square board[][] = new Square[10][10];	
+		for (int i = 1; i <= 8; i++)
+			for (int j = 1; j <= 8; j++)
+			{
+				board[i][j] = Board.getBoard(i, j); 
+			}
+
 		while(s_x != d_x || s_y != d_y){
 
 			if (diff_x != 0)
@@ -100,7 +117,7 @@ public class Pawn extends Piece {
 			if (s_x > 8 || s_y > 8)
 				break;
 
-			if(board.getSquare(s_x, s_y).getPiece() != null){
+			if(board[s_x][s_y].getPiece() != null){
 				result = true;
 				break;
 			}
@@ -110,41 +127,49 @@ public class Pawn extends Piece {
 	}
 	
 	//add your code here, and return appropriate value
-	public Square selectRandomSquare(){
-
-		Board currentBoard = Board.getBoardInstance(); //get the Board
+	public Square selectRandomSquare() {
+		Square currentBoard[][] = new Square[10][10];
 		List<Square> validSquares = new ArrayList<Square>();
 		Square currentSquare = null;
-		
-		currentSquare = this.getSquare();
 
+		for (int i = 1; i <= 8; i++)
+			for (int j = 1; j <= 8; j++)
+			{
+				currentBoard[i][j] = Board.getBoard(i, j);
+			}
+
+		currentSquare = this.getSquare();
 		Square s_ret = null;
-		
-		if (currentSquare.getPiece().getColor() == Color.white)
+
+		if (currentSquare.getPiece().getColor() == Color.black)
 		{
-			for(int i = currentSquare.get_x(); i < Board.ROWS + 1; i++) {
-				for(int j = currentSquare.get_y(); j < Board.COLS + 1; j++) {
-					if(this.validateMove(this.getSquare(), currentBoard.getSquare(i, j))) {
+			for(int i = 1; i < Board.ROWS + 1; i++) {
+				for(int j = 1; j < Board.COLS + 1; j++) {
+					Square s = null;
+					s = currentBoard[i][j];
+		
+					if(this.validateMove(this.getSquare(), currentBoard[i][j])) {
 						//we can move from current position of this piece to Square(i,j) on the Board
 						//add it to the list
-						validSquares.add(currentBoard.getSquare(i, j));
+						validSquares.add(currentBoard[i][j]);
 					}
 				}
 			}
 		} else {
-			for(int i = currentSquare.get_x(); i > 1; i--) {
-				for(int j = currentSquare.get_y(); j > 1; j--) {
-					if(this.validateMove(this.getSquare(), currentBoard.getSquare(i, j))) {
+			for(int i = 8; i >= 1; i--) {
+				for(int j = 8; j >= 1; j--) {
+
+					if(this.validateMove(this.getSquare(), currentBoard[i][j])) {
 						//we can move from current position of this piece to Square(i,j) on the Board
 						//add it to the list
-						validSquares.add(currentBoard.getSquare(i, j));
+						validSquares.add(currentBoard[i][j]);
 					}
 				}
 			}			
 		}
 		if(validSquares.isEmpty()) {
 			//list is empty i.e no possible move for this Piece
-			
+
 			return null;
 		} else {
 			//list has atleast one Square i.e atleast one move possible for this piece

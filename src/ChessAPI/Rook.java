@@ -71,7 +71,13 @@ public class Rook extends Piece{
 	
 	
 	private boolean isObstructed(Square s, Square d) {
-		Board board = Board.getBoardInstance();
+		Square board[][] = new Square[10][10];	
+		for (int i = 1; i <= 8; i++)
+			for (int j = 1; j <= 8; j++)
+			{
+				board[i][j] = Board.getBoard(i, j); 
+			}
+
 		boolean result = false;		
 		int s_x = s.get_x();
 		int s_y = s.get_y();
@@ -84,14 +90,14 @@ public class Rook extends Piece{
 			if(d_y>s_y){
 			
 				for(int i = s_y+1; i<=d_y; i++){
-				if(board.getSquare(s_x, i).getPiece() != null)
+				if(board[s_x][i].getPiece() != null)
 					result = true;
 				}
 			}
 			else{
 				
 				for(int i = s_y-1; i>=d_y; i--){
-					if(board.getSquare(s_x, i).getPiece() != null)
+					if(board[s_x][i].getPiece() != null)
 						result = true;
 				}
 			}
@@ -101,14 +107,14 @@ public class Rook extends Piece{
 			if(d_x>s_x){
 				
 				for(int i = s_x+1; i<=d_x; i++){
-				if(board.getSquare(i, s_y).getPiece() != null)
+				if(board[i][s_y].getPiece() != null)
 					result = true;
 				}
 			}
 			else{
 				
 				for(int i = s_x-1; i>=d_x; i--){
-					if(board.getSquare(i, s_y).getPiece() != null)
+					if(board[i][s_y].getPiece() != null)
 						result = true;
 				}
 			}
@@ -120,15 +126,20 @@ public class Rook extends Piece{
 	//I am returning null for syntax purposes right now
 	public Square selectRandomSquare(){
 		
-		Board currentBoard = Board.getBoardInstance(); //get the Board
+		Square currentBoard[][] = new Square[10][10];	
+		for (int i = 1; i <= 8; i++)
+			for (int j = 1; j <= 8; j++)
+			{
+				currentBoard[i][j] = Board.getBoard(i, j); 
+			}
 		List<Square> validSquares = new ArrayList<Square>();
 		
 		for(int i=1; i<Board.ROWS+1; i++  ) {
 			for(int j=1; j<Board.COLS+1; j++  ){
-				if( this.validateMove(this.getSquare(),currentBoard.getSquare(i, j)) ) {
+				if( this.validateMove(this.getSquare(), currentBoard[i][j])) {
 					//we can move from current position of this piece to Square(i,j) on the Board
 					//add it to the list
-					validSquares.add(currentBoard.getSquare(i, j));
+					validSquares.add(currentBoard[i][j]);
 				}
 			}
 		}

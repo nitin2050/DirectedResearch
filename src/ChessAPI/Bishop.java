@@ -20,6 +20,9 @@ public class Bishop extends Piece{
 		//System.out.println("Bishop");
 		if(this.validateMove(this.getSquare(), destination)){
 			System.out.println("Piece moved to "+destination.get_x()+","+destination.get_y());
+
+			this.getSquare().setPiece(null);
+			
 			//move piece to destination 
 			destination.setPiece(this);
 			//set piece.square to destination square
@@ -70,7 +73,12 @@ public class Bishop extends Piece{
 
 
 	private boolean isObstructed(Square s, Square d) {
-		Board board = Board.getBoardInstance();
+		Square board[][] = new Square[10][10];	
+		for (int i = 1; i <= 8; i++)
+			for (int j = 1; j <= 8; j++)
+			{
+				board[i][j] = Board.getBoard(i, j); 
+			}
 		boolean result = false;		
 		int s_x = s.get_x();
 		int s_y = s.get_y();
@@ -82,7 +90,7 @@ public class Bishop extends Piece{
 		while(s_x != d_x || s_y != d_y){
 			s_x=s_x+diff_x/Math.abs(diff_x);
 			s_y=s_y+diff_y/Math.abs(diff_y);
-			if(board.getSquare(s_x, s_y).getPiece() != null){
+			if(board[s_x][s_y].getPiece() != null){
 				result = true;
 				break;
 			}
@@ -93,7 +101,12 @@ public class Bishop extends Piece{
 	//add your code here, and return appropriate value
 	public Square selectRandomSquare(){
 
-		Board currentBoard = Board.getBoardInstance(); //get the Board
+		Square currentBoard[][] = new Square[10][10];	
+		for (int i = 1; i <= 8; i++)
+			for (int j = 1; j <= 8; j++)
+			{
+				currentBoard[i][j] = Board.getBoard(i, j); 
+			}
 		List<Square> validSquares = new ArrayList<Square>();
 		Square currentSquare = null;
 
@@ -103,10 +116,10 @@ public class Bishop extends Piece{
 
 			for(int i = 1; i < Board.ROWS + 1; i++) {
 				for(int j = 1; j < Board.COLS + 1; j++) {
-					if(this.validateMove(this.getSquare(), currentBoard.getSquare(i, j))) {
+					if(this.validateMove(this.getSquare(), currentBoard[i][j])) {
 						//we can move from current position of this piece to Square(i,j) on the Board
 						//add it to the list
-						validSquares.add(currentBoard.getSquare(i, j));
+						validSquares.add(currentBoard[i][j]);
 					}
 				}
 			}

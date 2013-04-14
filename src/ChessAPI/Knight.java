@@ -81,13 +81,19 @@ public class Knight extends Piece{
 	
 	private boolean isObstructed(Square s, Square d) {
 		
-		Board board = Board.getBoardInstance();
+				Square board[][] = new Square[10][10];	
+				for (int i = 1; i <= 8; i++)
+					for (int j = 1; j <= 8; j++)
+					{
+						board[i][j] = Board.getBoard(i, j); 
+					}
+
 		boolean result = false;		
 		
 		int d_x = d.get_x();
 		int d_y = d.get_y();
 		
-		if(board.getSquare(d_x, d_y).getPiece() != null)
+		if(board[d_x][d_y].getPiece() != null)
 			result = true;
 		
 		return result;
@@ -96,8 +102,12 @@ public class Knight extends Piece{
 	//add your code here, and return appropriate value
 	//I am returning null for syntax purposes right now
 	public Square selectRandomSquare(){
-
-		Board currentBoard = Board.getBoardInstance(); //get the Board
+		Square board[][] = new Square[10][10];	
+		for (int i = 1; i <= 8; i++)
+			for (int j = 1; j <= 8; j++)
+			{
+				board[i][j] = Board.getBoard(i, j); 
+			}
 		List<Square> validSquares = new ArrayList<Square>();
 		Square currentSquare = null;
 		
@@ -108,38 +118,64 @@ public class Knight extends Piece{
 
 		Square s_ret = null;
 		
-		if(this.validateMove(this.getSquare(), currentBoard.getSquare(current_x+1, current_y+2))) {
-					
-			validSquares.add(currentBoard.getSquare(current_x+1, current_y+2));
+		if ((current_x + 1) <= 8 && (current_y + 2) <= 8)
+		{	
+			if(this.validateMove(this.getSquare(), board[current_x+1][current_y+2])) {
+						
+				validSquares.add(board[current_x+1][current_y+2]);
+			}
 		}
-		if(this.validateMove(this.getSquare(), currentBoard.getSquare(current_x+1, current_y-2))) {
-			
-			validSquares.add(currentBoard.getSquare(current_x+1, current_y-2));
+
+		if ((current_x + 1) <= 8 && (current_y - 2) > 0)
+		{			
+			if(this.validateMove(this.getSquare(), board[current_x+1][current_y-2])) {
+				
+				validSquares.add(board[current_x+1][current_y-2]);
+			}
 		}
-		if(this.validateMove(this.getSquare(), currentBoard.getSquare(current_x-1, current_y+2))) {
-			
-			validSquares.add(currentBoard.getSquare(current_x-1, current_y+2));
+
+		if ((current_x-1) > 0 && (current_y+2) <= 8)
+		{
+			if(this.validateMove(this.getSquare(), board[current_x-1][current_y+2])) {				
+				validSquares.add(board[current_x-1][current_y+2]);
+			}
 		}
-		if(this.validateMove(this.getSquare(), currentBoard.getSquare(current_x-1, current_y-2))) {
-			
-			validSquares.add(currentBoard.getSquare(current_x-1, current_y-2));
+		
+		if ((current_x-1) > 0 && (current_y-2) > 0)
+		{
+			if(this.validateMove(this.getSquare(), board[current_x-1][current_y-2])) {				
+				validSquares.add(board[current_x-1][current_y-2]);
+			}
 		}
-		if(this.validateMove(this.getSquare(), currentBoard.getSquare(current_x+2, current_y+1))) {
-			
-			validSquares.add(currentBoard.getSquare(current_x+2, current_y+1));
+		
+		if ((current_x + 2) <= 8 && (current_y+1) <= 8)
+		{
+			if(this.validateMove(this.getSquare(), board[current_x+2][current_y+1])) {				
+				validSquares.add(board[current_x+2][current_y+1]);
+			}
 		}
-		if(this.validateMove(this.getSquare(), currentBoard.getSquare(current_x+2, current_y-1))) {
-			
-			validSquares.add(currentBoard.getSquare(current_x+2, current_y-1));
+		
+		if ((current_x + 2) <= 8 && (current_y - 1) > 0)
+		{
+			if(this.validateMove(this.getSquare(), board[current_x+2][current_y-1])) {	
+				validSquares.add(board[current_x+2][current_y-1]);
+			}
 		}
-		if(this.validateMove(this.getSquare(), currentBoard.getSquare(current_x-2, current_y+1))) {
-			
-			validSquares.add(currentBoard.getSquare(current_x-2, current_y+1));
+		
+		if ((current_x-2) > 0 && (current_y+1) <= 8)
+		{
+			if(this.validateMove(this.getSquare(), board[current_x-2][current_y+1])) {	
+				validSquares.add(board[current_x-2][current_y+1]);
+			}
 		}
-		if(this.validateMove(this.getSquare(), currentBoard.getSquare(current_x-2, current_y-1))) {
-			
-			validSquares.add(currentBoard.getSquare(current_x-2, current_y-1));
+		
+		if ((current_x - 2) > 0 && (current_y - 1) > 0)
+		{
+			if(this.validateMove(this.getSquare(), board[current_x-2][current_y-1])) {				
+				validSquares.add(board[current_x-2][current_y-1]);
+			}
 		}
+		
 		if(validSquares.isEmpty()) {
 			//list is empty i.e no possible move for this Piece
 			

@@ -79,7 +79,12 @@ public class King extends Piece{
 	}
 
 	private boolean isObstructed(Square s, Square d) {
-		Board board = Board.getBoardInstance();
+		Square board[][] = new Square[10][10];	
+		for (int i = 1; i <= 8; i++)
+			for (int j = 1; j <= 8; j++)
+			{
+				board[i][j] = Board.getBoard(i, j); 
+			}
 		boolean result = false;
 		int s_x = s.get_x();
 		int s_y = s.get_y();
@@ -96,7 +101,7 @@ public class King extends Piece{
 			if (diff_y != 0)
 				s_y=s_y+diff_y/Math.abs(diff_y);
 			
-			if(board.getSquare(s_x, s_y).getPiece() != null){
+			if(board[s_x][s_y].getPiece() != null){
 				result = true;
 				break;
 			}
@@ -109,15 +114,20 @@ public class King extends Piece{
 	//I am returning null for syntax purposes right now
 	public Square selectRandomSquare(){
 	
-		Board currentBoard = Board.getBoardInstance(); //get the Board
 		List<Square> validSquares = new ArrayList<Square>();
+		Square board[][] = new Square[10][10];	
+		for (int i = 1; i <= 8; i++)
+			for (int j = 1; j <= 8; j++)
+			{
+				board[i][j] = Board.getBoard(i, j); 
+			}
 
 		for(int i=1; i<Board.ROWS+1; i++  ) {
 			for(int j=1; j<Board.COLS+1; j++  ){
-				if( this.validateMove(this.getSquare(),currentBoard.getSquare(i, j)) ) {
+				if( this.validateMove(this.getSquare(),board[i][j]) ) {
 					//we can move from current position of this piece to Square(i,j) on the Board
 					//add it to the list
-					validSquares.add(currentBoard.getSquare(i, j));
+					validSquares.add(board[i][j]);
 				}
 			}
 		}
