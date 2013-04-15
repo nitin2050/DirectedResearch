@@ -76,20 +76,7 @@ public class Knight extends Piece{
 	
 	private boolean isObstructed(Square s, Square d) {
 		
-				Square board[][] = new Square[10][10];	
-				for (int i = 1; i <= 8; i++)
-					for (int j = 1; j <= 8; j++)
-					{
-						board[i][j] = Board.getBoard(i, j); 
-					}
-
-		boolean result = false;		
-		
-		int d_x = d.get_x();
-		int d_y = d.get_y();
-		
-		if(board[d_x][d_y].getPiece() != null)
-			result = true;
+		boolean result = false;
 		
 		return result;
 	}

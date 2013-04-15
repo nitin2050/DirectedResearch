@@ -86,14 +86,14 @@ public class Rook extends Piece{
 		if(s_x==d_x){
 			if(d_y>s_y){
 			
-				for(int i = s_y+1; i<=d_y; i++){
+				for(int i = s_y+1; i<d_y; i++){
 				if(board[s_x][i].getPiece() != null)
 					result = true;
 				}
 			}
 			else{
 				
-				for(int i = s_y-1; i>=d_y; i--){
+				for(int i = s_y-1; i>d_y; i--){
 					if(board[s_x][i].getPiece() != null)
 						result = true;
 				}
@@ -103,14 +103,14 @@ public class Rook extends Piece{
 		if(s_y==d_y){
 			if(d_x>s_x){
 				
-				for(int i = s_x+1; i<=d_x; i++){
+				for(int i = s_x+1; i<d_x; i++){
 				if(board[i][s_y].getPiece() != null)
 					result = true;
 				}
 			}
 			else{
 				
-				for(int i = s_x-1; i>=d_x; i--){
+				for(int i = s_x-1; i>d_x; i--){
 					if(board[i][s_y].getPiece() != null)
 						result = true;
 				}

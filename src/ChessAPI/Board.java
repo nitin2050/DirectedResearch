@@ -196,8 +196,9 @@ public class Board {
 	//display Board {Req 5}
 	public void displayBoard() {
 		
-		System.out.println("a           b           c           d           e           f           g           h");
+		System.out.println("   a           b           c           d           e           f           g           h");
 		for(int i=1; i<Board.ROWS+1; i++  ) {
+			System.out.print(i+"  ");
 			for(int j=1; j<Board.COLS+1; j++  ){
 				if(this.board[i][j].getPiece() == null){
 					//print X if there is no Piece on this Square
@@ -213,9 +214,10 @@ public class Board {
 					}
 				}
 			}//end inner for
+			System.out.print(i);
 			System.out.println();
 		}//end outer for
-		System.out.println("a           b           c           d           e           f           g           h");
+		System.out.println("   a           b           c           d           e           f           g           h");
 	}
 	
 	public GameDump getDump()

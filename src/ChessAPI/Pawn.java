@@ -118,7 +118,7 @@ public class Pawn extends Piece {
 				break;
 
 			if(board[s_x][s_y].getPiece() != null){
-				result = true;
+				//result = true;
 				break;
 			}
 		}
