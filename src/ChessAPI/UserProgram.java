@@ -192,9 +192,8 @@ public class UserProgram {
 							//System.out.println("Now moving " + originalType + " from (" + s_x + ", " + s_y + ") to (" + d_x + ", " + d_y + ") ");
 						} else {
 							do {
-								//s_rand = pl2.randomMove();
-								originalType = pl2.originalSquare.getPiece().getType().toString(); 
-								result = pl2.moveTo(b.getSquare(pl2.originalSquare.get_x(), pl2.originalSquare.get_y()), b.getSquare(s_rand.get_x(), s_rand.get_y()));
+								Move randomMove = pl2.selectBestMove();
+								result = pl2.moveTo(randomMove.getSource(), randomMove.getDestinationSquare());
 							} while(result == false);
 							//System.out.println("Now moving " + originalType + " from (" + pl2.originalSquare.get_x() + ", " + pl2.originalSquare.get_y() + ") to (" + s_rand.get_x() + ", " + s_rand.get_y() + ") ");
 						}
@@ -233,16 +232,15 @@ public class UserProgram {
 						{
 							do {
 								//s_rand = pl1.randomMove();
-								originalType = pl1.originalSquare.getPiece().getType().toString();								
-								result = pl1.moveTo(b.getSquare(pl1.originalSquare.get_x(), pl1.originalSquare.get_y()), b.getSquare(s_rand.get_x(), s_rand.get_y()));
+								Move randomMove = pl1.selectBestMove();
+								result = pl1.moveTo(randomMove.getSource(), randomMove.getDestinationSquare());
 							} while(result == false);
 							//System.out.println("Now moving " + originalType + " from (" + pl1.originalSquare.get_x() + ", " + pl1.originalSquare.get_y() + ") to (" + s_rand.get_x() + ", " + s_rand.get_y() + ") ");
 						} else {
 							do {
 								//s_rand = pl2.randomMove();
-								originalType = pl2.originalSquare.getPiece().getType().toString();
-								
-								result = pl2.moveTo(b.getSquare(pl2.originalSquare.get_x(), pl2.originalSquare.get_y()), b.getSquare(s_rand.get_x(), s_rand.get_y()));
+								Move randomMove = pl2.selectBestMove();
+								result = pl2.moveTo(randomMove.getSource(), randomMove.getDestinationSquare());
 							} while(result == false);
 							//System.out.println("Now moving " + originalType + " from (" + pl2.originalSquare.get_x() + ", " + pl2.originalSquare.get_y() + ") to (" + s_rand.get_x() + ", " + s_rand.get_y() + ") ");
 						}
