@@ -55,10 +55,11 @@ public class Bishop extends Piece{
 			err="Not a valid move for a Bishop, the requested move is rejected.";
 			return decision;
 		}
+		/*
 		if(this.isObstructed(s, d)){
 			decision=false;
 			err="Another piece exists in the path to the destination square, the requested move is rejected.";
-		}
+		}*/
 		return decision;
 	}
 

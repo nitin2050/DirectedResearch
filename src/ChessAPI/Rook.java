@@ -50,10 +50,12 @@ public class Rook extends Piece{
 			err="Not a valid move for a Rook, the requested move is rejected.";
 			return decision;
 		}
+		/*
 		if(this.isObstructed(s, d)){
 			decision=false;
 			err="Another piece exists in the path to the destination square, the requested move is rejected.";
 		}
+		*/
 		return decision;
 	}
 	
@@ -65,8 +67,7 @@ public class Rook extends Piece{
 			result = true;			
 		return result;
 	}
-	
-	
+
 	private boolean isObstructed(Square s, Square d) {
 		Square board[][] = new Square[10][10];	
 		for (int i = 1; i <= 8; i++)

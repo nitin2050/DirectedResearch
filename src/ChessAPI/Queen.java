@@ -56,10 +56,12 @@ public class Queen extends Piece{
 			err="Not a valid move for a Queen, the requested move is rejected.";
 			return decision;
 		}
+		/*
 		if(this.isObstructed(s, d)){
 			decision=false;
 			err="Another piece exists in the path to the destination square, the requested move is rejected.";
 		}
+		*/
 		return decision;
 	}
 

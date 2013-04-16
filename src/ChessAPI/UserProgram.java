@@ -227,15 +227,15 @@ public class UserProgram {
 						else
 							System.out.println("\n\n -------------------------------- Black's Turn ---------------------------------------- ");
 			
-			
+						//b.displayBoard();
 						if (i % 2 == 0)
 						{
 							do {
 								//s_rand = pl1.randomMove();
 								Move randomMove = pl1.selectBestMove();
 								result = pl1.moveTo(randomMove.getSource(), randomMove.getDestinationSquare());
+								//System.out.println("Now moving " + originalType + " from (" + randomMove.getSource().get_x() + ", " + randomMove.getSource().get_y() + " to (" + randomMove.getDestinationSquare().get_x() + ", " + randomMove.getDestinationSquare().get_y());
 							} while(result == false);
-							//System.out.println("Now moving " + originalType + " from (" + pl1.originalSquare.get_x() + ", " + pl1.originalSquare.get_y() + ") to (" + s_rand.get_x() + ", " + s_rand.get_y() + ") ");
 						} else {
 							do {
 								//s_rand = pl2.randomMove();
@@ -244,7 +244,7 @@ public class UserProgram {
 							} while(result == false);
 							//System.out.println("Now moving " + originalType + " from (" + pl2.originalSquare.get_x() + ", " + pl2.originalSquare.get_y() + ") to (" + s_rand.get_x() + ", " + s_rand.get_y() + ") ");
 						}
-						b.displayBoard();
+						Board.instance.displayBoard();
 						System.out.println(" ====================================================================================== ");
 						i++;
 						more = "n";

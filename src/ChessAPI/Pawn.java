@@ -56,12 +56,12 @@ public class Pawn extends Piece {
 			err="Not a valid move for a Pawn, the requested move is rejected.";
 			return decision;
 		}
-		
+		/*
 		if(this.isObstructed(s, d) == true) {
 			decision=false;
 			err="Another piece exists in the path to the destination square, the requested move is rejected.";
 		}
-
+		*/
 		return decision;
 	}
 
