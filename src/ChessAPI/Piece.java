@@ -57,10 +57,36 @@ public abstract class Piece {
 	
 	//Gives the Heuristic for a Move starting from the Piece's currentPosition to the Destination square passed as a parameter to this method 
 	public float getHeuristic(Square destination) {
-		Square start = this.getSquare();
-		//Calculate the Heuristic for a Move from start to destination
+		int sum = 0;
 		
-		return (float) Math.random();
+		Square currentBoard[][] = new Square[10][10];	
+		for (int i = 1; i <= 8; i++)
+			for (int j = 1; j <= 8; j++)
+			{
+				currentBoard[i][j] = Board.getBoard(i, j); 
+			}
+		
+		for(int i=1; i<Board.ROWS+1; i++  ) {
+			for(int j=1; j<Board.COLS+1; j++  ){
+				
+				if( currentBoard[i][j].getPiece() != null && currentBoard[i][j].getPiece().getColor() != this.getColor()) {
+					if(currentBoard[i][j].getPiece().getClass().getName().equals("King")) {
+						sum=i+j;
+						//break;
+					}
+				}
+				
+			}
+		}
+		
+		int source_sum = this.getSquare().get_x() + this.getSquare().get_y();
+		int dest_sum = destination.get_x() + destination.get_y();
+		
+		int source_diff = Math.abs(sum-source_sum);
+		int dest_diff = Math.abs(sum-dest_sum);
+		
+		
+		return (float) Math.abs(dest_diff-source_diff);
 	}
 
 	//returns best Move for a piece from its current position, if it exists 
@@ -74,7 +100,7 @@ public abstract class Piece {
 			}
 		
 		Move bestMove = null;
-		float bestHeuristic = 0; // Temporary value. We will set this to lower than the lowest possible value for our heuristic
+		float bestHeuristic = -10; // Temporary value. We will set this to lower than the lowest possible value for our heuristic
 		
 		for(int i=1; i<Board.ROWS+1; i++  ) {
 			for(int j=1; j<Board.COLS+1; j++  ){
