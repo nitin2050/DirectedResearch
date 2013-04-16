@@ -56,10 +56,11 @@ public class Knight extends Piece{
 				err="Not a valid move for a Knight, the requested move is rejected.";
 				return decision;
 			}
+			/*
 			if(this.isObstructed(s, d)){
 				decision=false;
 				err="Another piece exists in the path to the destination square, the requested move is rejected.";
-			}
+			}*/
 			return decision;
 		}
 	}
@@ -76,20 +77,7 @@ public class Knight extends Piece{
 	
 	private boolean isObstructed(Square s, Square d) {
 		
-				Square board[][] = new Square[10][10];	
-				for (int i = 1; i <= 8; i++)
-					for (int j = 1; j <= 8; j++)
-					{
-						board[i][j] = Board.getBoard(i, j); 
-					}
-
-		boolean result = false;		
-		
-		int d_x = d.get_x();
-		int d_y = d.get_y();
-		
-		if(board[d_x][d_y].getPiece() != null)
-			result = true;
+		boolean result = false;
 		
 		return result;
 	}

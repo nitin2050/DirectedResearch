@@ -56,10 +56,12 @@ public class Queen extends Piece{
 			err="Not a valid move for a Queen, the requested move is rejected.";
 			return decision;
 		}
+		/*
 		if(this.isObstructed(s, d)){
 			decision=false;
 			err="Another piece exists in the path to the destination square, the requested move is rejected.";
 		}
+		*/
 		return decision;
 	}
 
@@ -78,7 +80,7 @@ public class Queen extends Piece{
 		int diff_x = d_x - s_x;
 		int diff_y = d_y - s_y;
 		if(s_x==d_x) {
-			if (diff_y != 0)
+			if (diff_y != 1)
 			for(int i = s_y+diff_y/Math.abs(diff_y); i<=d_y; i=i+diff_y/Math.abs(diff_y)){
 				if (i < 1 || i > 8)
 					break;
@@ -88,7 +90,7 @@ public class Queen extends Piece{
 		}
 
 		if(s_y == d_y) {
-			if (diff_x != 0)
+			if (diff_x != 1)
 			for(int i = s_x+diff_x/Math.abs(diff_x); i<=d_x; i=i+diff_x/Math.abs(diff_x)){
 				if (i < 1 || i > 8)
 					break;
@@ -98,9 +100,9 @@ public class Queen extends Piece{
 		}
 
 		while(s_x != d_x || s_y != d_y){
-			if (diff_x != 0)
+			if (diff_x != 1)
 				s_x=s_x+diff_x/Math.abs(diff_x);
-			if (diff_y != 0)
+			if (diff_y != 1)
 				s_y=s_y+diff_y/Math.abs(diff_y);
 			if(board[s_x][s_y].getPiece() != null){
 				result = true;

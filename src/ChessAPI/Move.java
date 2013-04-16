@@ -3,15 +3,15 @@ package ChessAPI;
 public class Move {
 	private Square destinationSquare;
 	private float heuristicValue;
-	private String pieceName;
+	private Square source;
 	
 	public Move() {
 	}
 	
-	public Move (Square destinationSquare, float heuristicValue, String pieceName){
+	public Move (Square destinationSquare, float heuristicValue, Square source){
 		this.destinationSquare = destinationSquare;
 		this.heuristicValue = heuristicValue; 
-		this.pieceName = pieceName;
+		this.source = source;
 	}
 	
 	public void setDestinationSquare(Square destinationSquare) {
@@ -22,8 +22,8 @@ public class Move {
 		this.heuristicValue = heuristicValue;
 	}
 	
-	public void setPieceName(String pieceName) {
-		this.pieceName = pieceName;
+	public void setSource(Square source) {
+		this.source = source;
 	}
 	
 	public Square getDestinationSquare() {
@@ -34,8 +34,8 @@ public class Move {
 		return heuristicValue;
 	}
 	
-	public String getPieceName() {
-		return pieceName;
+	public Square getSource() {
+		return source;
 	}
 }
 

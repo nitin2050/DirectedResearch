@@ -55,10 +55,11 @@ public class Bishop extends Piece{
 			err="Not a valid move for a Bishop, the requested move is rejected.";
 			return decision;
 		}
+		/*
 		if(this.isObstructed(s, d)){
 			decision=false;
 			err="Another piece exists in the path to the destination square, the requested move is rejected.";
-		}
+		}*/
 		return decision;
 	}
 
@@ -88,8 +89,10 @@ public class Bishop extends Piece{
 		int diff_y = d_y - s_y;
 
 		while(s_x != d_x || s_y != d_y){
-			s_x=s_x+diff_x/Math.abs(diff_x);
-			s_y=s_y+diff_y/Math.abs(diff_y);
+			if (diff_x != 1)
+				s_x=s_x+diff_x/Math.abs(diff_x);
+			if (diff_y != 1)
+				s_y=s_y+diff_y/Math.abs(diff_y);
 			if(board[s_x][s_y].getPiece() != null){
 				result = true;
 				break;

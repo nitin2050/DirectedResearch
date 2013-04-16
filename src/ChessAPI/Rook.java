@@ -50,10 +50,12 @@ public class Rook extends Piece{
 			err="Not a valid move for a Rook, the requested move is rejected.";
 			return decision;
 		}
+		/*
 		if(this.isObstructed(s, d)){
 			decision=false;
 			err="Another piece exists in the path to the destination square, the requested move is rejected.";
 		}
+		*/
 		return decision;
 	}
 	
@@ -65,8 +67,7 @@ public class Rook extends Piece{
 			result = true;			
 		return result;
 	}
-	
-	
+
 	private boolean isObstructed(Square s, Square d) {
 		Square board[][] = new Square[10][10];	
 		for (int i = 1; i <= 8; i++)
@@ -86,14 +87,14 @@ public class Rook extends Piece{
 		if(s_x==d_x){
 			if(d_y>s_y){
 			
-				for(int i = s_y+1; i<=d_y; i++){
+				for(int i = s_y+1; i<d_y; i++){
 				if(board[s_x][i].getPiece() != null)
 					result = true;
 				}
 			}
 			else{
 				
-				for(int i = s_y-1; i>=d_y; i--){
+				for(int i = s_y-1; i>d_y; i--){
 					if(board[s_x][i].getPiece() != null)
 						result = true;
 				}
@@ -103,14 +104,14 @@ public class Rook extends Piece{
 		if(s_y==d_y){
 			if(d_x>s_x){
 				
-				for(int i = s_x+1; i<=d_x; i++){
+				for(int i = s_x+1; i<d_x; i++){
 				if(board[i][s_y].getPiece() != null)
 					result = true;
 				}
 			}
 			else{
 				
-				for(int i = s_x-1; i>=d_x; i--){
+				for(int i = s_x-1; i>d_x; i--){
 					if(board[i][s_y].getPiece() != null)
 						result = true;
 				}

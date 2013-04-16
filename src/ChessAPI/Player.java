@@ -149,7 +149,7 @@ public class Player {
 				//A valid Move exists for the King, return it
 				//here we also need to check if King is in check even after applying this bestmove
 				Move bestMove = this.king.selectBestMove();
-				bestMove.setPieceName("King");
+				bestMove.setSource(this.king.getSquare());
 				return bestMove;
 				
 			} else {
@@ -171,7 +171,7 @@ public class Player {
 				if(this.pawn[i].selectBestMove() != null) {
 					//A valid Move exists for this piece, so add it to the list of setOfMoves
 					Move bestMove = this.pawn[i].selectBestMove();
-					bestMove.setPieceName("Pawn"+i);
+					bestMove.setSource(this.pawn[i].getSquare());
 					setOfMoves.add(bestMove);
 				}	
 			}
@@ -184,7 +184,7 @@ public class Player {
 				if(this.rook[i].selectBestMove() != null) {
 					//A valid Move exists for this Rook, so add it to the list of setOfMoves
 					Move bestMove = this.rook[i].selectBestMove();
-					bestMove.setPieceName("Rook"+i);
+					bestMove.setSource(this.rook[i].getSquare());
 					setOfMoves.add(bestMove);
 				}
 			}
@@ -197,7 +197,7 @@ public class Player {
 				if(this.bishop[i].selectBestMove() != null) {
 					//A valid Move exists for this Bishop, so add it to the list of setOfMoves
 					Move bestMove = this.bishop[i].selectBestMove();
-					bestMove.setPieceName("Bishop"+i);
+					bestMove.setSource(this.bishop[i].getSquare());
 					setOfMoves.add(bestMove);
 				}
 			}
@@ -210,7 +210,7 @@ public class Player {
 				if(this.knight[i].selectBestMove() != null) {
 					//A valid Move exists for this Knight, so add it to the list of setOfMoves
 					Move bestMove = this.knight[i].selectBestMove();
-					bestMove.setPieceName("Knight"+i);
+					bestMove.setSource(this.knight[i].getSquare());
 					setOfMoves.add(bestMove);
 				}
 			}
@@ -222,7 +222,7 @@ public class Player {
 			if(this.queen.selectBestMove() != null) {
 				//A valid Move exists for this Queen, so add it to the list of setOfMoves
 				Move bestMove = this.queen.selectBestMove();
-				bestMove.setPieceName("Queen");
+				bestMove.setSource(this.queen.getSquare());
 				setOfMoves.add(bestMove);
 			}
 		}
@@ -233,7 +233,7 @@ public class Player {
 			if(this.king.selectBestMove() != null) {
 				//A valid Move exists for this Queen, so add it to the list of setOfMoves
 				Move bestMove = this.king.selectBestMove();
-				bestMove.setPieceName("King");
+				bestMove.setSource(this.king.getSquare());
 				setOfMoves.add(bestMove);
 			}
 		}
