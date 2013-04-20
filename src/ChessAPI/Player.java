@@ -224,6 +224,7 @@ public class Player {
 		7. The king and the chosen rook are on the first rank of the player (rank 1 for White, rank 8 for Black, in algebraic notation).[3]
 		*/
 		
+		// System.out.println(" King " + this.king.isKingMoved);
 		// 1.1, 2.1 The king has not previously moved.
 		if (this.king.isKingMoved == false)
 		{
@@ -239,7 +240,7 @@ public class Player {
 
 				if (diff_y > 0)
 				{
-					for (i = this.rook[1].getSquare().get_y() + 1; i < this.king.getSquare().get_y() - 1; i++)
+					for (i = this.rook[1].getSquare().get_y() + 1; i < this.king.getSquare().get_y(); i++)
 					{
 						if (Board.getBoard(x_current, i).getPiece() != null)
 						{
@@ -262,7 +263,7 @@ public class Player {
 						{
 							// 1.6. The king does not end up in check (true of any legal move).
 							if (isInCheck(x_current, i) == true)
-							{
+							{								
 								success = false;
 								break;
 							}
@@ -273,7 +274,6 @@ public class Player {
 				// 1.7. The king and the chosen rook are on the first rank of the player
 				// (That means on original rows same row as that of their initial rows)
 				// isNotMoved flag should serve the purpose
-
 				if (success == true)
 				{
 					Rook currentRook = this.rook[1];
@@ -312,7 +312,6 @@ public class Player {
 								}
 							}
 						}
-	
 						// 2.3. There are no pieces between the king and the chosen rook.
 						if (notObstructed == true)
 						{
@@ -336,7 +335,6 @@ public class Player {
 						// 2.7. The king and the chosen rook are on the first rank of the player
 						// (That means on original rows same row as that of their initial rows)
 						// isNotMoved flag should serve the purpose
-						
 						if (success == true)
 						{
 							Rook currentRook = this.rook[2];

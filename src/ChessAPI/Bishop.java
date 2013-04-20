@@ -18,6 +18,7 @@ public class Bishop extends Piece{
 	public boolean moveTo(Square destination) {
 
 		//System.out.println("Bishop");
+		//System.out.println("Piece moving from "+this.getSquare().get_x()+","+ this.getSquare().get_y());
 		if(this.validateMove(this.getSquare(), destination)){
 			System.out.println("Piece moved to "+destination.get_x()+","+destination.get_y());
 
@@ -35,7 +36,6 @@ public class Bishop extends Piece{
 		//logic for checking if the Queen can move from current Location to this Destination
 		//i.e validate()
 		//return true and move else return false
-
 	}		
 
 	public boolean validateMove(Square s, Square d){

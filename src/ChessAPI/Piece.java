@@ -105,7 +105,7 @@ public abstract class Piece {
 		for(int i=1; i<Board.ROWS+1; i++  ) {
 			for(int j=1; j<Board.COLS+1; j++  ){
 				if( this.validateMove(this.getSquare(), currentBoard[i][j])) {
-					
+
 					//we can move from current position of this piece to Square(i,j) on the Board
 					float currentHeuristic = this.getHeuristic(currentBoard[i][j]);
 					//Now check if this move is Heuristically better than bestMove we have.
