@@ -101,4 +101,10 @@ public class Bishop extends Piece{
 		return result;
 	}
 
+	@Override
+	public boolean moveTonoCheck(Square destination) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
 }

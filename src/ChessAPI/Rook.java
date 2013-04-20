@@ -3,13 +3,16 @@ package ChessAPI;
 public class Rook extends Piece{
 	
 	public String err="";
-	
+	public boolean isRookMoved;
+
 	public Rook() {
 		super();
+		isRookMoved = false;
 	}
 	
 	public Rook(Color c, Square s,Type t) {
 		super(c,s,t);
+		isRookMoved = false;
 	}
 
 	@Override
@@ -22,6 +25,7 @@ public class Rook extends Piece{
 			destination.setPiece(this);
 			//set piece.square to destination square
 			this.setSquare(destination);
+			isRookMoved = true;
 			return true;			
 		}else{
 			System.out.println(err);
@@ -118,6 +122,21 @@ public class Rook extends Piece{
 			}
 		}
 		return result;
+	}
+
+	@Override
+	public boolean moveTonoCheck(Square destination) {
+		//System.out.println("Rook No Check");
+
+		//System.out.println("Piece moved noCheck to "+destination.get_x()+","+destination.get_y());
+			//move piece to destination 
+			destination.setPiece(this);
+
+			//set piece.square to destination square
+			this.setSquare(destination);
+			Board.instance.setSquare(destination, destination.get_x(), destination.get_y());
+
+			return true;	
 	}
 
 }

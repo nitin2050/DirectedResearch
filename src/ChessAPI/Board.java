@@ -56,9 +56,9 @@ public class Board {
 		//initialize board for Player 1 
 		//This sets Square.Piece
 		this.board[1][1].setPiece(p2.rook[1]);
-		this.board[1][2].setPiece(p2.knight[1]);
-		this.board[1][3].setPiece(p2.bishop[1]);
-		this.board[1][4].setPiece(p2.queen);
+//		this.board[1][2].setPiece(p2.knight[1]);
+//		this.board[1][3].setPiece(p2.bishop[1]);
+//		this.board[1][4].setPiece(p2.queen);
 		this.board[1][5].setPiece(p2.king);
 		this.board[1][6].setPiece(p2.bishop[2]);
 		this.board[1][7].setPiece(p2.knight[2]);
@@ -69,9 +69,9 @@ public class Board {
 
 		// Set Squares for Pieces of Player 1		
 		p2.rook[1].setSquare(this.board[1][1]);
-		p2.knight[1].setSquare(this.board[1][2]);
-		p2.bishop[1].setSquare(this.board[1][3]);
-		p2.queen.setSquare(this.board[1][4]);
+//		p2.knight[1].setSquare(this.board[1][2]);
+//		p2.bishop[1].setSquare(this.board[1][3]);
+//		p2.queen.setSquare(this.board[1][4]);
 		p2.king.setSquare(this.board[1][5]);
 		p2.bishop[2].setSquare(this.board[1][6]);
 		p2.knight[2].setSquare(this.board[1][7]);
@@ -86,12 +86,12 @@ public class Board {
 			this.board[7][i].setPiece(p1.pawn[i]);
 		}
 		this.board[8][1].setPiece(p1.rook[1]);
-		this.board[8][2].setPiece(p1.knight[1]);
-		this.board[8][3].setPiece(p1.bishop[1]);
-		this.board[8][4].setPiece(p1.queen);
+//		this.board[8][2].setPiece(p1.knight[1]);
+//		this.board[8][3].setPiece(p1.bishop[1]);
+//		this.board[8][4].setPiece(p1.queen);
 		this.board[8][5].setPiece(p1.king);
-		this.board[8][6].setPiece(p1.bishop[2]);
-		this.board[8][7].setPiece(p1.knight[2]);
+//		this.board[8][6].setPiece(p1.bishop[2]);
+//		this.board[8][7].setPiece(p1.knight[2]);
 		this.board[8][8].setPiece(p1.rook[2]);
 
 		//This sets Square for each Piece
@@ -99,24 +99,24 @@ public class Board {
 			p1.pawn[i].setSquare(this.board[7][i]);
 		}
 		p1.rook[1].setSquare(this.board[8][1]);
-		p1.knight[1].setSquare(this.board[8][2]);
-		p1.bishop[1].setSquare(this.board[8][3]);
-		p1.queen.setSquare(this.board[8][4]);
+//		p1.knight[1].setSquare(this.board[8][2]);
+//		p1.bishop[1].setSquare(this.board[8][3]);
+//		p1.queen.setSquare(this.board[8][4]);
 		p1.king.setSquare(this.board[8][5]);
-		p1.bishop[2].setSquare(this.board[8][6]);
-		p1.knight[2].setSquare(this.board[8][7]);
+//		p1.bishop[2].setSquare(this.board[8][6]);
+//		p1.knight[2].setSquare(this.board[8][7]);
 		p1.rook[2].setSquare(this.board[8][8]);
 
 		////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 		instance = new Board();
 
 		instance.board[1][1].setPiece(p2.rook[1]);
-		instance.board[1][2].setPiece(p2.knight[1]);
-		instance.board[1][3].setPiece(p2.bishop[1]);
-		instance.board[1][4].setPiece(p2.queen);
+//		instance.board[1][2].setPiece(p2.knight[1]);
+//		instance.board[1][3].setPiece(p2.bishop[1]);
+//		instance.board[1][4].setPiece(p2.queen);
 		instance.board[1][5].setPiece(p2.king);
-		instance.board[1][6].setPiece(p2.bishop[2]);
-		instance.board[1][7].setPiece(p2.knight[2]);
+//		instance.board[1][6].setPiece(p2.bishop[2]);
+//		instance.board[1][7].setPiece(p2.knight[2]);
 		instance.board[1][8].setPiece(p2.rook[2]);
 		for(int i=1;i<=8;i++) {
 			instance.board[2][i].setPiece(p2.pawn[i]);
@@ -124,9 +124,9 @@ public class Board {
 
 		// Set Squares for Pieces of Player 1		
 		p2.rook[1].setSquare(instance.board[1][1]);
-		p2.knight[1].setSquare(instance.board[1][2]);
-		p2.bishop[1].setSquare(instance.board[1][3]);
-		p2.queen.setSquare(instance.board[1][4]);
+//		p2.knight[1].setSquare(instance.board[1][2]);
+//		p2.bishop[1].setSquare(instance.board[1][3]);
+//		p2.queen.setSquare(instance.board[1][4]);
 		p2.king.setSquare(instance.board[1][5]);
 		p2.bishop[2].setSquare(instance.board[1][6]);
 		p2.knight[2].setSquare(instance.board[1][7]);
@@ -141,9 +141,9 @@ public class Board {
 			instance.board[7][i].setPiece(p1.pawn[i]);
 		}
 		instance.board[8][1].setPiece(p1.rook[1]);
-		instance.board[8][2].setPiece(p1.knight[1]);
-		instance.board[8][3].setPiece(p1.bishop[1]);
-		instance.board[8][4].setPiece(p1.queen);
+//		instance.board[8][2].setPiece(p1.knight[1]);
+//		instance.board[8][3].setPiece(p1.bishop[1]);
+//		instance.board[8][4].setPiece(p1.queen);
 		instance.board[8][5].setPiece(p1.king);
 		instance.board[8][6].setPiece(p1.bishop[2]);
 		instance.board[8][7].setPiece(p1.knight[2]);
@@ -154,14 +154,13 @@ public class Board {
 			p1.pawn[i].setSquare(instance.board[7][i]);
 		}
 		p1.rook[1].setSquare(instance.board[8][1]);
-		p1.knight[1].setSquare(instance.board[8][2]);
-		p1.bishop[1].setSquare(instance.board[8][3]);
-		p1.queen.setSquare(instance.board[8][4]);
+//		p1.knight[1].setSquare(instance.board[8][2]);
+//		p1.bishop[1].setSquare(instance.board[8][3]);
+//		p1.queen.setSquare(instance.board[8][4]);
 		p1.king.setSquare(instance.board[8][5]);
-		p1.bishop[2].setSquare(instance.board[8][6]);
-		p1.knight[2].setSquare(instance.board[8][7]);
+//		p1.bishop[2].setSquare(instance.board[8][6]);
+//		p1.knight[2].setSquare(instance.board[8][7]);
 		p1.rook[2].setSquare(instance.board[8][8]);
-
 	}
 
 	public void resetBoard(){
@@ -182,7 +181,7 @@ public class Board {
 		this.board[x][y] = s;
 		this.board[x][y].setPiece(s.getPiece());
 		instance.board[x][y].setPiece(s.getPiece());
-		System.out.println(" Setting (" + x + ", " + y + ") ");
+		//System.out.println(" Setting (" + x + ", " + y + ") ");
 	}
 
 	public static void setBoard(Square s, int x, int y){	
@@ -198,7 +197,7 @@ public class Board {
 		
 		System.out.println("   a           b           c           d           e           f           g           h");
 		for(int i=1; i<Board.ROWS+1; i++  ) {
-			System.out.print(i+"  ");
+			System.out.print((9 - i)+"  ");
 			for(int j=1; j<Board.COLS+1; j++  ){
 				if(this.board[i][j].getPiece() == null){
 					//print X if there is no Piece on this Square
@@ -214,7 +213,7 @@ public class Board {
 					}
 				}
 			}//end inner for
-			System.out.print(i);
+			System.out.print((9 - i));
 			System.out.println();
 		}//end outer for
 		System.out.println("   a           b           c           d           e           f           g           h");

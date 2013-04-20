@@ -1,37 +1,58 @@
 package ChessAPI;
 
 public class King extends Piece{
-	
+
+	public String err="";
+	public boolean isKingMoved;
+
 	public King() {
 		super();
+		isKingMoved = false;
 	}
 	
 	public King(Color c, Square s, Type t) {
 		super(c,s,t);
+		isKingMoved = false;
 	}
-
-	public String err="";
 
 	@Override
 	public boolean moveTo(Square destination) {
 		
-		//System.out.println("King");
+		System.out.println("King");
 		if(this.validateMove(this.getSquare(), destination) == true){
 			System.out.println("Piece moved to "+destination.get_x()+","+destination.get_y());
 			//move piece to destination 
 			destination.setPiece(this);
+
+			isKingMoved = true;
 			//set piece.square to destination square
 			this.setSquare(destination);
 			return true;			
 		}else{
 			// Print error message and return false as the moveTo was not successful
-			//System.out.println(err);
+			System.out.println(err);
 			return false;
 		}
 		//logic for checking if the King can move from current Location to this Destination
 		//i.e validate()
 		//return true and move else return false
 
+	}
+
+	public boolean moveTonoCheck(Square destination) {
+		
+		//System.out.println("King No Check");
+
+		//System.out.println("Piece moved noCheck to "+destination.get_x()+","+destination.get_y());
+			//move piece to destination 
+			destination.setPiece(this);
+
+			isKingMoved = true;
+			//set piece.square to destination square
+			this.setSquare(destination);
+			Board.instance.setSquare(destination, destination.get_x(), destination.get_y());
+
+			return true;			
 	}
 
 	public boolean validateMove(Square s, Square d){

@@ -19,6 +19,8 @@ public class Player {
 	boolean myTurn;
 	public Square originalSquare = null;
 
+	boolean isCastling;
+
 	public Player(Color c)
 	{
 		color = c;
@@ -44,6 +46,7 @@ public class Player {
 	
 		noOfMoves = 0;
 		myTurn = false;
+		isCastling = false;
 	}
 
 	public void setColor(Color color) {
@@ -96,6 +99,18 @@ public class Player {
 		}
 	}
 
+	public boolean moveTonoCheck(Square s, Square d) {
+			boolean result = true;
+			//d.getPiece().setIsDead(true);
+			//System.out.println(d.getPiece().getColor() + " Player's " + d.getPiece().getType() + " at (" + d.get_x() + ", " + d.get_y() + ") is DEAD !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+			//d.setPiece(null);
+
+			result = s.getPiece().moveTonoCheck(d);
+			s.setPiece(null);
+			updateDeadAlive();
+			return result;
+	}
+
 	//returns true if the player's King is in Check
 	//Logic: if a valid move of any of the opponents piece can replace the King
 	//than it is in check
@@ -135,13 +150,51 @@ public class Player {
 		}
 		return result;
 	}//end isInCheck()
-	
+
+	// 	For checking if king will be land up in check if moved to this new (x, y) Square
+	public boolean isInCheck(int x, int y) {
+		boolean result = false;
+		Square currentBoard[][] = new Square[10][10];
+
+		for (int i = 1; i <= 8; i++)
+			for (int j = 1; j <=8; j++)
+			{
+				currentBoard[i][j] = Board.getBoard(i, j);
+			}
+
+		Square kingPosition = new Square(this.color, x, y, this.king);
+
+		if (kingPosition != null) {
+			
+			for (int i=1; i<Board.ROWS ; i++){
+				for (int j=1; j<Board.COLS ; j++) {
+					Square currentSquare = currentBoard[i][j];
+					if (currentSquare.getPiece() != null) {
+						if (currentSquare.getPiece().getColor() != this.color) {
+							
+							//if I am here, this means that the Board's square[i][j] has opponents piece
+							//now I need to check if this Piece's valid move can capture my King or not
+							//If yes, I am in check else I am not
+							if (currentSquare.getPiece().validateMove(currentSquare, kingPosition)) {
+								//the piece on square[i][j] can Kill my King
+								result = true;
+								return result;
+							}
+						}
+					}					
+				}//end inner for
+			}//end outer for
+			
+		}
+		return result;
+	}//end isInCheck()
+
 		
 	//Randomly select a Piece and return a random Square where it can move legally, out of all the possible legal moves
 	//If this method returns null, than there is no valid move possible for the randomly selected Piece
 	//Suggestion: Re-invoke this method till it returns a non-null value
 	public Move selectBestMove() {
-	
+		int i;
 		// If King is InCheck condition Move the King(priority) else we can move anything
 		if (this.isInCheck() == true)
 		{
@@ -160,12 +213,158 @@ public class Player {
 			
 		}
 
+		// Check if we can do Castling
+		/*
+		1. The king has not previously moved.
+		2. The chosen rook has not previously moved.
+		3. There are no pieces between the king and the chosen rook.
+		4. The king is not currently in check.
+		5. The king does not pass through a square that is under attack by enemy pieces.[2]
+		6. The king does not end up in check (true of any legal move).
+		7. The king and the chosen rook are on the first rank of the player (rank 1 for White, rank 8 for Black, in algebraic notation).[3]
+		*/
+		
+		// 1.1, 2.1 The king has not previously moved.
+		if (this.king.isKingMoved == false)
+		{
+			boolean notObstructed = true, success = true;
+			i = 0; 
+			int diff_y = 0, x_current = 0;
+
+			// 1.2. The chosen rook has not previously moved.
+			if (this.rook[1].isRookMoved == false)
+			{
+				diff_y = this.king.getSquare().get_y() - this.rook[1].getSquare().get_y();
+				x_current = this.rook[1].getSquare().get_x();
+
+				if (diff_y > 0)
+				{
+					for (i = this.rook[1].getSquare().get_y() + 1; i < this.king.getSquare().get_y() - 1; i++)
+					{
+						if (Board.getBoard(x_current, i).getPiece() != null)
+						{
+							notObstructed = false;
+							success = false;
+							break;
+						}
+					}
+				}
+
+				// 1.3. There are no pieces between the king and the chosen rook.
+				if (notObstructed == true)
+				{
+					// 1.4. The king is not currently in check.
+					if (isInCheck() == false)
+					{
+						x_current = this.rook[1].getSquare().get_x();
+						// 1.5. The king does not pass through a square that is under attack by enemy pieces.
+						for (i = this.rook[1].getSquare().get_y() + 1; i < this.king.getSquare().get_y(); i++)
+						{
+							// 1.6. The king does not end up in check (true of any legal move).
+							if (isInCheck(x_current, i) == true)
+							{
+								success = false;
+								break;
+							}
+						}
+					}
+				}
+				
+				// 1.7. The king and the chosen rook are on the first rank of the player
+				// (That means on original rows same row as that of their initial rows)
+				// isNotMoved flag should serve the purpose
+
+				if (success == true)
+				{
+					Rook currentRook = this.rook[1];
+					Square new_king = new Square(this.color, currentRook.getSquare().get_x(), currentRook.getSquare().get_y() + 2, null);
+					Square new_rook = new Square(this.color, currentRook.getSquare().get_x(), currentRook.getSquare().get_y() + 3, null);
+
+					this.moveTonoCheck(this.king.getSquare(), new_king);
+					Move bestMove = new Move(new_rook, 100, currentRook.getSquare());
+					bestMove.setSource(currentRook.getSquare());
+					
+					isCastling = true;
+					return bestMove;
+				}
+
+				if (success == false)
+				{
+					notObstructed = true; success = true;
+					i = 0; 
+					diff_y = 0; x_current = 0;
+	
+					// 2.2. The chosen rook has not previously moved.
+					if (this.rook[2].isRookMoved == false)
+					{
+						diff_y = this.rook[2].getSquare().get_y() - this.king.getSquare().get_y();
+						x_current = this.rook[2].getSquare().get_x();
+	
+						if (diff_y > 0)
+						{
+							for (i = this.king.getSquare().get_y() + 1; i < this.rook[2].getSquare().get_y(); i++)
+							{
+								if (Board.getBoard(x_current, i).getPiece() != null)
+								{
+									notObstructed = false;
+									success = false;
+									break;
+								}
+							}
+						}
+	
+						// 2.3. There are no pieces between the king and the chosen rook.
+						if (notObstructed == true)
+						{
+							// 2.4. The king is not currently in check.
+							if (isInCheck() == false)
+							{
+								x_current = this.rook[2].getSquare().get_x();
+								// 2.5. The king does not pass through a square that is under attack by enemy pieces.
+								for (i = this.king.getSquare().get_y(); i < this.rook[2].getSquare().get_y(); i++)
+								{
+									// 2.6. The king does not end up in check (true of any legal move).
+									if (isInCheck(x_current, i) == true)
+									{
+										success = false;
+										break;
+									}
+								}
+							}
+						}
+						
+						// 2.7. The king and the chosen rook are on the first rank of the player
+						// (That means on original rows same row as that of their initial rows)
+						// isNotMoved flag should serve the purpose
+						
+						if (success == true)
+						{
+							Rook currentRook = this.rook[2];
+							Square new_king = new Square(this.color, currentRook.getSquare().get_x(), currentRook.getSquare().get_y() - 1, null);
+							Square new_rook = new Square(this.color, currentRook.getSquare().get_x(), currentRook.getSquare().get_y() - 2, null);
+
+							this.moveTonoCheck(this.king.getSquare(), new_king);
+							Move bestMove = new Move(new_rook, 100, currentRook.getSquare());
+							bestMove.setSource(currentRook.getSquare());
+
+							isCastling = true;
+							return bestMove;
+						}
+					}
+				}
+			}
+		} else {
+			// If King is moved no Castling can be done
+		}
+		
+		/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+		
 		//If King is not in check, we can move other pieces
 		//This list will store best moves obtained for each possible alive piece from calling selectBestMove() for that piece
 		List<Move> setOfMoves = new ArrayList<Move>();
 		
 		//find the best possible move for each Pawn and add it to setOfMoves
-		for (int i=1; i<=8; i++) {
+		for (i=1; i<=8; i++) {
 			if ( this.pawn[i].isPieceDead() == false) {
 				//Piece is alive
 				if(this.pawn[i].selectBestMove() != null) {
@@ -178,7 +377,7 @@ public class Player {
 		}
 		
 		//find the best possible move for each Rook and add it to setOfMoves
-		for (int i=1; i<=2; i++) {
+		for (i=1; i<=2; i++) {
 			if ( this.rook[i].isPieceDead() == false) {
 				//Rook is alive
 				if(this.rook[i].selectBestMove() != null) {
@@ -191,7 +390,7 @@ public class Player {
 		}
 	
 		//find the best possible move for each Bishop and add it to setOfMoves
-		for (int i=1; i<=2; i++) {
+		for (i=1; i<=2; i++) {
 			if ( this.bishop[i].isPieceDead() == false) {
 				//Bishop is alive
 				if(this.bishop[i].selectBestMove() != null) {
@@ -204,7 +403,7 @@ public class Player {
 		}
 		
 		//find the best possible move for each Knight and add it to setOfMoves
-		for (int i=1; i<=2; i++) {
+		for (i=1; i<=2; i++) {
 			if ( this.knight[i].isPieceDead() == false) {
 				//Knight is alive
 				if(this.knight[i].selectBestMove() != null) {
@@ -247,7 +446,7 @@ public class Player {
 			
 			if(setOfMoves.size() > 1){
 				//there are more than one moves in the list, lets find the best
-				for(int i=1; i<setOfMoves.size(); i++) {
+				for(i=1; i<setOfMoves.size(); i++) {
 					//check if the current Move's Heuristic value is better than the bestHeuristicValue
 					if(setOfMoves.get(i).getHeuristicValue() > bestHeuristicValue){
 						//it is better. So update bestMove & bestHeuristicValue else don't do anything
@@ -290,6 +489,7 @@ public class Player {
 			if (debug == true)
 				System.out.println(" King is DEAD ");
 			noOfDead++;
+			//System.exit(0);
 		}
 		
 		if (queen.isPieceDead() == true)

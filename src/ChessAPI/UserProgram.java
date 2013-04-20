@@ -101,9 +101,14 @@ public class UserProgram {
 								}
 								String[] moves = move.split(",");
 								s_x = Integer.parseInt(moves[1]);
+								//For printing row nos from 8 to 1 instead of 1 to 8
+								s_x = (9 - s_x);
 								char sy = moves[0].charAt(0);
 								s_y = (int) sy-96;
+								
 								d_x = Integer.parseInt(moves[3]);
+								// For printing row nos from 8 to 1 instead of 1 to 8
+								d_x =  (9 - d_x);
 								char dy = moves[2].charAt(0);
 								d_y = (int) dy-96;
 								originalType = b.getSquare(s_x, s_y).getPiece().getType().toString();
@@ -124,9 +129,15 @@ public class UserProgram {
 								}
 								String[] moves = move.split(",");
 								s_x2 = Integer.parseInt(moves[1]);
+								s_x2 = (9 - s_x2);
+								
 								char sy = moves[0].charAt(0);
 								s_y2 = (int) sy-96;
+								
 								d_x2 = Integer.parseInt(moves[3]);
+								//For printing row nos from 8 to 1 instead of 1 to 8
+								d_x2 = (9 - d_x2);
+																
 								char dy = moves[2].charAt(0);
 								d_y2 = (int) dy-96;
 								originalType = b.getSquare(s_x2, s_y2).getPiece().getType().toString();
@@ -149,7 +160,6 @@ public class UserProgram {
 					} while (more.charAt(0) == 'y');
 					//nitin playing around
 					playMode = 0;
-				  
 			  }
 			  
 			  if(playMode == 2){
@@ -227,21 +237,40 @@ public class UserProgram {
 						else
 							System.out.println("\n\n -------------------------------- Black's Turn ---------------------------------------- ");
 			
+						Move randomMove = null;
+						//Board.instance.displayBoard();
 						//b.displayBoard();
 						if (i % 2 == 0)
 						{
 							do {
 								//s_rand = pl1.randomMove();
-								Move randomMove = pl1.selectBestMove();
-								result = pl1.moveTo(randomMove.getSource(), randomMove.getDestinationSquare());
+								randomMove = pl1.selectBestMove();
+								if (pl1.isCastling == true)
+								{
+									result = pl2.moveTonoCheck(randomMove.getSource(), randomMove.getDestinationSquare());
+									pl1.isCastling = false;
+								} else {
+									result = pl1.moveTo(randomMove.getSource(), randomMove.getDestinationSquare());
+								}
 								//System.out.println("Now moving " + originalType + " from (" + randomMove.getSource().get_x() + ", " + randomMove.getSource().get_y() + " to (" + randomMove.getDestinationSquare().get_x() + ", " + randomMove.getDestinationSquare().get_y());
 							} while(result == false);
+							Board.instance.setSquare(randomMove.getSource(), randomMove.getSource().get_x(), randomMove.getSource().get_y());
 						} else {
+							randomMove = null;
 							do {
 								//s_rand = pl2.randomMove();
-								Move randomMove = pl2.selectBestMove();
-								result = pl2.moveTo(randomMove.getSource(), randomMove.getDestinationSquare());
+								randomMove = pl2.selectBestMove();
+								
+								if (pl2.isCastling == true)
+								{
+									result = pl2.moveTonoCheck(randomMove.getSource(), randomMove.getDestinationSquare());
+									pl2.isCastling = false;
+								}
+								else {
+									result = pl2.moveTo(randomMove.getSource(), randomMove.getDestinationSquare());
+								}
 							} while(result == false);
+							Board.instance.setSquare(randomMove.getSource(), randomMove.getSource().get_x(), randomMove.getSource().get_y());
 							//System.out.println("Now moving " + originalType + " from (" + pl2.originalSquare.get_x() + ", " + pl2.originalSquare.get_y() + ") to (" + s_rand.get_x() + ", " + s_rand.get_y() + ") ");
 						}
 						Board.instance.displayBoard();
