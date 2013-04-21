@@ -45,7 +45,8 @@ public class UserProgram {
 		String exit = "";
 		int playMode = 0;
 		boolean promo_success = false;
-
+		int opp_x = 0, opp_y = 0;
+ 
 		do
 		{
 			System.out.println("\n****WELCOME TO THE CHESS GAME****");
@@ -115,7 +116,7 @@ public class UserProgram {
 								d_y = (int) dy-96;
 								originalType = b.getSquare(s_x, s_y).getPiece().getType().toString();
 								result = pl1.moveTo(b.getSquare(s_x, s_y), b.getSquare(d_x, d_y));
-								
+
 							} while(result == false);
 
 							promo_success = false;
@@ -207,13 +208,17 @@ public class UserProgram {
 									}
 								}
 							 }
-							}		
-
+							if (b.getSquare(d_x, d_y).getPiece().enpass == true)
+							{
+								opp_x = b.getSquare(d_x, d_y).getPiece().en_x;
+								opp_y = b.getSquare(d_x, d_y).getPiece().en_y;
+								pl1.killPiece(b.getSquare(opp_x, opp_y));
+							}
+						}
 							//System.out.println("Now moving " + originalType + " from (" + s_x + ", " + s_y + ") to (" + d_x + ", " + d_y + ") ");
 						} else {
 							int s_x2=0,s_y2=0,d_x2=0,d_y2=0;
-							do {
-								
+							do {	
 								System.out.println("White Player Please Make Move (Format:Source_Col,Source_Row,Dest_Col,Dest_Row):");
 								String move = "";
 								try {
@@ -259,7 +264,7 @@ public class UserProgram {
 											Square new_s = null;
 											new_s = new Square(pl2.rook[1].getColor(), b.getSquare(d_x2, d_y2).get_x(), promo_pos, null);
 											pl2.rook[1].setSquare(new_s);
-											
+
 											Board.instance.setSquare(new_s, b.getSquare(d_x2, d_y2).get_x(), promo_pos);
 											promo_success = true;
 										} else if (pl2.rook[2].isPieceDead() == true){
@@ -331,8 +336,13 @@ public class UserProgram {
 									}
 								}
 							 }
-							}		
-
+							}
+							if (b.getSquare(d_x2, d_y2).getPiece().enpass == true)
+							{
+								opp_x = b.getSquare(d_x2, d_y2).getPiece().en_x;
+								opp_y = b.getSquare(d_x2, d_y2).getPiece().en_y;
+								pl2.killPiece(b.getSquare(opp_x, opp_y));
+							}
 						}
 						b.displayBoard();
 						System.out.println(" ====================================================================================== ");
@@ -479,6 +489,12 @@ public class UserProgram {
 									}
 								}
 							 }
+								if (b.getSquare(d_x, d_y).getPiece().enpass == true)
+								{
+									opp_x = b.getSquare(d_x, d_y).getPiece().en_x;
+									opp_y = b.getSquare(d_x, d_y).getPiece().en_y;
+									pl1.killPiece(b.getSquare(opp_x, opp_y));
+								}
 							}		
 							////////////////////
 							//System.out.println("Now moving " + originalType + " from (" + s_x + ", " + s_y + ") to (" + d_x + ", " + d_y + ") ");
@@ -578,8 +594,14 @@ public class UserProgram {
 									}
 								}
 							 }
-							}		
-						
+								if (b.getSquare(randomMove.getSource().get_x(), randomMove.getSource().get_y()).getPiece().enpass == true)
+								{
+									opp_x = b.getSquare(randomMove.getSource().get_x(), randomMove.getSource().get_y()).getPiece().en_x;
+									opp_y = b.getSquare(randomMove.getSource().get_x(), randomMove.getSource().get_y()).getPiece().en_y;
+									pl2.killPiece(b.getSquare(opp_x, opp_y));
+								}
+							}
+
 							if (promo_success == false)
 								Board.instance.setSquare(randomMove.getSource(), randomMove.getSource().get_x(), randomMove.getSource().get_y());
 						}
@@ -596,8 +618,7 @@ public class UserProgram {
 						}
 					} while (more.charAt(0) == 'y');
 					//nitin playing around
-					playMode = 0;
-				  
+					playMode = 0;				  
 			  }
 			
 			  if(playMode == 3){
@@ -727,7 +748,7 @@ public class UserProgram {
 							do {
 								//s_rand = pl2.randomMove();
 								randomMove = pl2.selectBestMove();
-								
+
 								if (pl2.isCastling == true)
 								{
 									result = pl2.moveTonoCheck(randomMove.getSource(), randomMove.getDestinationSquare());

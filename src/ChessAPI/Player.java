@@ -90,7 +90,6 @@ public class Player {
 				}
 				updateDeadAlive();
 				}
-				
 				result = s.getPiece().moveTo(d);
 			}
 
@@ -103,6 +102,21 @@ public class Player {
 
 			return result;
 		}
+	}
+
+	public boolean killPiece(Square s) {
+		boolean result = true;
+		if (s.getPiece() == null) {
+			System.out.println("piece object not found at the source location specified");
+			return false;
+		} else {
+				result = true;
+				//System.out.println(" result = " + result);
+					s.getPiece().setIsDead(true);
+					//System.out.println(d.getPiece().getColor() + " Player's " + d.getPiece().getType() + " at (" + d.get_x() + ", " + d.get_y() + ") is DEAD !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+					s.setPiece(null);
+			}
+		return result;
 	}
 
 	public boolean moveTonoCheck(Square s, Square d) {

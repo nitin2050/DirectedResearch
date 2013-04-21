@@ -15,15 +15,23 @@ public abstract class Piece {
 	private boolean isPieceDead;
 	public String promotion="";
 	public int promo_pos = -1;
+	public Move prev_move;
+
+	public boolean enpass;
+	public int en_x, en_y;
 
 	public Piece() {
+		this.prev_move = null;
+		this.enpass = false;
 	}
-	
+
 	public Piece(Color c, Square s, Type t) {
 		this.color = c;
 		this.square = s;
 		this.type = t;
 		this.isPieceDead = false;
+		this.prev_move = null;
+		this.enpass = false;
 	}
 	
 	public void setColor(Color c) {
@@ -117,14 +125,15 @@ public abstract class Piece {
 						bestMove = new Move(currentBoard[i][j], currentHeuristic, null);
 						bestHeuristic = currentHeuristic;
 					}
-					
 				}
 			}
 		}
-		
+
+		promotion = "";
+		promo_pos = -1;
 		return bestMove;	
 	}
-	
+
 	//Move the piece to Destination square is the move is valid
 	public abstract boolean moveTo(Square destination);
 	public abstract boolean moveTonoCheck(Square destination);

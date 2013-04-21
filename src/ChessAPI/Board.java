@@ -185,11 +185,23 @@ public class Board {
 	}
 
 	public static void setBoard(Square s, int x, int y){	
-		instance.board[x][y].setPiece(s.getPiece());
+		if (s == null)
+			instance.board[x][y].setPiece(null);
+		else
+			instance.board[x][y].setPiece(s.getPiece());
 	}
 
 	public static void setNull(int x, int y){	
+		//this.board[x][y] = null;
+		//this.board[x][y].setPiece(null);
 		instance.board[x][y].setPiece(null);
+	}
+
+	public void setSquareNull(Square s, int x, int y){	
+		this.board[x][y] = s;
+		this.board[x][y].setPiece(null);
+		instance.board[x][y].setPiece(null);
+		//System.out.println(" Setting (" + x + ", " + y + ") ");
 	}
 
 	//display Board {Req 5}

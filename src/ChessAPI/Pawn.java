@@ -19,8 +19,8 @@ public class Pawn extends Piece {
 	public boolean moveTo(Square destination) {
 
 		//System.out.println(" Pawn ");
-		if(this.validateMove(this.getSquare(), destination) == true){
-			//move piece to destination 
+		if(this.validateMove(this.getSquare(), destination) == true) {
+			//move piece to destination
 			destination.setPiece(this);
 			Board.setNull(this.getSquare().get_x(), this.getSquare().get_y());
 
@@ -121,6 +121,33 @@ public class Pawn extends Piece {
 		else if (diff_x == 1 && diff_y == 1 && d.getPiece() != null && d.getPiece().getColor() != this.getColor())
 		{
 			result = true;
+		} 
+		// This is only for en-passant
+		else if (diff_x == 1 && diff_y == 1)
+		{
+			int opp_x, opp_y;
+			opp_x = s.get_x();
+			opp_y = d.get_y();
+
+			if (Board.getBoard(opp_x, opp_y).getPiece() != null)
+			{
+				// That means it is of opposite color
+				if (Board.getBoard(opp_x, opp_y).getPiece().getColor() != s.getPiece().getColor())
+				{
+					Square sq = null;
+					sq = new Square(Board.getBoard(opp_x, opp_y).getColor(), opp_x, opp_y, null);
+					Piece p = null;
+					p = Board.getBoard(opp_x, opp_y).getPiece();
+					p.setIsDead(true);
+
+					Board.setBoard(sq, opp_x, opp_y);
+					this.enpass = true;
+					this.en_x = opp_x;
+					this.en_y = opp_y;
+
+					result = true;
+				}
+			}
 		}
 		return result;
 	}
@@ -168,5 +195,4 @@ public class Pawn extends Piece {
 		// TODO Auto-generated method stub
 		return false;
 	}
-	
 }
