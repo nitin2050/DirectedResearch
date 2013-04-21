@@ -78,13 +78,14 @@ public class Player {
 				return false;
 			} else {
 
+				result = s.getPiece().moveTo(d);
+				if (result == true)
 				if (d.getPiece() != null && d.getPiece().getColor() != s.getPiece().getColor())
 				{
 					d.getPiece().setIsDead(true);
 					System.out.println(d.getPiece().getColor() + " Player's " + d.getPiece().getType() + " at (" + d.get_x() + ", " + d.get_y() + ") is DEAD !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
 					d.setPiece(null);
 				}
-				result = s.getPiece().moveTo(d);
 				updateDeadAlive();
 			}
 

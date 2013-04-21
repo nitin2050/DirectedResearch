@@ -18,6 +18,7 @@ public class Pawn extends Piece {
 	@Override
 	public boolean moveTo(Square destination) {
 
+		//System.out.println(" Pawn ");
 		if(this.validateMove(this.getSquare(), destination) == true){
 			//move piece to destination 
 			destination.setPiece(this);
@@ -72,6 +73,12 @@ public class Pawn extends Piece {
 
 		// Pawn can move by one squares in X direction
 		// Or it can move by two squares when it is starting from its initial position 
+/*
+		if (Board.getBoard(d.get_x(), d.get_y()).getPiece() == null)
+			System.out.println(" Pawn :: diff_x = " + diff_x + " diff_y = " + diff_y);
+		else
+			System.out.println(" Pawn :: diff_x = " + diff_x + " diff_y = " + diff_y + " piece = " + Board.getBoard(d.get_x(), d.get_y()).getPiece());
+*/
 		if(diff_x == 1 && diff_y == 0 && d.getPiece() == null)
 		{
 			result = true;
