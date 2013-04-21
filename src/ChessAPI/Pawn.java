@@ -24,9 +24,39 @@ public class Pawn extends Piece {
 			destination.setPiece(this);
 			Board.setNull(this.getSquare().get_x(), this.getSquare().get_y());
 
+			if (destination.get_x() == 1 || destination.get_x() == 8)
+			{
+				// Any position other than King
+				if (destination.get_y() != 5)
+				{
+					System.out.println(" Pawn Promotion ");
+					if (destination.get_y() == 1 || destination.get_y() == 8)
+					{
+						promotion = "rook";
+						promo_pos = destination.get_y();
+					}
+					else if (destination.get_y() == 2 || destination.get_y() == 7)
+					{
+						promotion = "knight";
+						promo_pos = destination.get_y();
+					}
+					else if (destination.get_y() == 2 || destination.get_y() == 6)
+					{
+						promotion = "bishop";
+						promo_pos = destination.get_y();
+					}
+					else if (destination.get_y() == 4)
+					{
+						promotion = "queen";
+						promo_pos = 4;
+					}
+
+				}
+			}
 			//set piece.square to destination square
 			this.setSquare(destination);
 			Board.setBoard(destination, this.getSquare().get_x(), this.getSquare().get_y());
+
 			return true;		
 		}else{
 			// Print error message and return false as the moveTo was not successful

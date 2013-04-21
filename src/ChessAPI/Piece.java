@@ -13,6 +13,9 @@ public abstract class Piece {
 	private Square square;	//current Square the piece is on the Board
 	private Type type;      //stores type of the piece
 	private boolean isPieceDead;
+	public String promotion="";
+	public int promo_pos = -1;
+
 	public Piece() {
 	}
 	

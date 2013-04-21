@@ -20,7 +20,7 @@ public class Rook extends Piece{
 		
 		//System.out.println("Rook");
 		if(this.validateMove(this.getSquare(), destination)){
-			System.out.println("Piece moved to "+destination.get_x()+","+destination.get_y());
+			//System.out.println("Piece moved to "+destination.get_x()+","+destination.get_y());
 			//move piece to destination 
 			destination.setPiece(this);
 			//set piece.square to destination square

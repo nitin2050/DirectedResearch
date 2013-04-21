@@ -20,7 +20,7 @@ public class Bishop extends Piece{
 		//System.out.println("Bishop");
 		//System.out.println("Piece moving from "+this.getSquare().get_x()+","+ this.getSquare().get_y());
 		if(this.validateMove(this.getSquare(), destination)){
-			System.out.println("Piece moved to "+destination.get_x()+","+destination.get_y());
+			//System.out.println("Piece moved to "+destination.get_x()+","+destination.get_y());
 
 			this.getSquare().setPiece(null);
 			

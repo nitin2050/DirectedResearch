@@ -7,6 +7,7 @@ import ChessAPI.ApiVersion;
 import ChessAPI.Board;
 import ChessAPI.GameDump;
 import ChessAPI.Piece.Color;
+import ChessAPI.Piece.Type;
 import ChessAPI.Player;
 
 public class UserProgram {
@@ -43,7 +44,8 @@ public class UserProgram {
 		String selection = "";
 		String exit = "";
 		int playMode = 0;
-		
+		boolean promo_success = false;
+
 		do
 		{
 			System.out.println("\n****WELCOME TO THE CHESS GAME****");
@@ -82,9 +84,9 @@ public class UserProgram {
 					do
 					{
 						if (i % 2 == 0)
-							System.out.println("\n\n -------------------------------- White's Turn ---------------------------------------- ");
-						else
 							System.out.println("\n\n -------------------------------- Black's Turn ---------------------------------------- ");
+						else
+							System.out.println("\n\n -------------------------------- White's Turn ---------------------------------------- ");
 			
 			
 						if (i % 2 == 0)
@@ -92,7 +94,7 @@ public class UserProgram {
 							int s_x=0,s_y=0,d_x=0,d_y=0;
 							do {
 								
-								System.out.println("White Player Please Make Move (Format:Source_Col,Source_Row,Dest_Col,Dest_Row):");
+								System.out.println("Black Player Please Make Move (Format:Source_Col,Source_Row,Dest_Col,Dest_Row):");
 								String move = "";
 								try {
 									 move = br.readLine();
@@ -115,12 +117,104 @@ public class UserProgram {
 								result = pl1.moveTo(b.getSquare(s_x, s_y), b.getSquare(d_x, d_y));
 								
 							} while(result == false);
+
+							promo_success = false;
+							//System.out.println("Now moving " + originalType + " from (" + pl1.originalSquare.get_x() + ", " + pl1.originalSquare.get_y() + ") to (" + s_rand.get_x() + ", " + s_rand.get_y() + ") ");
+							if (originalType.toString() == "Pawn")
+							{
+								String promo_str = b.getSquare(d_x, d_y).getPiece().promotion;
+								int promo_pos = b.getSquare(d_x, d_y).getPiece().promo_pos;
+
+								if (promo_str != "")
+								{
+									if (promo_str == "rook")
+									{
+										if (pl1.rook[1].isPieceDead() == true)
+										{
+											pl1.rook[1].setIsDead(false);
+											Square new_s = null;
+											new_s = new Square(pl1.rook[1].getColor(), b.getSquare(d_x, d_y).get_x(), promo_pos, null);
+											pl1.rook[1].setSquare(new_s);
+											
+											Board.instance.setSquare(new_s, b.getSquare(d_x, d_y).get_x(), promo_pos);
+											promo_success = true;
+										} else if (pl1.rook[2].isPieceDead() == true){
+											pl1.rook[1].setIsDead(false);
+											Square new_s = null;
+											new_s = new Square(pl1.rook[1].getColor(), b.getSquare(d_x, d_y).get_x(), promo_pos, null);
+											pl1.rook[1].setSquare(new_s);
+											
+											Board.instance.setSquare(new_s, b.getSquare(d_x, d_y).get_x(), promo_pos);
+											promo_success = true;
+										}
+									}
+									////////////////////////////
+									if (promo_str == "knight")
+									{
+										if (pl1.knight[1].isPieceDead() == true)
+										{
+											pl1.knight[1].setIsDead(false);
+											Square new_s = null;
+											new_s = new Square(pl1.knight[1].getColor(), b.getSquare(d_x, d_y).get_x(), promo_pos, null);
+											pl1.knight[1].setSquare(new_s);
+											
+											Board.instance.setSquare(new_s, b.getSquare(d_x, d_y).get_x(), promo_pos);
+											promo_success = true;
+										} else if (pl1.knight[2].isPieceDead() == true){
+											pl1.knight[1].setIsDead(false);
+											Square new_s = null;
+											new_s = new Square(pl1.knight[1].getColor(), b.getSquare(d_x, d_y).get_x(), promo_pos, null);
+											pl1.knight[1].setSquare(new_s);
+											
+											Board.instance.setSquare(new_s, b.getSquare(d_x, d_y).get_x(), promo_pos);
+											promo_success = true;
+										}
+									}
+									////////////////////////////
+									if (promo_str == "bishop")
+									{
+										if (pl1.bishop[1].isPieceDead() == true)
+										{
+											pl1.bishop[1].setIsDead(false);
+											Square new_s = null;
+											new_s = new Square(pl1.bishop[1].getColor(), b.getSquare(d_x, d_y).get_x(), promo_pos, null);
+											pl1.bishop[1].setSquare(new_s);
+											
+											Board.instance.setSquare(new_s, b.getSquare(d_x, d_y).get_x(), promo_pos);
+											promo_success = true;
+										} else if (pl1.bishop[2].isPieceDead() == true){
+											pl1.bishop[1].setIsDead(false);
+											Square new_s = null;
+											new_s = new Square(pl1.bishop[1].getColor(), b.getSquare(d_x, d_y).get_x(), promo_pos, null);
+											pl1.bishop[1].setSquare(new_s);
+											
+											Board.instance.setSquare(new_s, b.getSquare(d_x, d_y).get_x(), promo_pos);
+											promo_success = true;
+										}
+									}								
+									////////////////////////////
+									if (promo_str == "queen")
+									{
+										if (pl1.queen.isPieceDead() == true)
+										{
+											pl1.queen.setIsDead(false);
+											Square new_s = null;
+											new_s = new Square(pl1.queen.getColor(), b.getSquare(d_x, d_y).get_x(), promo_pos, null);
+											pl1.queen.setSquare(new_s);
+											
+											Board.instance.setSquare(new_s, b.getSquare(d_x, d_y).get_x(), promo_pos);
+											promo_success = true;
+									}
+								}
+							 }
+							}		
+
 							//System.out.println("Now moving " + originalType + " from (" + s_x + ", " + s_y + ") to (" + d_x + ", " + d_y + ") ");
 						} else {
 							int s_x2=0,s_y2=0,d_x2=0,d_y2=0;
 							do {
 								
-								System.out.println("Black Player Please Make Move (Format:Source_Col,Source_Row,Dest_Col,Dest_Row):");
+								System.out.println("White Player Please Make Move (Format:Source_Col,Source_Row,Dest_Col,Dest_Row):");
 								String move = "";
 								try {
 									 move = br.readLine();
@@ -140,11 +234,105 @@ public class UserProgram {
 																
 								char dy = moves[2].charAt(0);
 								d_y2 = (int) dy-96;
+								
+								//System.out.println("Now moving " + originalType + " from (" + d_x2 + ", " + d_y2 + ") to (" + d_x2 + ", " + d_y2 + ") ");
 								originalType = b.getSquare(s_x2, s_y2).getPiece().getType().toString();
 								result = pl2.moveTo(b.getSquare(s_x2, s_y2), b.getSquare(d_x2, d_y2));
 								
 							} while(result == false);
-							//System.out.println("Now moving " + originalType + " from (" + s_x2 + ", " + s_y2 + ") to (" + d_x2 + ", " + d_y2 + ") ");
+							//System.out.println("Now moving " + originalType + " from (" + d_x2 + ", " + d_y2 + ") to (" + d_x2 + ", " + d_y2 + ") ");
+
+							promo_success = false;
+							//System.out.println("Now moving " + originalType + " from (" + pl2.originalSquare.get_x() + ", " + pl2.originalSquare.get_y() + ") to (" + s_rand.get_x() + ", " + s_rand.get_y() + ") ");
+							if (originalType.toString() == "Pawn")
+							{
+								String promo_str = b.getSquare(d_x2, d_y2).getPiece().promotion;
+								int promo_pos = b.getSquare(d_x2, d_y2).getPiece().promo_pos;
+
+								if (promo_str != "")
+								{
+									if (promo_str == "rook")
+									{
+										if (pl2.rook[1].isPieceDead() == true)
+										{
+											pl2.rook[1].setIsDead(false);
+											Square new_s = null;
+											new_s = new Square(pl2.rook[1].getColor(), b.getSquare(d_x2, d_y2).get_x(), promo_pos, null);
+											pl2.rook[1].setSquare(new_s);
+											
+											Board.instance.setSquare(new_s, b.getSquare(d_x2, d_y2).get_x(), promo_pos);
+											promo_success = true;
+										} else if (pl2.rook[2].isPieceDead() == true){
+											pl2.rook[1].setIsDead(false);
+											Square new_s = null;
+											new_s = new Square(pl2.rook[1].getColor(), b.getSquare(d_x2, d_y2).get_x(), promo_pos, null);
+											pl2.rook[1].setSquare(new_s);
+											
+											Board.instance.setSquare(new_s, b.getSquare(d_x2, d_y2).get_x(), promo_pos);
+											promo_success = true;
+										}
+									}
+									////////////////////////////
+									if (promo_str == "knight")
+									{
+										if (pl2.knight[1].isPieceDead() == true)
+										{
+											pl2.knight[1].setIsDead(false);
+											Square new_s = null;
+											new_s = new Square(pl2.knight[1].getColor(), b.getSquare(d_x2, d_y2).get_x(), promo_pos, null);
+											pl2.knight[1].setSquare(new_s);
+											
+											Board.instance.setSquare(new_s, b.getSquare(d_x2, d_y2).get_x(), promo_pos);
+											promo_success = true;
+										} else if (pl2.knight[2].isPieceDead() == true){
+											pl2.knight[1].setIsDead(false);
+											Square new_s = null;
+											new_s = new Square(pl2.knight[1].getColor(), b.getSquare(d_x2, d_y2).get_x(), promo_pos, null);
+											pl2.knight[1].setSquare(new_s);
+											
+											Board.instance.setSquare(new_s, b.getSquare(d_x2, d_y2).get_x(), promo_pos);
+											promo_success = true;
+										}
+									}
+									////////////////////////////
+									if (promo_str == "bishop")
+									{
+										if (pl2.bishop[1].isPieceDead() == true)
+										{
+											pl2.bishop[1].setIsDead(false);
+											Square new_s = null;
+											new_s = new Square(pl2.bishop[1].getColor(), b.getSquare(d_x2, d_y2).get_x(), promo_pos, null);
+											pl2.bishop[1].setSquare(new_s);
+											
+											Board.instance.setSquare(new_s, b.getSquare(d_x2, d_y2).get_x(), promo_pos);
+											promo_success = true;
+										} else if (pl2.bishop[2].isPieceDead() == true){
+											pl2.bishop[1].setIsDead(false);
+											Square new_s = null;
+											new_s = new Square(pl2.bishop[1].getColor(), b.getSquare(d_x2, d_y2).get_x(), promo_pos, null);
+											pl2.bishop[1].setSquare(new_s);
+											
+											Board.instance.setSquare(new_s, b.getSquare(d_x2, d_y2).get_x(), promo_pos);
+											promo_success = true;
+										}
+									}								
+									////////////////////////////
+									if (promo_str == "queen")
+									{
+										if (pl2.queen.isPieceDead() == true)
+										{
+											pl2.queen.setIsDead(false);
+											Square new_s = null;
+											new_s = new Square(pl2.queen.getColor(), b.getSquare(d_x2, d_y2).get_x(), promo_pos, null);
+											pl2.queen.setSquare(new_s);
+											
+											Board.instance.setSquare(new_s, b.getSquare(d_x2, d_y2).get_x(), promo_pos);
+											promo_success = true;
+									}
+								}
+							 }
+							}		
+
 						}
 						b.displayBoard();
 						System.out.println(" ====================================================================================== ");
@@ -166,14 +354,15 @@ public class UserProgram {
 				  boolean result;
 				  String originalType = "";
 				  Square s_rand = null;
+				  Move randomMove = null;
 				  b.displayBoard();
 				  int i = 0;
 					do
 					{
 						if (i % 2 == 0)
-							System.out.println("\n\n -------------------------------- White's Turn ---------------------------------------- ");
-						else
 							System.out.println("\n\n -------------------------------- Black's Turn ---------------------------------------- ");
+						else
+							System.out.println("\n\n -------------------------------- White's Turn ---------------------------------------- ");
 			
 			
 						if (i % 2 == 0)
@@ -181,7 +370,7 @@ public class UserProgram {
 							int s_x=0,s_y=0,d_x=0,d_y=0;
 							do {
 								
-								System.out.println("White Player Please Make Move (Format:Source_Col,Source_Row,Dest_Col,Dest_Row):");
+								System.out.println("Black Player Please Make Move (Format:Source_Col,Source_Row,Dest_Col,Dest_Row):");
 								String move = "";
 								try {
 									 move = br.readLine();
@@ -199,13 +388,200 @@ public class UserProgram {
 								result = pl1.moveTo(b.getSquare(s_x, s_y), b.getSquare(d_x, d_y));
 								
 							} while(result == false);
+
+							//////////////////
+							promo_success = false;
+							//System.out.println("Now moving " + originalType + " from (" + pl1.originalSquare.get_x() + ", " + pl1.originalSquare.get_y() + ") to (" + s_rand.get_x() + ", " + s_rand.get_y() + ") ");
+							if (originalType.toString() == "Pawn")
+							{
+								String promo_str = b.getSquare(d_x, d_y).getPiece().promotion;
+								int promo_pos = b.getSquare(d_x, d_y).getPiece().promo_pos;
+
+								if (promo_str != "")
+								{
+									if (promo_str == "rook")
+									{
+										if (pl1.rook[1].isPieceDead() == true)
+										{
+											pl1.rook[1].setIsDead(false);
+											Square new_s = null;
+											new_s = new Square(pl1.rook[1].getColor(), b.getSquare(d_x, d_y).get_x(), promo_pos, null);
+											pl1.rook[1].setSquare(new_s);
+											
+											Board.instance.setSquare(new_s, b.getSquare(d_x, d_y).get_x(), promo_pos);
+											promo_success = true;
+										} else if (pl1.rook[2].isPieceDead() == true){
+											pl1.rook[1].setIsDead(false);
+											Square new_s = null;
+											new_s = new Square(pl1.rook[1].getColor(), b.getSquare(d_x, d_y).get_x(), promo_pos, null);
+											pl1.rook[1].setSquare(new_s);
+											
+											Board.instance.setSquare(new_s, b.getSquare(d_x, d_y).get_x(), promo_pos);
+											promo_success = true;
+										}
+									}
+									////////////////////////////
+									if (promo_str == "knight")
+									{
+										if (pl1.knight[1].isPieceDead() == true)
+										{
+											pl1.knight[1].setIsDead(false);
+											Square new_s = null;
+											new_s = new Square(pl1.knight[1].getColor(), b.getSquare(d_x, d_y).get_x(), promo_pos, null);
+											pl1.knight[1].setSquare(new_s);
+											
+											Board.instance.setSquare(new_s, b.getSquare(d_x, d_y).get_x(), promo_pos);
+											promo_success = true;
+										} else if (pl1.knight[2].isPieceDead() == true){
+											pl1.knight[1].setIsDead(false);
+											Square new_s = null;
+											new_s = new Square(pl1.knight[1].getColor(), b.getSquare(d_x, d_y).get_x(), promo_pos, null);
+											pl1.knight[1].setSquare(new_s);
+											
+											Board.instance.setSquare(new_s, b.getSquare(d_x, d_y).get_x(), promo_pos);
+											promo_success = true;
+										}
+									}
+									////////////////////////////
+									if (promo_str == "bishop")
+									{
+										if (pl1.bishop[1].isPieceDead() == true)
+										{
+											pl1.bishop[1].setIsDead(false);
+											Square new_s = null;
+											new_s = new Square(pl1.bishop[1].getColor(), b.getSquare(d_x, d_y).get_x(), promo_pos, null);
+											pl1.bishop[1].setSquare(new_s);
+											
+											Board.instance.setSquare(new_s, b.getSquare(d_x, d_y).get_x(), promo_pos);
+											promo_success = true;
+										} else if (pl1.bishop[2].isPieceDead() == true){
+											pl1.bishop[1].setIsDead(false);
+											Square new_s = null;
+											new_s = new Square(pl1.bishop[1].getColor(), b.getSquare(d_x, d_y).get_x(), promo_pos, null);
+											pl1.bishop[1].setSquare(new_s);
+											
+											Board.instance.setSquare(new_s, b.getSquare(d_x, d_y).get_x(), promo_pos);
+											promo_success = true;
+										}
+									}								
+									////////////////////////////
+									if (promo_str == "queen")
+									{
+										if (pl1.queen.isPieceDead() == true)
+										{
+											pl1.queen.setIsDead(false);
+											Square new_s = null;
+											new_s = new Square(pl1.queen.getColor(), b.getSquare(d_x, d_y).get_x(), promo_pos, null);
+											pl1.queen.setSquare(new_s);
+											
+											Board.instance.setSquare(new_s, b.getSquare(d_x, d_y).get_x(), promo_pos);
+											promo_success = true;
+									}
+								}
+							 }
+							}		
+							////////////////////
 							//System.out.println("Now moving " + originalType + " from (" + s_x + ", " + s_y + ") to (" + d_x + ", " + d_y + ") ");
 						} else {
 							do {
-								Move randomMove = pl2.selectBestMove();
+								randomMove = pl2.selectBestMove();
 								result = pl2.moveTo(randomMove.getSource(), randomMove.getDestinationSquare());
 							} while(result == false);
 							//System.out.println("Now moving " + originalType + " from (" + pl2.originalSquare.get_x() + ", " + pl2.originalSquare.get_y() + ") to (" + s_rand.get_x() + ", " + s_rand.get_y() + ") ");
+
+							promo_success = false;
+							//System.out.println("Now moving " + originalType + " from (" + pl2.originalSquare.get_x() + ", " + pl2.originalSquare.get_y() + ") to (" + s_rand.get_x() + ", " + s_rand.get_y() + ") ");
+							if (randomMove.getSource().getPiece().getType() == Type.Pawn)
+							{
+								String promo_str = randomMove.getSource().getPiece().promotion;
+								int promo_pos = randomMove.getSource().getPiece().promo_pos;
+
+								if (promo_str != "")
+								{
+									if (promo_str == "rook")
+									{
+										if (pl2.rook[1].isPieceDead() == true)
+										{
+											pl2.rook[1].setIsDead(false);
+											Square new_s = null;
+											new_s = new Square(pl2.rook[1].getColor(), randomMove.getSource().get_x(), promo_pos, null);
+											pl2.rook[1].setSquare(new_s);
+											
+											Board.instance.setSquare(new_s, randomMove.getSource().get_x(), promo_pos);
+											promo_success = true;
+										} else if (pl2.rook[2].isPieceDead() == true){
+											pl2.rook[1].setIsDead(false);
+											Square new_s = null;
+											new_s = new Square(pl2.rook[1].getColor(), randomMove.getSource().get_x(), promo_pos, null);
+											pl2.rook[1].setSquare(new_s);
+											
+											Board.instance.setSquare(new_s, randomMove.getSource().get_x(), promo_pos);
+											promo_success = true;
+										}
+									}
+									////////////////////////////
+									if (promo_str == "knight")
+									{
+										if (pl2.knight[1].isPieceDead() == true)
+										{
+											pl2.knight[1].setIsDead(false);
+											Square new_s = null;
+											new_s = new Square(pl2.knight[1].getColor(), randomMove.getSource().get_x(), promo_pos, null);
+											pl2.knight[1].setSquare(new_s);
+											
+											Board.instance.setSquare(new_s, randomMove.getSource().get_x(), promo_pos);
+											promo_success = true;
+										} else if (pl2.knight[2].isPieceDead() == true){
+											pl2.knight[1].setIsDead(false);
+											Square new_s = null;
+											new_s = new Square(pl2.knight[1].getColor(), randomMove.getSource().get_x(), promo_pos, null);
+											pl2.knight[1].setSquare(new_s);
+											
+											Board.instance.setSquare(new_s, randomMove.getSource().get_x(), promo_pos);
+											promo_success = true;
+										}
+									}
+									////////////////////////////
+									if (promo_str == "bishop")
+									{
+										if (pl2.bishop[1].isPieceDead() == true)
+										{
+											pl2.bishop[1].setIsDead(false);
+											Square new_s = null;
+											new_s = new Square(pl2.bishop[1].getColor(), randomMove.getSource().get_x(), promo_pos, null);
+											pl2.bishop[1].setSquare(new_s);
+											
+											Board.instance.setSquare(new_s, randomMove.getSource().get_x(), promo_pos);
+											promo_success = true;
+										} else if (pl2.bishop[2].isPieceDead() == true){
+											pl2.bishop[1].setIsDead(false);
+											Square new_s = null;
+											new_s = new Square(pl2.bishop[1].getColor(), randomMove.getSource().get_x(), promo_pos, null);
+											pl2.bishop[1].setSquare(new_s);
+											
+											Board.instance.setSquare(new_s, randomMove.getSource().get_x(), promo_pos);
+											promo_success = true;
+										}
+									}								
+									////////////////////////////
+									if (promo_str == "queen")
+									{
+										if (pl2.queen.isPieceDead() == true)
+										{
+											pl2.queen.setIsDead(false);
+											Square new_s = null;
+											new_s = new Square(pl2.queen.getColor(), randomMove.getSource().get_x(), promo_pos, null);
+											pl2.queen.setSquare(new_s);
+											
+											Board.instance.setSquare(new_s, randomMove.getSource().get_x(), promo_pos);
+											promo_success = true;
+									}
+								}
+							 }
+							}		
+						
+							if (promo_success == false)
+								Board.instance.setSquare(randomMove.getSource(), randomMove.getSource().get_x(), randomMove.getSource().get_y());
 						}
 						b.displayBoard();
 						System.out.println(" ====================================================================================== ");
@@ -233,9 +609,9 @@ public class UserProgram {
 					do
 					{
 						if (i % 2 == 0)
-							System.out.println("\n\n -------------------------------- White's Turn ---------------------------------------- ");
-						else
 							System.out.println("\n\n -------------------------------- Black's Turn ---------------------------------------- ");
+						else
+							System.out.println("\n\n -------------------------------- White's Turn ---------------------------------------- ");
 			
 						Move randomMove = null;
 						//Board.instance.displayBoard();
@@ -245,17 +621,108 @@ public class UserProgram {
 							do {
 								//s_rand = pl1.randomMove();
 								randomMove = pl1.selectBestMove();
+								//System.out.println("Now moving from (" + randomMove.getSource().get_x() + ", " + randomMove.getSource().get_y());
 								if (pl1.isCastling == true)
 								{
-									result = pl2.moveTonoCheck(randomMove.getSource(), randomMove.getDestinationSquare());
+									result = pl1.moveTonoCheck(randomMove.getSource(), randomMove.getDestinationSquare());
 									pl1.isCastling = false;
 								} else {
 									result = pl1.moveTo(randomMove.getSource(), randomMove.getDestinationSquare());
 								}
 								//System.out.println("Now moving " + originalType + " from (" + randomMove.getSource().get_x() + ", " + randomMove.getSource().get_y() + " to (" + randomMove.getDestinationSquare().get_x() + ", " + randomMove.getDestinationSquare().get_y());
 							} while(result == false);
-							Board.instance.setSquare(randomMove.getSource(), randomMove.getSource().get_x(), randomMove.getSource().get_y());
-						} else {
+							
+							promo_success = false;
+//							System.out.println("Now moving " + originalType + " from (" + pl1.originalSquare.get_x() + ", " + pl1.originalSquare.get_y() + ") to (" + s_rand.get_x() + ", " + s_rand.get_y() + ") ");
+							if (randomMove.getDestinationSquare().getPiece().getType() == Type.Pawn)
+							{
+								String promo_str = randomMove.getDestinationSquare().getPiece().promotion;
+								int promo_pos = randomMove.getDestinationSquare().getPiece().promo_pos;
+
+								if (promo_str != "")
+								{
+									if (promo_str == "rook")
+									{
+										if (pl1.rook[1].isPieceDead() == true)
+										{
+											pl1.rook[1].setIsDead(false);
+											Square new_s = null;
+											new_s = new Square(pl1.rook[1].getColor(), randomMove.getDestinationSquare().get_x(), promo_pos, null);
+											pl1.rook[1].setSquare(new_s);
+
+											Board.instance.setSquare(new_s, randomMove.getDestinationSquare().get_x(), promo_pos);
+											promo_success = true;
+										} else if (pl1.rook[2].isPieceDead() == true){
+											pl1.rook[1].setIsDead(false);
+											Square new_s = null;
+											new_s = new Square(pl1.rook[1].getColor(), randomMove.getDestinationSquare().get_x(), promo_pos, null);
+											pl1.rook[1].setSquare(new_s);
+											
+											Board.instance.setSquare(new_s, randomMove.getDestinationSquare().get_x(), promo_pos);
+											promo_success = true;
+										}
+									}
+									if (promo_str == "knight")
+									{
+										if (pl1.knight[1].isPieceDead() == true)
+										{
+											pl1.knight[1].setIsDead(false);
+											Square new_s = null;
+											new_s = new Square(pl1.knight[1].getColor(), randomMove.getDestinationSquare().get_x(), promo_pos, null);
+											pl1.knight[1].setSquare(new_s);
+
+											Board.instance.setSquare(new_s, randomMove.getDestinationSquare().get_x(), promo_pos);
+											promo_success = true;
+										} else if (pl1.knight[2].isPieceDead() == true){
+											pl1.knight[1].setIsDead(false);
+											Square new_s = null;
+											new_s = new Square(pl1.knight[1].getColor(), randomMove.getDestinationSquare().get_x(), promo_pos, null);
+											pl1.knight[1].setSquare(new_s);
+											
+											Board.instance.setSquare(new_s, randomMove.getDestinationSquare().get_x(), promo_pos);
+											promo_success = true;
+										}
+									}
+									if (promo_str == "bishop")
+									{
+										if (pl1.bishop[1].isPieceDead() == true)
+										{
+											pl1.bishop[1].setIsDead(false);
+											Square new_s = null;
+											new_s = new Square(pl1.bishop[1].getColor(), randomMove.getDestinationSquare().get_x(), promo_pos, null);
+											pl1.bishop[1].setSquare(new_s);
+
+											Board.instance.setSquare(new_s, randomMove.getDestinationSquare().get_x(), promo_pos);
+											promo_success = true;
+										} else if (pl1.bishop[2].isPieceDead() == true){
+											pl1.bishop[1].setIsDead(false);
+											Square new_s = null;
+											new_s = new Square(pl1.bishop[1].getColor(), randomMove.getDestinationSquare().get_x(), promo_pos, null);
+											pl1.bishop[1].setSquare(new_s);
+											
+											Board.instance.setSquare(new_s, randomMove.getDestinationSquare().get_x(), promo_pos);
+											promo_success = true;
+										}
+									}
+									if (promo_str == "queen")
+									{
+										if (pl1.queen.isPieceDead() == true)
+										{
+											pl1.queen.setIsDead(false);
+											Square new_s = null;
+											new_s = new Square(pl1.queen.getColor(), randomMove.getDestinationSquare().get_x(), promo_pos, null);
+											pl1.queen.setSquare(new_s);
+
+											Board.instance.setSquare(new_s, randomMove.getDestinationSquare().get_x(), promo_pos);
+											promo_success = true;
+										}
+									}
+
+								}
+								////////////////////////////////////////
+							if (promo_success == false)
+								Board.instance.setSquare(randomMove.getSource(), randomMove.getSource().get_x(), randomMove.getSource().get_y());
+					} else {
 							randomMove = null;
 							do {
 								//s_rand = pl2.randomMove();
@@ -270,8 +737,101 @@ public class UserProgram {
 									result = pl2.moveTo(randomMove.getSource(), randomMove.getDestinationSquare());
 								}
 							} while(result == false);
-							Board.instance.setSquare(randomMove.getSource(), randomMove.getSource().get_x(), randomMove.getSource().get_y());
-							//System.out.println("Now moving " + originalType + " from (" + pl2.originalSquare.get_x() + ", " + pl2.originalSquare.get_y() + ") to (" + s_rand.get_x() + ", " + s_rand.get_y() + ") ");
+
+							/////////////////////////////////////////////////////////////////////////
+							
+							promo_success = false;
+//							System.out.println("Now moving " + originalType + " from (" + pl1.originalSquare.get_x() + ", " + pl1.originalSquare.get_y() + ") to (" + s_rand.get_x() + ", " + s_rand.get_y() + ") ");
+							if (randomMove.getDestinationSquare().getPiece().getType() == Type.Pawn)
+							{
+								String promo_str = randomMove.getDestinationSquare().getPiece().promotion;
+								int promo_pos = randomMove.getDestinationSquare().getPiece().promo_pos;
+
+								if (promo_str != "")
+								{
+									if (promo_str == "rook")
+									{
+										if (pl1.rook[1].isPieceDead() == true)
+										{
+											pl1.rook[1].setIsDead(false);
+											Square new_s = null;
+											new_s = new Square(pl1.rook[1].getColor(), randomMove.getDestinationSquare().get_x(), promo_pos, null);
+											pl1.rook[1].setSquare(new_s);
+
+											Board.instance.setSquare(new_s, randomMove.getDestinationSquare().get_x(), promo_pos);
+											promo_success = true;
+										} else if (pl1.rook[2].isPieceDead() == true){
+											pl1.rook[1].setIsDead(false);
+											Square new_s = null;
+											new_s = new Square(pl1.rook[1].getColor(), randomMove.getDestinationSquare().get_x(), promo_pos, null);
+											pl1.rook[1].setSquare(new_s);
+											
+											Board.instance.setSquare(new_s, randomMove.getDestinationSquare().get_x(), promo_pos);
+											promo_success = true;
+										}
+									}
+									if (promo_str == "knight")
+									{
+										if (pl1.knight[1].isPieceDead() == true)
+										{
+											pl1.knight[1].setIsDead(false);
+											Square new_s = null;
+											new_s = new Square(pl1.knight[1].getColor(), randomMove.getDestinationSquare().get_x(), promo_pos, null);
+											pl1.knight[1].setSquare(new_s);
+
+											Board.instance.setSquare(new_s, randomMove.getDestinationSquare().get_x(), promo_pos);
+											promo_success = true;
+										} else if (pl1.knight[2].isPieceDead() == true){
+											pl1.knight[1].setIsDead(false);
+											Square new_s = null;
+											new_s = new Square(pl1.knight[1].getColor(), randomMove.getDestinationSquare().get_x(), promo_pos, null);
+											pl1.knight[1].setSquare(new_s);
+											
+											Board.instance.setSquare(new_s, randomMove.getDestinationSquare().get_x(), promo_pos);
+											promo_success = true;
+										}
+									}
+									if (promo_str == "bishop")
+									{
+										if (pl1.bishop[1].isPieceDead() == true)
+										{
+											pl1.bishop[1].setIsDead(false);
+											Square new_s = null;
+											new_s = new Square(pl1.bishop[1].getColor(), randomMove.getDestinationSquare().get_x(), promo_pos, null);
+											pl1.bishop[1].setSquare(new_s);
+
+											Board.instance.setSquare(new_s, randomMove.getDestinationSquare().get_x(), promo_pos);
+											promo_success = true;
+										} else if (pl1.bishop[2].isPieceDead() == true){
+											pl1.bishop[1].setIsDead(false);
+											Square new_s = null;
+											new_s = new Square(pl1.bishop[1].getColor(), randomMove.getDestinationSquare().get_x(), promo_pos, null);
+											pl1.bishop[1].setSquare(new_s);
+											
+											Board.instance.setSquare(new_s, randomMove.getDestinationSquare().get_x(), promo_pos);
+											promo_success = true;
+										}
+									}
+									if (promo_str == "queen")
+									{
+										if (pl1.queen.isPieceDead() == true)
+										{
+											pl1.queen.setIsDead(false);
+											Square new_s = null;
+											new_s = new Square(pl1.queen.getColor(), randomMove.getDestinationSquare().get_x(), promo_pos, null);
+											pl1.queen.setSquare(new_s);
+
+											Board.instance.setSquare(new_s, randomMove.getDestinationSquare().get_x(), promo_pos);
+											promo_success = true;
+										}
+									}
+								}
+								////////////////////////////////////////
+							//////////////////////////////////////////////////////////////////////////
+						}
+					}
+							if (promo_success == false)
+								Board.instance.setSquare(randomMove.getSource(), randomMove.getSource().get_x(), randomMove.getSource().get_y());
 						}
 						Board.instance.displayBoard();
 						System.out.println(" ====================================================================================== ");

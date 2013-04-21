@@ -77,16 +77,21 @@ public class Player {
 				System.out.println(" Another piece of your color found at the destination location specified");
 				return false;
 			} else {
-
-				result = s.getPiece().moveTo(d);
-				if (result == true)
-				if (d.getPiece() != null && d.getPiece().getColor() != s.getPiece().getColor())
+				
+				result = true;
+				//System.out.println(" result = " + result);
+				if (result == true && s.getPiece().getType() != Type.Pawn)
+				{
+				if (d.getPiece() != null)
 				{
 					d.getPiece().setIsDead(true);
-					System.out.println(d.getPiece().getColor() + " Player's " + d.getPiece().getType() + " at (" + d.get_x() + ", " + d.get_y() + ") is DEAD !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+					//System.out.println(d.getPiece().getColor() + " Player's " + d.getPiece().getType() + " at (" + d.get_x() + ", " + d.get_y() + ") is DEAD !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
 					d.setPiece(null);
 				}
 				updateDeadAlive();
+				}
+				
+				result = s.getPiece().moveTo(d);
 			}
 
 			//if a valid move is completed remove piece from souce
