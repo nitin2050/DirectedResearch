@@ -1,5 +1,8 @@
 package ChessAPI;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public abstract class Piece {
 	
 	public enum Color{
@@ -66,42 +69,84 @@ public abstract class Piece {
 		isPieceDead = dead;
 	}
 	
-	//Gives the Heuristic for a Move starting from the Piece's currentPosition to the Destination square passed as a parameter to this method 
-	public float getHeuristic(Square destination) {
-		int sum = 0;
+	public float getBoardMaterial(Square[][] tempBoard) {
+		float materialValue = 0;
 		
-		Square currentBoard[][] = new Square[10][10];	
-		for (int i = 1; i <= 8; i++)
-			for (int j = 1; j <= 8; j++)
-			{
-				currentBoard[i][j] = Board.getBoard(i, j); 
-			}
-		
-		for(int i=1; i<Board.ROWS+1; i++  ) {
+		for(int i=1; i<Board.ROWS+1; i++  ){
 			for(int j=1; j<Board.COLS+1; j++  ){
 				
-				if( currentBoard[i][j].getPiece() != null && currentBoard[i][j].getPiece().getColor() != this.getColor()) {
-					if(currentBoard[i][j].getPiece().getClass().getName().equals("King")) {
-						sum=i+j;
-						//break;
+				Piece tempPiece = tempBoard[i][j].getPiece();
+				if( tempPiece != null){
+					//a piece is present on square i,j
+					
+					if(tempPiece.getColor() == Color.white) {
+						//its a WHITE Piece
+						//determine the type of piece to add its corresponding material value
+						if(tempPiece.getClass().getName().equals("King"))
+							materialValue = materialValue + 200;
+						else if(tempPiece.getClass().getName().equals("Queen"))
+							materialValue = materialValue + 9;
+						else if(tempPiece.getClass().getName().equals("Rook"))
+							materialValue = materialValue + 5;
+						else if(tempPiece.getClass().getName().equals("Bishop"))
+							materialValue = materialValue + 3;
+						else if(tempPiece.getClass().getName().equals("Knight"))
+							materialValue = materialValue + 3;
+						else if(tempPiece.getClass().getName().equals("Pawn"))
+							materialValue = materialValue + 1;
+
+					}else if(tempPiece.getColor() == Color.black) {
+						//its a BLACK Piece
+						//determine the type of piece to add its corresponding material value
+						if(tempPiece.getClass().getName().equals("King"))
+							materialValue = materialValue - 200;
+						else if(tempPiece.getClass().getName().equals("Queen"))
+							materialValue = materialValue - 9;
+						else if(tempPiece.getClass().getName().equals("Rook"))
+							materialValue = materialValue - 5;
+						else if(tempPiece.getClass().getName().equals("Bishop"))
+							materialValue = materialValue - 3;
+						else if(tempPiece.getClass().getName().equals("Knight"))
+							materialValue = materialValue - 3;
+						else if(tempPiece.getClass().getName().equals("Pawn"))
+							materialValue = materialValue - 1;
+						
 					}
 				}
-				
+			}//end inner for
+		}//end outer for
+		
+		
+		return materialValue;	
+	}
+	
+	
+	//Gives the Heuristic for a Move starting from the Piece's currentPosition to the Destination square passed as a parameter to this method 
+	public float getHeuristic(Square destination) {
+		
+		Square currentBoard[][] = new Square[10][10];	
+		for (int i = 1; i <= 8; i++)
+			for (int j = 1; j <= 8; j++)
+			{
+				currentBoard[i][j] = new Square();
+				currentBoard[i][j] = Board.getBoard(i, j); 
 			}
+		
+		if(this.validateMove(this.getSquare(), destination)){
+			//its a valid move lets update the currentBoard(which is a copy of actual boardarray)
+			//so that it reflect the board status after the move temporarily
+			currentBoard[this.getSquare().get_x()][this.getSquare().get_y()].setPiece(null);
+			currentBoard[destination.get_x()][destination.get_y()].setPiece(this);
 		}
 		
-		int source_sum = this.getSquare().get_x() + this.getSquare().get_y();
-		int dest_sum = destination.get_x() + destination.get_y();
+		//currentboard now reflects the board after the move
+		float value = getBoardMaterial(currentBoard);
 		
-		int source_diff = Math.abs(sum-source_sum);
-		int dest_diff = Math.abs(sum-dest_sum);
-		
-		
-		return (float) Math.abs(dest_diff-source_diff);
+		return value;
 	}
 
-	//returns best Move for a piece from its current position, if it exists 
-	public Move selectBestMove(){
+	//returns a List of valid moves for a piece with its heuristics 
+	public List<Move> validMoves(){
 		
 		Square currentBoard[][] = new Square[10][10];	
 		for (int i = 1; i <= 8; i++)
@@ -110,8 +155,7 @@ public abstract class Piece {
 				currentBoard[i][j] = Board.getBoard(i, j); 
 			}
 		
-		Move bestMove = null;
-		float bestHeuristic = -10; // Temporary value. We will set this to lower than the lowest possible value for our heuristic
+		List<Move> validMovesList = new ArrayList<Move>();
 		
 		for(int i=1; i<Board.ROWS+1; i++  ) {
 			for(int j=1; j<Board.COLS+1; j++  ){
@@ -120,18 +164,15 @@ public abstract class Piece {
 					//we can move from current position of this piece to Square(i,j) on the Board
 					float currentHeuristic = this.getHeuristic(currentBoard[i][j]);
 					//Now check if this move is Heuristically better than bestMove we have.
-					if(currentHeuristic > bestHeuristic) {
-						//this Move has better Heuristic. So update the best
-						bestMove = new Move(currentBoard[i][j], currentHeuristic, null);
-						bestHeuristic = currentHeuristic;
-					}
+					Move validMove = new Move(currentBoard[i][j],currentHeuristic,this.getSquare());
+					validMovesList.add(validMove);
 				}
 			}
 		}
 
 		promotion = "";
 		promo_pos = -1;
-		return bestMove;	
+		return validMovesList;	
 	}
 
 	//Move the piece to Destination square is the move is valid

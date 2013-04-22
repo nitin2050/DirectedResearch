@@ -209,7 +209,54 @@ public class Player {
 		return result;
 	}//end isInCheck()
 
+	//listOfMoves contains a set of moves and corresponding heuristics
+	//we first find the best value in this list (most +ve for WHITE and most -ve for BLACK)
+	//if there are more than one Moves with heurisic value = best heuristic than we choose one randomly out of them
+	private Move refineList(List<Move> listOfMoves) {
+		float bestHeuristic = listOfMoves.get(0).getHeuristicValue();
 		
+		//Lets first find the best heuristic value in this list of Moves
+		for (Move temp : listOfMoves) {
+			if(this.color == Color.white) {
+				//find more positive heuristic because its a white player
+				if(temp.getHeuristicValue() > bestHeuristic){
+					bestHeuristic = temp.getHeuristicValue();
+				}
+				
+			}else {
+				//find more negative heuristic because its a black player
+				if(temp.getHeuristicValue() < bestHeuristic){
+					bestHeuristic = temp.getHeuristicValue();
+				}
+			}
+		}
+		
+		//now lets find all the moves in listOfMoves with heuristic = bestHeuristic
+		//there can be more than one such moves. If yes then return randomly else return the one.
+		List<Move> refinedList = new ArrayList<Move>();
+		for (Move temp : listOfMoves) {
+			if(temp.getHeuristicValue() == bestHeuristic) {
+				refinedList.add(temp);
+			}
+		}
+		
+		if(refinedList.size() == 1) {
+			//there is only one move with best heuristic
+			return refinedList.get(0);
+			
+		} else {
+			//there are more than one moves with best heuristic, return randomly from the best
+			int listSize = refinedList.size();
+			int min = 0;
+			int max = listSize - 1;
+			int randomNum = min + (int) ( Math.random() * ((max - min)+1) );
+			
+			return refinedList.get(randomNum);
+		}
+		
+	}
+	
+	
 	//Randomly select a Piece and return a random Square where it can move legally, out of all the possible legal moves
 	//If this method returns null, than there is no valid move possible for the randomly selected Piece
 	//Suggestion: Re-invoke this method till it returns a non-null value
@@ -218,19 +265,26 @@ public class Player {
 		// If King is InCheck condition Move the King(priority) else we can move anything
 		if (this.isInCheck() == true)
 		{
-			if(this.king.selectBestMove() != null) {
-				//A valid Move exists for the King, return it
+			if( !this.king.validMoves().isEmpty() ) {
+				//A valid Move exists for the King, return the best of it
 				//here we also need to check if King is in check even after applying this bestmove
-				Move bestMove = this.king.selectBestMove();
-				bestMove.setSource(this.king.getSquare());
-				return bestMove;
 				
+				//this is a list of all valid moves for King with its heuristic
+				List<Move> validKingMoves = this.king.validMoves();
+				Move bestMove = null;
+				
+				if(validKingMoves.size() == 1) {
+					bestMove = validKingMoves.get(0);
+				} else {
+					bestMove = this.refineList(validKingMoves);
+				}
+				
+				return bestMove;
 			} else {
 				//King is in check and there is no valid move that exists for King
 				//GAME OVER
 				return null;
-			}
-			
+			}	
 		}
 
 		// Check if we can do Castling
@@ -385,11 +439,11 @@ public class Player {
 		for (i=1; i<=8; i++) {
 			if ( this.pawn[i].isPieceDead() == false) {
 				//Piece is alive
-				if(this.pawn[i].selectBestMove() != null) {
+				if(!this.pawn[i].validMoves().isEmpty()) {
 					//A valid Move exists for this piece, so add it to the list of setOfMoves
-					Move bestMove = this.pawn[i].selectBestMove();
-					bestMove.setSource(this.pawn[i].getSquare());
-					setOfMoves.add(bestMove);
+					for( Move temp : this.pawn[i].validMoves()) {
+						setOfMoves.add(temp);
+					}
 				}	
 			}
 		}
@@ -398,11 +452,11 @@ public class Player {
 		for (i=1; i<=2; i++) {
 			if ( this.rook[i].isPieceDead() == false) {
 				//Rook is alive
-				if(this.rook[i].selectBestMove() != null) {
+				if(!this.rook[i].validMoves().isEmpty()) {
 					//A valid Move exists for this Rook, so add it to the list of setOfMoves
-					Move bestMove = this.rook[i].selectBestMove();
-					bestMove.setSource(this.rook[i].getSquare());
-					setOfMoves.add(bestMove);
+					for( Move temp : this.rook[i].validMoves()) {
+						setOfMoves.add(temp);
+					}
 				}
 			}
 		}
@@ -411,11 +465,11 @@ public class Player {
 		for (i=1; i<=2; i++) {
 			if ( this.bishop[i].isPieceDead() == false) {
 				//Bishop is alive
-				if(this.bishop[i].selectBestMove() != null) {
+				if(!this.bishop[i].validMoves().isEmpty()) {
 					//A valid Move exists for this Bishop, so add it to the list of setOfMoves
-					Move bestMove = this.bishop[i].selectBestMove();
-					bestMove.setSource(this.bishop[i].getSquare());
-					setOfMoves.add(bestMove);
+					for( Move temp : this.bishop[i].validMoves()) {
+						setOfMoves.add(temp);
+					}
 				}
 			}
 		}
@@ -424,11 +478,11 @@ public class Player {
 		for (i=1; i<=2; i++) {
 			if ( this.knight[i].isPieceDead() == false) {
 				//Knight is alive
-				if(this.knight[i].selectBestMove() != null) {
+				if(!this.knight[i].validMoves().isEmpty()) {
 					//A valid Move exists for this Knight, so add it to the list of setOfMoves
-					Move bestMove = this.knight[i].selectBestMove();
-					bestMove.setSource(this.knight[i].getSquare());
-					setOfMoves.add(bestMove);
+					for( Move temp : this.knight[i].validMoves()) {
+						setOfMoves.add(temp);
+					}
 				}
 			}
 		}
@@ -436,48 +490,33 @@ public class Player {
 		//find the best possible move for a Queen and add it to setOfMoves
 		if ( this.queen.isPieceDead() == false) {
 			//Queen is alive
-			if(this.queen.selectBestMove() != null) {
+			if(!this.queen.validMoves().isEmpty()) {
 				//A valid Move exists for this Queen, so add it to the list of setOfMoves
-				Move bestMove = this.queen.selectBestMove();
-				bestMove.setSource(this.queen.getSquare());
-				setOfMoves.add(bestMove);
+				for( Move temp : this.queen.validMoves()) {
+					setOfMoves.add(temp);
+				}
 			}
 		}
 		
 		//find the best possible move for a King and add it to setOfMoves
 		if ( this.king.isPieceDead() == false) {
 			//Queen is alive
-			if(this.king.selectBestMove() != null) {
+			if(!this.king.validMoves().isEmpty()) {
 				//A valid Move exists for this Queen, so add it to the list of setOfMoves
-				Move bestMove = this.king.selectBestMove();
-				bestMove.setSource(this.king.getSquare());
-				setOfMoves.add(bestMove);
+				for( Move temp : this.king.validMoves()) {
+					setOfMoves.add(temp);
+				}
 			}
 		}
 		
-		//At this stage we have a list of best possible move for each alive piece
+		//At this stage we have a list of all valid moves with their heuristic
 		//Now we need to find the best of this list, so that we can find the best Heuristic move out of all
 		
 		if(!setOfMoves.isEmpty()) {
-			Move bestMove = setOfMoves.get(0);
-			float bestHeuristicValue = bestMove.getHeuristicValue();
-			
-			if(setOfMoves.size() > 1){
-				//there are more than one moves in the list, lets find the best
-				for(i=1; i<setOfMoves.size(); i++) {
-					//check if the current Move's Heuristic value is better than the bestHeuristicValue
-					if(setOfMoves.get(i).getHeuristicValue() > bestHeuristicValue){
-						//it is better. So update bestMove & bestHeuristicValue else don't do anything
-						bestMove = setOfMoves.get(i);
-						bestHeuristicValue = setOfMoves.get(i).getHeuristicValue();
-					}
-				}
-				
-				return bestMove;
-				
-			}else {
-				//there is only one move in the list, so that is the best move
-				return bestMove;
+			if(setOfMoves.size() == 1) {
+				return setOfMoves.get(0);
+			} else {
+				return this.refineList(setOfMoves);
 			}
 			
 		}else {

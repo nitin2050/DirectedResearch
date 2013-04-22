@@ -4,7 +4,7 @@ import ChessAPI.Piece.Color;
 
 public class Board {
 	//singleton instance
-	public static Board instance;
+	public static Board instance = null;
 	static final int ROWS = 8;
 	static final int COLS = 8;
 	private Square[][] board;
@@ -33,13 +33,16 @@ public class Board {
 			}
 		}
 	}
-
-	public static Square getBoard(int i, int j) {
+	
+	public static Board getInstance() {
 		if(instance == null) {
 			instance = new Board();
-		} else {
-			
 		}
+		return instance;
+	}
+
+	public static Square getBoard(int i, int j) {
+		
 		return instance.board[i][j];
 	}
 
@@ -230,6 +233,8 @@ public class Board {
 		}//end outer for
 		System.out.println("   a           b           c           d           e           f           g           h");
 	}
+	
+	
 	
 	public GameDump getDump()
 	{
