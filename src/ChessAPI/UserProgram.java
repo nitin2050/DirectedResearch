@@ -8,6 +8,7 @@ import ChessAPI.Board;
 import ChessAPI.GameDump;
 import ChessAPI.Piece.Color;
 import ChessAPI.Piece.Type;
+import ChessAPI.Player.PlayerStatus;
 import ChessAPI.Player;
 
 public class UserProgram {
@@ -869,7 +870,9 @@ public class UserProgram {
 					//nitin playing around
 					playMode = 0;
 			  }
-		}while(!exit.equals("Q"));
+		}while(!exit.equals("Q") && !pl1.getStatus().equals(PlayerStatus.lost) && !pl2.getStatus().equals(PlayerStatus.lost)
+				&& !pl1.getStatus().equals(PlayerStatus.won) && !pl2.getStatus().equals(PlayerStatus.won) && !pl1.getStatus().equals(PlayerStatus.draw)
+				&& !pl2.getStatus().equals(PlayerStatus.draw));
 		System.out.println("\nGoodbye!");
 	}
 }
