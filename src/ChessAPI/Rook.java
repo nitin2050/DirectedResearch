@@ -77,7 +77,7 @@ public class Rook extends Piece{
 		for (int i = 1; i <= 8; i++)
 			for (int j = 1; j <= 8; j++)
 			{
-				board[i][j] = Board.getBoard(i, j); 
+				board[i][j] = Board.getInstance().getSquare(i, j); 
 			}
 
 		boolean result = false;		
@@ -134,7 +134,7 @@ public class Rook extends Piece{
 
 			//set piece.square to destination square
 			this.setSquare(destination);
-			Board.instance.setSquare(destination, destination.get_x(), destination.get_y());
+			Board.getInstance().setSquare(destination, destination.get_x(), destination.get_y());
 
 			return true;	
 	}

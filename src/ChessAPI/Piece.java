@@ -129,7 +129,7 @@ public abstract class Piece {
 			for (int j = 1; j <= 8; j++)
 			{
 				currentBoard[i][j] = new Square();
-				currentBoard[i][j] = Board.getBoard(i, j); 
+				currentBoard[i][j] = Board.getInstance().getSquare(i, j); 
 			}
 		
 		if(this.validateMove(this.getSquare(), destination)){
@@ -152,7 +152,7 @@ public abstract class Piece {
 		for (int i = 1; i <= 8; i++)
 			for (int j = 1; j <= 8; j++)
 			{
-				currentBoard[i][j] = Board.getBoard(i, j); 
+				currentBoard[i][j] = Board.getInstance().getSquare(i, j); 
 			}
 		
 		List<Move> validMovesList = new ArrayList<Move>();

@@ -1,8 +1,5 @@
 package ChessAPI;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class Bishop extends Piece{
 
 	public Bishop() {
@@ -78,8 +75,9 @@ public class Bishop extends Piece{
 		for (int i = 1; i <= 8; i++)
 			for (int j = 1; j <= 8; j++)
 			{
-				board[i][j] = Board.getBoard(i, j); 
+				board[i][j] = Board.getInstance().getSquare(i, j); 
 			}
+		
 		boolean result = false;		
 		int s_x = s.get_x();
 		int s_y = s.get_y();

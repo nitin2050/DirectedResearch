@@ -7,7 +7,10 @@ import ChessAPI.Piece.Color;
 import ChessAPI.Piece.Type;
 
 public class Player {
-
+	public enum PlayerStatus{
+		won,lost,draw,progress
+	}
+	
 	Pawn pawn[];
 	Knight knight[];
 	Bishop bishop[];
@@ -18,11 +21,13 @@ public class Player {
 	int noOfAlive, noOfDead, noOfMoves;
 	boolean myTurn;
 	public Square originalSquare = null;
+	private PlayerStatus status;
 
 	boolean isCastling;
 
 	public Player(Color c)
 	{
+		status = PlayerStatus.progress;
 		color = c;
 		noOfAlive = 16;
 		noOfDead = 0;
@@ -49,6 +54,18 @@ public class Player {
 		isCastling = false;
 	}
 
+	//returns the player status
+	//when we see that a player is won or lost then we set this variable to corresponding value
+	//status of one player won indicates other has lost and viceversa
+	//status of one player draw indicates game is drawn, because it wnt be posible to update the status of ither player.
+	public PlayerStatus getStatus() {
+		return this.status;
+	}
+	
+	public void setStatus(PlayerStatus status) {
+		this.status = status;
+	}
+	
 	public void setColor(Color color) {
 		this.color = color;
 	}
@@ -141,7 +158,7 @@ public class Player {
 		for (int i = 1; i <= 8; i++)
 			for (int j = 1; j <=8; j++)
 			{
-				currentBoard[i][j] = Board.getBoard(i, j);
+				currentBoard[i][j] = Board.getInstance().getSquare(i, j);
 			}
 
 		Square kingPosition = this.king.getSquare(); //get Kings current position
@@ -179,7 +196,7 @@ public class Player {
 		for (int i = 1; i <= 8; i++)
 			for (int j = 1; j <=8; j++)
 			{
-				currentBoard[i][j] = Board.getBoard(i, j);
+				currentBoard[i][j] = Board.getInstance().getSquare(i, j);
 			}
 
 		Square kingPosition = new Square(this.color, x, y, this.king);
@@ -283,6 +300,7 @@ public class Player {
 			} else {
 				//King is in check and there is no valid move that exists for King
 				//GAME OVER
+				this.setStatus(PlayerStatus.lost);
 				return null;
 			}	
 		}
@@ -316,7 +334,7 @@ public class Player {
 				{
 					for (i = this.rook[1].getSquare().get_y() + 1; i < this.king.getSquare().get_y(); i++)
 					{
-						if (Board.getBoard(x_current, i).getPiece() != null)
+						if (Board.getInstance().getSquare(x_current, i).getPiece() != null)
 						{
 							notObstructed = false;
 							success = false;
@@ -378,7 +396,7 @@ public class Player {
 						{
 							for (i = this.king.getSquare().get_y() + 1; i < this.rook[2].getSquare().get_y(); i++)
 							{
-								if (Board.getBoard(x_current, i).getPiece() != null)
+								if (Board.getInstance().getSquare(x_current, i).getPiece() != null)
 								{
 									notObstructed = false;
 									success = false;
@@ -521,6 +539,8 @@ public class Player {
 			
 		}else {
 			//There is no possible move for this player
+			//STALEMATE
+			this.setStatus(PlayerStatus.draw);
 			return null;
 		}
 

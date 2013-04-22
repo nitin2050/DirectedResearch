@@ -70,7 +70,7 @@ public class Queen extends Piece{
 		for (int i = 1; i <= 8; i++)
 			for (int j = 1; j <= 8; j++)
 			{
-				board[i][j] = Board.getBoard(i, j); 
+				board[i][j] = Board.getInstance().getSquare(i, j); 
 			}
 		boolean result = false;		
 		int s_x = s.get_x();
