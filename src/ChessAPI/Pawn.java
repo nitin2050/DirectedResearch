@@ -8,7 +8,7 @@ public class Pawn extends Piece {
 	public Pawn() {
 		super();
 	}
-	
+
 	public Pawn(Color c, Square s, Type t) {
 		super(c,s,t);
 	}
@@ -22,7 +22,7 @@ public class Pawn extends Piece {
 		if(this.validateMove(this.getSquare(), destination) == true) {
 			//move piece to destination
 			destination.setPiece(this);
-			Board.getInstance().setNull(this.getSquare().get_x(), this.getSquare().get_y());
+			Board.setNull(this.getSquare().get_x(), this.getSquare().get_y());
 
 			if (destination.get_x() == 1 || destination.get_x() == 8)
 			{
@@ -55,7 +55,7 @@ public class Pawn extends Piece {
 			}
 			//set piece.square to destination square
 			this.setSquare(destination);
-			Board.getInstance().setBoard(destination, this.getSquare().get_x(), this.getSquare().get_y());
+			Board.setBoard(destination, this.getSquare().get_x(), this.getSquare().get_y());
 
 			return true;		
 		}else{
@@ -129,18 +129,18 @@ public class Pawn extends Piece {
 			opp_x = s.get_x();
 			opp_y = d.get_y();
 
-			if (Board.getInstance().getSquare(opp_x, opp_y).getPiece() != null)
+			if (Board.getBoard(opp_x, opp_y).getPiece() != null)
 			{
 				// That means it is of opposite color
-				if (Board.getInstance().getSquare(opp_x, opp_y).getPiece().getColor() != s.getPiece().getColor())
+				if (Board.getBoard(opp_x, opp_y).getPiece().getColor() != s.getPiece().getColor())
 				{
 					Square sq = null;
-					sq = new Square(Board.getInstance().getSquare(opp_x, opp_y).getColor(), opp_x, opp_y, null);
+					sq = new Square(Board.getBoard(opp_x, opp_y).getColor(), opp_x, opp_y, null);
 					Piece p = null;
-					p = Board.getInstance().getSquare(opp_x, opp_y).getPiece();
+					p = Board.getBoard(opp_x, opp_y).getPiece();
 					p.setIsDead(true);
 
-					Board.getInstance().setBoard(sq, opp_x, opp_y);
+					Board.setBoard(sq, opp_x, opp_y);
 					this.enpass = true;
 					this.en_x = opp_x;
 					this.en_y = opp_y;
@@ -165,7 +165,7 @@ public class Pawn extends Piece {
 		for (int i = 1; i <= 8; i++)
 			for (int j = 1; j <= 8; j++)
 			{
-				board[i][j] = Board.getInstance().getSquare(i, j); 
+				board[i][j] = Board.getBoard(i, j); 
 			}
 
 		while(s_x != d_x || s_y != d_y){

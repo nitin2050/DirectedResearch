@@ -1,7 +1,7 @@
 package ChessAPI;
 
 public class Rook extends Piece{
-	
+
 	public String err="";
 	public boolean isRookMoved;
 
@@ -9,7 +9,7 @@ public class Rook extends Piece{
 		super();
 		isRookMoved = false;
 	}
-	
+
 	public Rook(Color c, Square s,Type t) {
 		super(c,s,t);
 		isRookMoved = false;
@@ -17,7 +17,7 @@ public class Rook extends Piece{
 
 	@Override
 	public boolean moveTo(Square destination) {
-		
+
 		//System.out.println("Rook");
 		if(this.validateMove(this.getSquare(), destination)){
 			//System.out.println("Piece moved to "+destination.get_x()+","+destination.get_y());
@@ -34,9 +34,9 @@ public class Rook extends Piece{
 		//logic for checking if the Rook can move from current Location to this Destination
 		//i.e validate()
 		//return true and move else return false
-	
+
 	}
-	
+
 	public boolean validateMove(Square s, Square d){
 		boolean decision = true;
 		if(d.get_x()>8 || d.get_y()>8 || d.get_x()<1 || d.get_y()<1){
@@ -62,7 +62,7 @@ public class Rook extends Piece{
 		*/
 		return decision;
 	}
-	
+
 	private boolean validateAgainstRule(Square s, Square d) {
 		boolean result = false; 
 		int diff_x = Math.abs(s.get_x()-d.get_x());
@@ -77,7 +77,7 @@ public class Rook extends Piece{
 		for (int i = 1; i <= 8; i++)
 			for (int j = 1; j <= 8; j++)
 			{
-				board[i][j] = Board.getInstance().getSquare(i, j); 
+				board[i][j] = Board.getBoard(i, j); 
 			}
 
 		boolean result = false;		
@@ -90,31 +90,31 @@ public class Rook extends Piece{
 
 		if(s_x==d_x){
 			if(d_y>s_y){
-			
+
 				for(int i = s_y+1; i<d_y; i++){
 				if(board[s_x][i].getPiece() != null)
 					result = true;
 				}
 			}
 			else{
-				
+
 				for(int i = s_y-1; i>d_y; i--){
 					if(board[s_x][i].getPiece() != null)
 						result = true;
 				}
 			}
 		}
-		
+
 		if(s_y==d_y){
 			if(d_x>s_x){
-				
+
 				for(int i = s_x+1; i<d_x; i++){
 				if(board[i][s_y].getPiece() != null)
 					result = true;
 				}
 			}
 			else{
-				
+
 				for(int i = s_x-1; i>d_x; i--){
 					if(board[i][s_y].getPiece() != null)
 						result = true;
@@ -134,7 +134,7 @@ public class Rook extends Piece{
 
 			//set piece.square to destination square
 			this.setSquare(destination);
-			Board.getInstance().setSquare(destination, destination.get_x(), destination.get_y());
+			Board.instance.setSquare(destination, destination.get_x(), destination.get_y());
 
 			return true;	
 	}

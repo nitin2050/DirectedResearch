@@ -10,7 +10,7 @@ public class Player {
 	public enum PlayerStatus{
 		won,lost,draw,progress
 	}
-	
+
 	Pawn pawn[];
 	Knight knight[];
 	Bishop bishop[];
@@ -37,7 +37,7 @@ public class Player {
 		rook = new Rook[3];
 		king = new King(c,null,Type.King);
 		queen = new Queen(c,null,Type.Queen);
-		
+
 		for (int i = 1; i <= 8; i++){
 			pawn[i] = new Pawn(c,null,Type.Pawn);
 		}
@@ -48,7 +48,7 @@ public class Player {
 			bishop[i] = new Bishop(c,null,Type.Bishop);
 			rook[i] = new Rook(c,null,Type.Rook);
 		}
-	
+
 		noOfMoves = 0;
 		myTurn = false;
 		isCastling = false;
@@ -61,11 +61,11 @@ public class Player {
 	public PlayerStatus getStatus() {
 		return this.status;
 	}
-	
+
 	public void setStatus(PlayerStatus status) {
 		this.status = status;
 	}
-	
+
 	public void setColor(Color color) {
 		this.color = color;
 	}
@@ -94,7 +94,7 @@ public class Player {
 				System.out.println(" Another piece of your color found at the destination location specified");
 				return false;
 			} else {
-				
+
 				result = true;
 				//System.out.println(" result = " + result);
 				if (result == true && s.getPiece().getType() != Type.Pawn)
@@ -164,13 +164,13 @@ public class Player {
 		Square kingPosition = this.king.getSquare(); //get Kings current position
 
 		if (kingPosition != null) {
-			
+
 			for (int i=1; i<Board.ROWS ; i++){
 				for (int j=1; j<Board.COLS ; j++) {
 					Square currentSquare = currentBoard[i][j];
 					if (currentSquare.getPiece() != null) {
 						if (currentSquare.getPiece().getColor() != this.color) {
-							
+
 							//if I am here, this means that the Board's square[i][j] has opponents piece
 							//now I need to check if this Piece's valid move can capture my King or not
 							//If yes, I am in check else I am not
@@ -183,7 +183,7 @@ public class Player {
 					}					
 				}//end inner for
 			}//end outer for
-			
+
 		}
 		return result;
 	}//end isInCheck()
@@ -202,13 +202,13 @@ public class Player {
 		Square kingPosition = new Square(this.color, x, y, this.king);
 
 		if (kingPosition != null) {
-			
+
 			for (int i=1; i<Board.ROWS ; i++){
 				for (int j=1; j<Board.COLS ; j++) {
 					Square currentSquare = currentBoard[i][j];
 					if (currentSquare.getPiece() != null) {
 						if (currentSquare.getPiece().getColor() != this.color) {
-							
+
 							//if I am here, this means that the Board's square[i][j] has opponents piece
 							//now I need to check if this Piece's valid move can capture my King or not
 							//If yes, I am in check else I am not
@@ -221,7 +221,7 @@ public class Player {
 					}					
 				}//end inner for
 			}//end outer for
-			
+
 		}
 		return result;
 	}//end isInCheck()
@@ -231,7 +231,7 @@ public class Player {
 	//if there are more than one Moves with heurisic value = best heuristic than we choose one randomly out of them
 	private Move refineList(List<Move> listOfMoves) {
 		float bestHeuristic = listOfMoves.get(0).getHeuristicValue();
-		
+
 		//Lets first find the best heuristic value in this list of Moves
 		for (Move temp : listOfMoves) {
 			if(this.color == Color.white) {
@@ -239,7 +239,7 @@ public class Player {
 				if(temp.getHeuristicValue() > bestHeuristic){
 					bestHeuristic = temp.getHeuristicValue();
 				}
-				
+
 			}else {
 				//find more negative heuristic because its a black player
 				if(temp.getHeuristicValue() < bestHeuristic){
@@ -247,7 +247,7 @@ public class Player {
 				}
 			}
 		}
-		
+
 		//now lets find all the moves in listOfMoves with heuristic = bestHeuristic
 		//there can be more than one such moves. If yes then return randomly else return the one.
 		List<Move> refinedList = new ArrayList<Move>();
@@ -256,24 +256,24 @@ public class Player {
 				refinedList.add(temp);
 			}
 		}
-		
+
 		if(refinedList.size() == 1) {
 			//there is only one move with best heuristic
 			return refinedList.get(0);
-			
+
 		} else {
 			//there are more than one moves with best heuristic, return randomly from the best
 			int listSize = refinedList.size();
 			int min = 0;
 			int max = listSize - 1;
 			int randomNum = min + (int) ( Math.random() * ((max - min)+1) );
-			
+
 			return refinedList.get(randomNum);
 		}
-		
+
 	}
-	
-	
+
+
 	//Randomly select a Piece and return a random Square where it can move legally, out of all the possible legal moves
 	//If this method returns null, than there is no valid move possible for the randomly selected Piece
 	//Suggestion: Re-invoke this method till it returns a non-null value
@@ -285,17 +285,17 @@ public class Player {
 			if( !this.king.validMoves().isEmpty() ) {
 				//A valid Move exists for the King, return the best of it
 				//here we also need to check if King is in check even after applying this bestmove
-				
+
 				//this is a list of all valid moves for King with its heuristic
 				List<Move> validKingMoves = this.king.validMoves();
 				Move bestMove = null;
-				
+
 				if(validKingMoves.size() == 1) {
 					bestMove = validKingMoves.get(0);
 				} else {
 					bestMove = this.refineList(validKingMoves);
 				}
-				
+
 				return bestMove;
 			} else {
 				//King is in check and there is no valid move that exists for King
@@ -315,7 +315,7 @@ public class Player {
 		6. The king does not end up in check (true of any legal move).
 		7. The king and the chosen rook are on the first rank of the player (rank 1 for White, rank 8 for Black, in algebraic notation).[3]
 		*/
-		
+
 		// System.out.println(" King " + this.king.isKingMoved);
 		// 1.1, 2.1 The king has not previously moved.
 		if (this.king.isKingMoved == false)
@@ -362,7 +362,7 @@ public class Player {
 						}
 					}
 				}
-				
+
 				// 1.7. The king and the chosen rook are on the first rank of the player
 				// (That means on original rows same row as that of their initial rows)
 				// isNotMoved flag should serve the purpose
@@ -375,7 +375,7 @@ public class Player {
 					this.moveTonoCheck(this.king.getSquare(), new_king);
 					Move bestMove = new Move(new_rook, 100, currentRook.getSquare());
 					bestMove.setSource(currentRook.getSquare());
-					
+
 					isCastling = true;
 					return bestMove;
 				}
@@ -385,13 +385,13 @@ public class Player {
 					notObstructed = true; success = true;
 					i = 0; 
 					diff_y = 0; x_current = 0;
-	
+
 					// 2.2. The chosen rook has not previously moved.
 					if (this.rook[2].isRookMoved == false)
 					{
 						diff_y = this.rook[2].getSquare().get_y() - this.king.getSquare().get_y();
 						x_current = this.rook[2].getSquare().get_x();
-	
+
 						if (diff_y > 0)
 						{
 							for (i = this.king.getSquare().get_y() + 1; i < this.rook[2].getSquare().get_y(); i++)
@@ -423,7 +423,7 @@ public class Player {
 								}
 							}
 						}
-						
+
 						// 2.7. The king and the chosen rook are on the first rank of the player
 						// (That means on original rows same row as that of their initial rows)
 						// isNotMoved flag should serve the purpose
@@ -446,13 +446,13 @@ public class Player {
 		} else {
 			// If King is moved no Castling can be done
 		}
-		
+
 		/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-		
+
 		//If King is not in check, we can move other pieces
 		//This list will store best moves obtained for each possible alive piece from calling selectBestMove() for that piece
 		List<Move> setOfMoves = new ArrayList<Move>();
-		
+
 		//find the best possible move for each Pawn and add it to setOfMoves
 		for (i=1; i<=8; i++) {
 			if ( this.pawn[i].isPieceDead() == false) {
@@ -465,7 +465,7 @@ public class Player {
 				}	
 			}
 		}
-		
+
 		//find the best possible move for each Rook and add it to setOfMoves
 		for (i=1; i<=2; i++) {
 			if ( this.rook[i].isPieceDead() == false) {
@@ -478,7 +478,7 @@ public class Player {
 				}
 			}
 		}
-	
+
 		//find the best possible move for each Bishop and add it to setOfMoves
 		for (i=1; i<=2; i++) {
 			if ( this.bishop[i].isPieceDead() == false) {
@@ -491,7 +491,7 @@ public class Player {
 				}
 			}
 		}
-		
+
 		//find the best possible move for each Knight and add it to setOfMoves
 		for (i=1; i<=2; i++) {
 			if ( this.knight[i].isPieceDead() == false) {
@@ -504,7 +504,7 @@ public class Player {
 				}
 			}
 		}
-		
+
 		//find the best possible move for a Queen and add it to setOfMoves
 		if ( this.queen.isPieceDead() == false) {
 			//Queen is alive
@@ -515,7 +515,7 @@ public class Player {
 				}
 			}
 		}
-		
+
 		//find the best possible move for a King and add it to setOfMoves
 		if ( this.king.isPieceDead() == false) {
 			//Queen is alive
@@ -526,17 +526,17 @@ public class Player {
 				}
 			}
 		}
-		
+
 		//At this stage we have a list of all valid moves with their heuristic
 		//Now we need to find the best of this list, so that we can find the best Heuristic move out of all
-		
+
 		if(!setOfMoves.isEmpty()) {
 			if(setOfMoves.size() == 1) {
 				return setOfMoves.get(0);
 			} else {
 				return this.refineList(setOfMoves);
 			}
-			
+
 		}else {
 			//There is no possible move for this player
 			//STALEMATE
@@ -568,14 +568,14 @@ public class Player {
 			noOfDead++;
 			//System.exit(0);
 		}
-		
+
 		if (queen.isPieceDead() == true)
 		{
 			if (debug == true)
 				System.out.println(" Queen is DEAD ");
 			noOfDead++;
 		}
-		
+
 		for (int i = 1; i <= 8; i++){
 			if (pawn[i].isPieceDead() == true)
 			{
@@ -619,7 +619,7 @@ public class Player {
 	public boolean isGameOver()
 	{
 		boolean result = false;
-		
+
 		if (this.king.isPieceDead() == true)
 		{
 			System.out.println(" The Game is Over.. \n Player (" + this.getColor() + ") is lost.. ");

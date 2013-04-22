@@ -3,18 +3,18 @@ package ChessAPI;
 public class Knight extends Piece{
 
 	public String err="";
-	
+
 	public Knight() {
 		super();
 	}
-	
+
 	public Knight(Color c, Square s,Type t) {
 		super(c,s,t);
 	}
 
 	@Override
 	public boolean moveTo(Square destination) {
-		
+
 		//System.out.println("Knight");
 		if(this.validateMove(this.getSquare(), destination)){
 			System.out.println("Piece moved to "+destination.get_x()+","+destination.get_y());
@@ -30,13 +30,13 @@ public class Knight extends Piece{
 		//logic for checking if the Knight can move from current Location to this Destination
 		//i.e validate()
 		//return true and move else return false
-		
+
 	}
-	
+
 	public boolean validateMove(Square s, Square d){
 		boolean decision = true;
 		if(d==null){
-			
+
 			decision = false;
 			return decision;
 		}
@@ -64,7 +64,7 @@ public class Knight extends Piece{
 			return decision;
 		}
 	}
-	
+
 	private boolean validateAgainstRule(Square s, Square d) {
 		boolean result = false; 
 		int diff_x = Math.abs(s.get_x()-d.get_x());
@@ -73,12 +73,12 @@ public class Knight extends Piece{
 			result = true;			
 		return result;
 	}
-	
-	
+
+
 	private boolean isObstructed(Square s, Square d) {
-		
+
 		boolean result = false;
-		
+
 		return result;
 	}
 
@@ -87,5 +87,5 @@ public class Knight extends Piece{
 		// TODO Auto-generated method stub
 		return false;
 	}
-	
+
 }

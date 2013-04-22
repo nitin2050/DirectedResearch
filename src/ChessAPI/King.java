@@ -9,7 +9,7 @@ public class King extends Piece{
 		super();
 		isKingMoved = false;
 	}
-	
+
 	public King(Color c, Square s, Type t) {
 		super(c,s,t);
 		isKingMoved = false;
@@ -17,7 +17,7 @@ public class King extends Piece{
 
 	@Override
 	public boolean moveTo(Square destination) {
-		
+
 		System.out.println("King");
 		if(this.validateMove(this.getSquare(), destination) == true){
 			System.out.println("Piece moved to "+destination.get_x()+","+destination.get_y());
@@ -40,7 +40,7 @@ public class King extends Piece{
 	}
 
 	public boolean moveTonoCheck(Square destination) {
-		
+
 		//System.out.println("King No Check");
 
 		//System.out.println("Piece moved noCheck to "+destination.get_x()+","+destination.get_y());
@@ -50,7 +50,7 @@ public class King extends Piece{
 			isKingMoved = true;
 			//set piece.square to destination square
 			this.setSquare(destination);
-			Board.getInstance().setSquare(destination, destination.get_x(), destination.get_y());
+			Board.instance.setSquare(destination, destination.get_x(), destination.get_y());
 
 			return true;			
 	}
@@ -82,7 +82,7 @@ public class King extends Piece{
 */	
 		return decision;
 	}
-	
+
 	private boolean validateAgainstRule(Square s, Square d) {
 		boolean result = false; 
 		int diff_x = Math.abs(s.get_x() - d.get_x());
@@ -101,7 +101,7 @@ public class King extends Piece{
 		for (int i = 1; i <= 8; i++)
 			for (int j = 1; j <= 8; j++)
 			{
-				board[i][j] = Board.getInstance().getSquare(i, j); 
+				board[i][j] = Board.getBoard(i, j); 
 			}
 		boolean result = false;
 		int s_x = s.get_x();
@@ -110,15 +110,15 @@ public class King extends Piece{
 		int d_y = d.get_y();
 		int diff_x = d_x - s_x;
 		int diff_y = d_y - s_y;
-	
+
 		while(s_x != d_x || s_y != d_y){
-			
+
 			if (diff_x != 1)
 				s_x=s_x+diff_x/Math.abs(diff_x);
-			
+
 			if (diff_y != 1)
 				s_y=s_y+diff_y/Math.abs(diff_y);
-			
+
 			if(board[s_x][s_y].getPiece() != null){
 				result = true;
 				break;
