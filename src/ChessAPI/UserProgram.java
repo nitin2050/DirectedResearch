@@ -84,7 +84,7 @@ public class UserProgram {
 				  int i = 0;
 					do
 					{
-						if (i % 2 == 0)
+						if (i % 2 == 1)
 							System.out.println("\n\n -------------------------------- Black's Turn ---------------------------------------- ");
 						else
 							System.out.println("\n\n -------------------------------- White's Turn ---------------------------------------- ");
@@ -95,7 +95,7 @@ public class UserProgram {
 							int s_x=0,s_y=0,d_x=0,d_y=0;
 							do {
 
-								System.out.println("Black Player Please Make Move (Format:Source_Col,Source_Row,Dest_Col,Dest_Row):");
+								System.out.println("White Player Please Make Move (Format:Source_Col,Source_Row,Dest_Col,Dest_Row):");
 								String move = "";
 								try {
 									 move = br.readLine();
@@ -114,7 +114,12 @@ public class UserProgram {
 								d_x =  (9 - d_x);
 								char dy = moves[2].charAt(0);
 								d_y = (int) dy-96;
-								originalType = b.getSquare(s_x, s_y).getPiece().getType().toString();
+ 
+								if (b.getSquare(s_x, s_y).getPiece() != null)
+									originalType = b.getSquare(s_x, s_y).getPiece().getType().toString();
+								else
+									originalType = "";
+
 								result = pl1.moveTo(b.getSquare(s_x, s_y), b.getSquare(d_x, d_y));
 
 							} while(result == false);
@@ -219,7 +224,7 @@ public class UserProgram {
 						} else {
 							int s_x2=0,s_y2=0,d_x2=0,d_y2=0;
 							do {	
-								System.out.println("White Player Please Make Move (Format:Source_Col,Source_Row,Dest_Col,Dest_Row):");
+								System.out.println("Black Player Please Make Move (Format:Source_Col,Source_Row,Dest_Col,Dest_Row):");
 								String move = "";
 								try {
 									 move = br.readLine();
@@ -241,7 +246,12 @@ public class UserProgram {
 								d_y2 = (int) dy-96;
 
 								//System.out.println("Now moving " + originalType + " from (" + d_x2 + ", " + d_y2 + ") to (" + d_x2 + ", " + d_y2 + ") ");
-								originalType = b.getSquare(s_x2, s_y2).getPiece().getType().toString();
+
+								if (b.getSquare(s_x2, s_y2).getPiece() != null)
+									originalType = b.getSquare(s_x2, s_y2).getPiece().getType().toString();
+								else
+									originalType = "";
+
 								result = pl2.moveTo(b.getSquare(s_x2, s_y2), b.getSquare(d_x2, d_y2));
 
 							} while(result == false);
@@ -369,7 +379,7 @@ public class UserProgram {
 				  int i = 0;
 					do
 					{
-						if (i % 2 == 0)
+						if (i % 2 == 1)
 							System.out.println("\n\n -------------------------------- Black's Turn ---------------------------------------- ");
 						else
 							System.out.println("\n\n -------------------------------- White's Turn ---------------------------------------- ");
@@ -380,7 +390,7 @@ public class UserProgram {
 							int s_x=0,s_y=0,d_x=0,d_y=0;
 							do {
 
-								System.out.println("Black Player Please Make Move (Format:Source_Col,Source_Row,Dest_Col,Dest_Row):");
+								System.out.println("White Player Please Make Move (Format:Source_Col,Source_Row,Dest_Col,Dest_Row):");
 								String move = "";
 								try {
 									 move = br.readLine();
@@ -389,12 +399,21 @@ public class UserProgram {
 								}
 								String[] moves = move.split(",");
 								s_x = Integer.parseInt(moves[1]);
+								s_x = (9 - s_x);
+
 								char sy = moves[0].charAt(0);
 								s_y = (int) sy-96;
 								d_x = Integer.parseInt(moves[3]);
+								d_x = (9 - d_x);
+
 								char dy = moves[2].charAt(0);
 								d_y = (int) dy-96;
-								originalType = b.getSquare(s_x, s_y).getPiece().getType().toString();
+								
+								if (b.getSquare(s_x, s_y).getPiece() != null)
+									originalType = b.getSquare(s_x, s_y).getPiece().getType().toString();
+								else
+									originalType = "";
+
 								result = pl1.moveTo(b.getSquare(s_x, s_y), b.getSquare(d_x, d_y));
 
 							} while(result == false);
@@ -629,7 +648,7 @@ public class UserProgram {
 					int i = 0;
 					do
 					{
-						if (i % 2 == 0)
+						if (i % 2 == 1)
 							System.out.println("\n\n -------------------------------- Black's Turn ---------------------------------------- ");
 						else
 							System.out.println("\n\n -------------------------------- White's Turn ---------------------------------------- ");
