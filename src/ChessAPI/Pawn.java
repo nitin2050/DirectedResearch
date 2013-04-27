@@ -105,7 +105,7 @@ public class Pawn extends Piece {
 		// Or it can move by two squares when it is starting from its initial position 
 /*
 		if (Board.getBoard(d.get_x(), d.get_y()).getPiece() == null)
-			System.out.println(" Pawn :: diff_x = " + diff_x + " diff_y = " + diff_y);
+			System.out.println(" Pawn :: diff_x = " + diff_x + " diff_y = " + diff_y + " Piece is null ");
 		else
 			System.out.println(" Pawn :: diff_x = " + diff_x + " diff_y = " + diff_y + " piece = " + Board.getBoard(d.get_x(), d.get_y()).getPiece());
 */
@@ -132,20 +132,23 @@ public class Pawn extends Piece {
 			if (Board.getBoard(opp_x, opp_y).getPiece() != null)
 			{
 				// That means it is of opposite color
-				if (Board.getBoard(opp_x, opp_y).getPiece().getColor() != s.getPiece().getColor())
+				if (Board.getBoard(s.get_x(), s.get_y()).getPiece() != null)
 				{
-					Square sq = null;
-					sq = new Square(Board.getBoard(opp_x, opp_y).getColor(), opp_x, opp_y, null);
-					Piece p = null;
-					p = Board.getBoard(opp_x, opp_y).getPiece();
-					p.setIsDead(true);
-
-					Board.setBoard(sq, opp_x, opp_y);
-					this.enpass = true;
-					this.en_x = opp_x;
-					this.en_y = opp_y;
-
-					result = true;
+					if (Board.getBoard(opp_x, opp_y).getPiece().getColor() != Board.getBoard(s.get_x(), s.get_y()).getPiece().getColor())
+					{
+						Square sq = null;
+						sq = new Square(Board.getBoard(opp_x, opp_y).getColor(), opp_x, opp_y, null);
+						Piece p = null;
+						p = Board.getBoard(opp_x, opp_y).getPiece();
+						p.setIsDead(true);
+	
+						Board.setBoard(sq, opp_x, opp_y);
+						this.enpass = true;
+						this.en_x = opp_x;
+						this.en_y = opp_y;
+	
+						result = true;
+					}
 				}
 			}
 		}
