@@ -2,6 +2,7 @@ package ChessAPI;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 import ChessAPI.Piece.Color;
 import ChessAPI.Piece.Type;
@@ -269,11 +270,10 @@ public class Player {
 		} else {
 			//there are more than one moves with best heuristic, return randomly from the best
 			int listSize = refinedList.size();
-			int min = 0;
-			int max = listSize - 1;
-			int randomNum = min + (int) ( Math.random() * ((max - min)+1) );
+			Random r = new Random();
+			int result = r.nextInt(listSize);
 
-			return refinedList.get(randomNum);
+			return refinedList.get(result);
 		}
 
 	}
