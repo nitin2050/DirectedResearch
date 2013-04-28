@@ -79,36 +79,51 @@ public class Queen extends Piece{
 		int d_y = d.get_y();
 		int diff_x = d_x - s_x;
 		int diff_y = d_y - s_y;
-		if(s_x==d_x) {
-			if (diff_y != 1)
-			for(int i = s_y+diff_y/Math.abs(diff_y); i<=d_y; i=i+diff_y/Math.abs(diff_y)){
-				if (i < 1 || i > 8)
-					break;
+		if(s_x==d_x){
+			if(d_y>s_y){
+
+				for(int i = s_y+1; i<d_y; i++){
 				if(board[s_x][i].getPiece() != null)
 					result = true;
+				}
+			}
+			else{
+
+				for(int i = s_y-1; i>d_y; i--){
+					if(board[s_x][i].getPiece() != null)
+						result = true;
+				}
 			}
 		}
 
-		if(s_y == d_y) {
-			if (diff_x != 1)
-			for(int i = s_x+diff_x/Math.abs(diff_x); i<=d_x; i=i+diff_x/Math.abs(diff_x)){
-				if (i < 1 || i > 8)
-					break;
+		if(s_y==d_y){
+			if(d_x>s_x){
+
+				for(int i = s_x+1; i<d_x; i++){
 				if(board[i][s_y].getPiece() != null)
 					result = true;
+				}
 			}
-		}
+			else{
 
-		while(s_x != d_x || s_y != d_y){
-			if (diff_x != 1)
-				s_x=s_x+diff_x/Math.abs(diff_x);
-			if (diff_y != 1)
-				s_y=s_y+diff_y/Math.abs(diff_y);
-			if(board[s_x][s_y].getPiece() != null){
-				result = true;
-				break;
+				for(int i = s_x-1; i>d_x; i--){
+					if(board[i][s_y].getPiece() != null)
+						result = true;
+				}
 			}
 		}
+        if(s_x!=d_x && s_y!=d_y){
+			while(s_x != d_x || s_y != d_y){
+				if (diff_x != 1)
+					s_x=s_x+diff_x/Math.abs(diff_x);
+				if (diff_y != 1)
+					s_y=s_y+diff_y/Math.abs(diff_y);
+				if(board[s_x][s_y].getPiece() != null){
+					result = true;
+					break;
+				}
+			}
+        }
 		if(result == true && board[d_x][d_y].getPiece()!=null)
 			result = false;
 		return result;
