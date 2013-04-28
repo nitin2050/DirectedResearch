@@ -69,58 +69,7 @@ public abstract class Piece {
 		isPieceDead = dead;
 	}
 
-	public float getBoardMaterial(Square[][] tempBoard) {
-		float materialValue = 0;
-
-		for(int i=1; i<Board.ROWS+1; i++  ){
-			for(int j=1; j<Board.COLS+1; j++  ){
-
-				Piece tempPiece = tempBoard[i][j].getPiece();
-				if( tempPiece != null){
-					//a piece is present on square i,j
-
-					if(tempPiece.getColor() == Color.white) {
-						//its a WHITE Piece
-						//determine the type of piece to add its corresponding material value
-						if(tempPiece.getClass().getName().equals("King"))
-							materialValue = materialValue + 200;
-						else if(tempPiece.getClass().getName().equals("Queen"))
-							materialValue = materialValue + 9;
-						else if(tempPiece.getClass().getName().equals("Rook"))
-							materialValue = materialValue + 5;
-						else if(tempPiece.getClass().getName().equals("Bishop"))
-							materialValue = materialValue + 3;
-						else if(tempPiece.getClass().getName().equals("Knight"))
-							materialValue = materialValue + 3;
-						else if(tempPiece.getClass().getName().equals("Pawn"))
-							materialValue = materialValue + 1;
-
-					}else if(tempPiece.getColor() == Color.black) {
-						//its a BLACK Piece
-						//determine the type of piece to add its corresponding material value
-						if(tempPiece.getClass().getName().equals("King"))
-							materialValue = materialValue - 200;
-						else if(tempPiece.getClass().getName().equals("Queen"))
-							materialValue = materialValue - 9;
-						else if(tempPiece.getClass().getName().equals("Rook"))
-							materialValue = materialValue - 5;
-						else if(tempPiece.getClass().getName().equals("Bishop"))
-							materialValue = materialValue - 3;
-						else if(tempPiece.getClass().getName().equals("Knight"))
-							materialValue = materialValue - 3;
-						else if(tempPiece.getClass().getName().equals("Pawn"))
-							materialValue = materialValue - 1;
-
-					}
-				}
-			}//end inner for
-		}//end outer for
-
-
-		return materialValue;	
-	}
-
-
+	
 	//Gives the Heuristic for a Move starting from the Piece's currentPosition to the Destination square passed as a parameter to this method 
 	public float getHeuristic(Square destination) {
 
@@ -128,21 +77,63 @@ public abstract class Piece {
 		for (int i = 1; i <= 8; i++)
 			for (int j = 1; j <= 8; j++)
 			{
-				currentBoard[i][j] = new Square();
-				currentBoard[i][j] = Board.getBoard(i, j); 
+				currentBoard[i][j] = Board.getBoard(i, j);
+				currentBoard[i][j].setPiece(Board.getBoard(i, j).getPiece());
+				//currentBoard[i][j] = new Square();
+				//currentBoard[i][j].set_x(Board.getBoard(i, j).get_x()); 
+				//currentBoard[i][j].set_y(Board.getBoard(i, j).get_y());
+				//currentBoard[i][j].setPiece(Board.getBoard(i, j).getPiece());
+				//currentBoard[i][j].setColor(Board.getBoard(i, j).getColor());
 			}
 
-		if(this.validateMove(this.getSquare(), destination)){
-			//its a valid move lets update the currentBoard(which is a copy of actual boardarray)
-			//so that it reflect the board status after the move temporarily
-			currentBoard[this.getSquare().get_x()][this.getSquare().get_y()].setPiece(null);
-			currentBoard[destination.get_x()][destination.get_y()].setPiece(this);
-		}
+		float materialValue = 0;
 
-		//currentboard now reflects the board after the move
-		float value = getBoardMaterial(currentBoard);
+		for(int i=1; i<Board.ROWS+1; i++  ){
+			for(int j=1; j<Board.COLS+1; j++  ){
 
-		return value;
+				Piece tempPiece = currentBoard[i][j].getPiece();
+				if( tempPiece != null){
+					//a piece is present on square i,j
+
+					if(tempPiece.getColor() == Color.white) {
+						//its a WHITE Piece
+						//determine the type of piece to add its corresponding material value
+						if(tempPiece.getType() == Type.King)
+							materialValue = materialValue + 200;
+						else if(tempPiece.getType() == Type.Queen)
+							materialValue = materialValue + 9;
+						else if(tempPiece.getType() == Type.Rook)
+							materialValue = materialValue + 5;
+						else if(tempPiece.getType() == Type.Bishop)
+							materialValue = materialValue + 3;
+						else if(tempPiece.getType() == Type.Knight)
+							materialValue = materialValue + 3;
+						else if(tempPiece.getType() == Type.Pawn)
+							materialValue = materialValue + 1;
+						
+
+					}else if(tempPiece.getColor() == Color.black) {
+						//its a BLACK Piece
+						//determine the type of piece to add its corresponding material value
+						if(tempPiece.getType() == Type.King)
+							materialValue = materialValue - 200;
+						else if(tempPiece.getType() == Type.Queen)
+							materialValue = materialValue - 9;
+						else if(tempPiece.getType() == Type.Rook)
+							materialValue = materialValue - 5;
+						else if(tempPiece.getType() == Type.Bishop)
+							materialValue = materialValue - 3;
+						else if(tempPiece.getType() == Type.Knight)
+							materialValue = materialValue - 3;
+						else if(tempPiece.getType() == Type.Pawn)
+							materialValue = materialValue - 1;
+
+					}
+				}
+			}//end inner for
+		}//end outer for
+
+		return materialValue;
 	}
 
 	//returns a List of valid moves for a piece with its heuristics 
@@ -153,6 +144,7 @@ public abstract class Piece {
 			for (int j = 1; j <= 8; j++)
 			{
 				currentBoard[i][j] = Board.getBoard(i, j); 
+				currentBoard[i][j].setPiece(Board.getBoard(i, j).getPiece());
 			}
 
 		List<Move> validMovesList = new ArrayList<Move>();
