@@ -54,12 +54,12 @@ public class Rook extends Piece{
 			err="Not a valid move for a Rook, the requested move is rejected.";
 			return decision;
 		}
-		/*
+		
 		if(this.isObstructed(s, d)){
 			decision=false;
 			err="Another piece exists in the path to the destination square, the requested move is rejected.";
 		}
-		*/
+		
 		return decision;
 	}
 
@@ -121,6 +121,8 @@ public class Rook extends Piece{
 				}
 			}
 		}
+		if(result == true && board[d_x][d_y].getPiece()!=null)
+			result = false;
 		return result;
 	}
 

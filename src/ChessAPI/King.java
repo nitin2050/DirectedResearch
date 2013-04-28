@@ -72,14 +72,14 @@ public class King extends Piece{
 			err="Not a valid move for a King, the requested move is rejected.";
 			return decision;
 		}
-/*
+
 		// isObstructed is not applicable for King
 		// as the source and destination squares will be next to each other
 		if(this.isObstructed(s, d) == true){
 			decision=false;
 			err="Another piece exists in the path to the destination square, the requested move is rejected.";
 		}
-*/	
+	
 		return decision;
 	}
 
@@ -124,6 +124,8 @@ public class King extends Piece{
 				break;
 			}
 		}
+		if(result == true && board[d_x][d_y].getPiece()!=null)
+			result = false;
 
 		return result;
 	}
