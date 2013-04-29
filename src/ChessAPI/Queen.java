@@ -20,14 +20,19 @@ public class Queen extends Piece{
 	@Override
 	public boolean moveTo(Square destination) {
 
+		int i = 0;
+		
+		//if (i == 0)
+		//	return false;
+
 		//System.out.println("Queen");
 		if(this.validateMove(this.getSquare(), destination)){
-			System.out.println("Piece moved to "+destination.get_x()+","+destination.get_y());
+			System.out.println("Q Piece moved to "+destination.get_x()+","+destination.get_y());
 			//move piece to destination 
 			destination.setPiece(this);
 			//set piece.square to destination square
 			this.setSquare(destination);
-			return true;			
+			return true;
 		}else{
 			System.out.println(err);
 			return false;

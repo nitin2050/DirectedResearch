@@ -20,6 +20,7 @@ public class UserProgram {
 		D = b.getDump();
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		String more = null;
+		int no = 0;
 
 		ApiVersion.printVersionNo();
 
@@ -534,8 +535,9 @@ public class UserProgram {
 						} else {
 							result = false;
 							randomMove = null;
+							no = 0;
 							do {
-								randomMove = pl2.selectBestMove();
+								randomMove = pl2.selectBestMove(no++);
 								//System.out.println("Now moving " + randomMove.getSource().getPiece().getType() + " from (" + randomMove.getSource().get_x()+ ", " + randomMove.getSource().get_y() + ") to (" + randomMove.getDestinationSquare().get_x() + ", " + randomMove.getDestinationSquare().get_y() + ") ");
 								
 								Square source_sq = null, dest_sq = null;
@@ -701,9 +703,10 @@ public class UserProgram {
 						if (i % 2 == 0)
 						{
 							result = false;
+							no = 0;
 							do {
 								//s_rand = pl1.randomMove();
-								randomMove = pl1.selectBestMove();
+								randomMove = pl1.selectBestMove(no++);
 								if (randomMove.getSource() == null || randomMove.getSource().getPiece() == null)
 									continue;
 								//System.out.println("Now moving from (" + randomMove.getSource().get_x() + ", " + randomMove.getSource().get_y() + " to " + randomMove.getSource().getPiece().getType());
@@ -811,9 +814,10 @@ public class UserProgram {
 								Board.instance.setSquare(randomMove.getSource(), randomMove.getSource().get_x(), randomMove.getSource().get_y());
 					} else {
 							randomMove = null;
+							no = 0;
 							do {
 								//s_rand = pl2.randomMove();
-								randomMove = pl2.selectBestMove();
+								randomMove = pl2.selectBestMove(no++);
 								if (randomMove.getSource() == null)
 									continue;
 

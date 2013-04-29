@@ -20,7 +20,7 @@ public class King extends Piece{
 
 		System.out.println("King");
 		if(this.validateMove(this.getSquare(), destination) == true){
-			System.out.println("Piece moved to "+destination.get_x()+","+destination.get_y());
+			System.out.println("King Piece moved to "+destination.get_x()+","+destination.get_y());
 			//move piece to destination 
 			destination.setPiece(this);
 

@@ -102,9 +102,9 @@ public class Player {
 
 			if (d.getPiece() != null && d.getPiece().getColor() == s.getPiece().getColor())
 			{
-/*
+
 				System.out.println(" Another piece of your color found at the destination location specified " + s.get_x() + ", " + s.get_y() + " d = " + d.get_x() + ", " + d.get_y());
-				String input = null;
+/*				String input = null;
 				BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 				try {
 					input = br.readLine();
@@ -263,8 +263,10 @@ public class Player {
 	//listOfMoves contains a set of moves and corresponding heuristics
 	//we first find the best value in this list (most +ve for WHITE and most -ve for BLACK)
 	//if there are more than one Moves with heurisic value = best heuristic than we choose one randomly out of them
-	private Move refineList(List<Move> listOfMoves) {
-		float bestHeuristic = listOfMoves.get(0).getHeuristicValue();
+	private Move refineList(List<Move> listOfMoves, int no) {
+		no = 0;//new Random().nextInt(listOfMoves.size());
+
+		float bestHeuristic = listOfMoves.get(no).getHeuristicValue();
 
 		//Lets first find the best heuristic value in this list of Moves
 		for (Move temp : listOfMoves) {
@@ -310,11 +312,12 @@ public class Player {
 	//Randomly select a Piece and return a random Square where it can move legally, out of all the possible legal moves
 	//If this method returns null, than there is no valid move possible for the randomly selected Piece
 	//Suggestion: Re-invoke this method till it returns a non-null value
-	public Move selectBestMove() {
+	public Move selectBestMove(int no) {
 		int i;
 		// If King is InCheck condition Move the King(priority) else we can move anything
 		if (this.isInCheck() == true)
 		{
+			if (no <= 2)
 			if( !this.king.validMoves().isEmpty() ) {
 				//A valid Move exists for the King, return the best of it
 				//here we also need to check if King is in check even after applying this bestmove
@@ -326,7 +329,7 @@ public class Player {
 				if(validKingMoves.size() == 1) {
 					bestMove = validKingMoves.get(0);
 				} else {
-					bestMove = this.refineList(validKingMoves);
+					bestMove = this.refineList(validKingMoves, no);
 				}
 
 				return bestMove;
@@ -568,7 +571,7 @@ public class Player {
 			if(setOfMoves.size() == 1) {
 				return setOfMoves.get(0);
 			} else {
-				return this.refineList(setOfMoves);
+				return this.refineList(setOfMoves, no);
 			}
 
 		}else {
