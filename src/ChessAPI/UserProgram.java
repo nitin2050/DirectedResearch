@@ -356,6 +356,19 @@ public class UserProgram {
 						}
 						b.displayBoard();
 						System.out.println(" ====================================================================================== ");
+						if (pl1.king.isPieceDead() == true)
+						{
+							System.out.println("Player 2 wins (" + pl2.getColor() + ")");
+							System.out.println("Player 1's King is Dead ");
+							break;
+						}
+						if (pl2.king.isPieceDead() == true)
+						{
+							System.out.println("Player 1 wins (" + pl1.getColor() + ")");
+							System.out.println("Player 2's King is Dead ");
+							break;
+						}
+
 						i++;
 						more = "n";
 						System.out.println("Do you want to continue ? (y/n) : ");
@@ -365,6 +378,7 @@ public class UserProgram {
 							System.out.println("Error!");
 							System.exit(1);
 						}
+						
 					} while (more.charAt(0) == 'y');
 					//nitin playing around
 					playMode = 0;
@@ -641,6 +655,19 @@ public class UserProgram {
 						}
 						b.displayBoard();
 						System.out.println(" ====================================================================================== ");
+						if (pl1.king.isPieceDead() == true)
+						{
+							System.out.println("Player 2 wins (" + pl2.getColor() + ")");
+							System.out.println("Player 1's King is Dead ");
+							break;
+						}
+						if (pl2.king.isPieceDead() == true)
+						{
+							System.out.println("Player 1 wins (" + pl1.getColor() + ")");
+							System.out.println("Player 2's King is Dead ");
+							break;
+						}
+
 						i++;
 						more = "n";
 						System.out.println("Do you want to continue ? (y/n) : ");
@@ -673,17 +700,22 @@ public class UserProgram {
 						//b.displayBoard();
 						if (i % 2 == 0)
 						{
+							result = false;
 							do {
 								//s_rand = pl1.randomMove();
 								randomMove = pl1.selectBestMove();
-								//System.out.println("Now moving from (" + randomMove.getSource().get_x() + ", " + randomMove.getSource().get_y());
+								if (randomMove.getSource() == null || randomMove.getSource().getPiece() == null)
+									continue;
+								//System.out.println("Now moving from (" + randomMove.getSource().get_x() + ", " + randomMove.getSource().get_y() + " to " + randomMove.getSource().getPiece().getType());
 								if (pl1.isCastling == true)
 								{
 									result = pl1.moveTonoCheck(randomMove.getSource(), randomMove.getDestinationSquare());
 									pl1.isCastling = false;
 								} else {
 									result = pl1.moveTo(randomMove.getSource(), randomMove.getDestinationSquare());
+									//System.out.println(" result = " + result);
 								}
+								
 								//System.out.println("Now moving " + originalType + " from (" + randomMove.getSource().get_x() + ", " + randomMove.getSource().get_y() + " to (" + randomMove.getDestinationSquare().get_x() + ", " + randomMove.getDestinationSquare().get_y());
 							} while(result == false);
 
@@ -782,6 +814,8 @@ public class UserProgram {
 							do {
 								//s_rand = pl2.randomMove();
 								randomMove = pl2.selectBestMove();
+								if (randomMove.getSource() == null)
+									continue;
 
 								if (pl2.isCastling == true)
 								{
@@ -890,15 +924,30 @@ public class UserProgram {
 						}
 						Board.instance.displayBoard();
 						System.out.println(" ====================================================================================== ");
+						
+						if (pl1.king.isPieceDead() == true)
+						{
+							System.out.println("Player 2 wins (" + pl2.getColor() + ")");
+							System.out.println("Player 1's King is Dead ");
+							break;
+						}
+						if (pl2.king.isPieceDead() == true)
+						{
+							System.out.println("Player 1 wins (" + pl1.getColor() + ")");
+							System.out.println("Player 2's King is Dead ");
+							break;
+						}
+
 						i++;
 						more = "n";
+						more = "yes";
 						System.out.println("Do you want to continue ? (y/n) : ");
-						try {
+						/*try {
 							more = br.readLine();
 						} catch (IOException e) {
 							System.out.println("Error!");
 							System.exit(1);
-						}
+						}*/
 						
 					} while (more.charAt(0) == 'y');
 					//nitin playing around

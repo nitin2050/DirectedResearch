@@ -18,7 +18,7 @@ public class Pawn extends Piece {
 	@Override
 	public boolean moveTo(Square destination) {
 
-		//System.out.println(" Pawn ");
+		System.out.println(" Pawn ");
 		if(this.validateMove(this.getSquare(), destination) == true) {
 			//move piece to destination
 			destination.setPiece(this);

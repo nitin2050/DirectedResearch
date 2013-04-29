@@ -36,13 +36,10 @@ public class King extends Piece{
 		//logic for checking if the King can move from current Location to this Destination
 		//i.e validate()
 		//return true and move else return false
-
 	}
 
 	public boolean moveTonoCheck(Square destination) {
-
 		//System.out.println("King No Check");
-
 		//System.out.println("Piece moved noCheck to "+destination.get_x()+","+destination.get_y());
 			//move piece to destination 
 			destination.setPiece(this);
