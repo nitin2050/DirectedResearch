@@ -899,6 +899,7 @@ public class UserProgram {
 							System.out.println("Error!");
 							System.exit(1);
 						}
+						
 					} while (more.charAt(0) == 'y');
 					//nitin playing around
 					playMode = 0;
