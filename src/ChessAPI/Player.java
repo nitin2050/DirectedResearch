@@ -87,18 +87,8 @@ public class Player {
 	}
 
 	public boolean moveTo(Square s, Square d) {
-		System.out.println(" Move dest = " + d.get_x() + ", " + d.get_y());
 		if (s.getPiece() == null) {
-			System.out.println("piece object not found at the source location specified " + s.get_x() + ", " + s.get_y());
-			Throwable t = new Throwable();
-			t.printStackTrace();
-			BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-			try {
-				String input = br.readLine();
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+			System.out.println("piece object not found at the source location specified ");
 			return false;
 		} else if (s.getPiece().getColor() != this.getColor())
 		{
@@ -111,17 +101,6 @@ public class Player {
 
 			if (d.getPiece() != null && d.getPiece().getColor() == s.getPiece().getColor())
 			{
-/*
-				System.out.println(" Another piece of your color found at the destination location specified " + s.get_x() + ", " + s.get_y() + " d = " + d.get_x() + ", " + d.get_y());
-				String input = null;
-				BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-				try {
-					input = br.readLine();
-				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-	*/
 				return false;
 			} else {
 				result = true;
@@ -145,7 +124,7 @@ public class Player {
 				{
 					if (temp_dead != null)
 					{
-						System.out.println(" temp_dead is not NULL ");
+						//System.out.println(" temp_dead is not NULL ");
 						d.setPiece(temp_dead);
 						d.getPiece().setIsDead(false);
 						temp_dead.setIsDead(false);
@@ -499,7 +478,7 @@ public class Player {
 		for (i=1; i<=8; i++) {
 			if ( this.pawn[i].isPieceDead() == false) {
 				//Piece is alive
-				System.out.println(" i = " + i + " (" + this.pawn[i].getSquare().get_x() + ", " + this.pawn[i].getSquare().get_y() + ") ");
+				//System.out.println(" i = " + i + " (" + this.pawn[i].getSquare().get_x() + ", " + this.pawn[i].getSquare().get_y() + ") ");
 				if(!this.pawn[i].validMoves().isEmpty()) {
 					//A valid Move exists for this piece, so add it to the list of setOfMoves
 					for( Move temp : this.pawn[i].validMoves()) {
