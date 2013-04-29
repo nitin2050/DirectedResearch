@@ -518,18 +518,28 @@ public class UserProgram {
 							////////////////////
 							//System.out.println("Now moving " + originalType + " from (" + s_x + ", " + s_y + ") to (" + d_x + ", " + d_y + ") ");
 						} else {
+							result = false;
+							randomMove = null;
 							do {
 								randomMove = pl2.selectBestMove();
-								result = pl2.moveTo(randomMove.getSource(), randomMove.getDestinationSquare());
+								//System.out.println("Now moving " + randomMove.getSource().getPiece().getType() + " from (" + randomMove.getSource().get_x()+ ", " + randomMove.getSource().get_y() + ") to (" + randomMove.getDestinationSquare().get_x() + ", " + randomMove.getDestinationSquare().get_y() + ") ");
+								
+								Square source_sq = null, dest_sq = null;
+								source_sq = b.getSquare(randomMove.getSource().get_x(), randomMove.getSource().get_y());
+								dest_sq = b.getSquare(randomMove.getDestinationSquare().get_x(), randomMove.getDestinationSquare().get_y());
+								result = pl2.moveTo(source_sq, dest_sq);//randomMove.getSource(), randomMove.getDestinationSquare());							
+								//System.out.println(" 1. result = " + result);
 							} while(result == false);
-							//System.out.println("Now moving " + originalType + " from (" + pl2.originalSquare.get_x() + ", " + pl2.originalSquare.get_y() + ") to (" + s_rand.get_x() + ", " + s_rand.get_y() + ") ");
-
+							//System.out.println("Now moving " + randomMove.getSource().getPiece().getType() + " from (" + randomMove.getSource().get_x()+ ", " + randomMove.getSource().get_y() + ") to (" + randomMove.getDestinationSquare().get_x() + ", " + randomMove.getDestinationSquare().get_y() + ") ");
+							//System.out.println(" 2. result = " + result);
 							promo_success = false;
 							//System.out.println("Now moving " + originalType + " from (" + pl2.originalSquare.get_x() + ", " + pl2.originalSquare.get_y() + ") to (" + s_rand.get_x() + ", " + s_rand.get_y() + ") ");
-							if (randomMove.getSource().getPiece().getType() == Type.Pawn)
+							
+							if (randomMove.getDestinationSquare().getPiece() != null)
+							if (randomMove.getDestinationSquare().getPiece().getType() == Type.Pawn)
 							{
-								String promo_str = randomMove.getSource().getPiece().promotion;
-								int promo_pos = randomMove.getSource().getPiece().promo_pos;
+								String promo_str = randomMove.getDestinationSquare().getPiece().promotion;
+								int promo_pos = randomMove.getDestinationSquare().getPiece().promo_pos;
 
 								if (promo_str != "")
 								{
@@ -539,18 +549,18 @@ public class UserProgram {
 										{
 											pl2.rook[1].setIsDead(false);
 											Square new_s = null;
-											new_s = new Square(pl2.rook[1].getColor(), randomMove.getSource().get_x(), promo_pos, null);
+											new_s = new Square(pl2.rook[1].getColor(), randomMove.getDestinationSquare().get_x(), promo_pos, null);
 											pl2.rook[1].setSquare(new_s);
 
-											Board.instance.setSquare(new_s, randomMove.getSource().get_x(), promo_pos);
+											Board.instance.setSquare(new_s, randomMove.getDestinationSquare().get_x(), promo_pos);
 											promo_success = true;
 										} else if (pl2.rook[2].isPieceDead() == true){
 											pl2.rook[1].setIsDead(false);
 											Square new_s = null;
-											new_s = new Square(pl2.rook[1].getColor(), randomMove.getSource().get_x(), promo_pos, null);
+											new_s = new Square(pl2.rook[1].getColor(), randomMove.getDestinationSquare().get_x(), promo_pos, null);
 											pl2.rook[1].setSquare(new_s);
 
-											Board.instance.setSquare(new_s, randomMove.getSource().get_x(), promo_pos);
+											Board.instance.setSquare(new_s, randomMove.getDestinationSquare().get_x(), promo_pos);
 											promo_success = true;
 										}
 									}
@@ -561,18 +571,18 @@ public class UserProgram {
 										{
 											pl2.knight[1].setIsDead(false);
 											Square new_s = null;
-											new_s = new Square(pl2.knight[1].getColor(), randomMove.getSource().get_x(), promo_pos, null);
+											new_s = new Square(pl2.knight[1].getColor(), randomMove.getDestinationSquare().get_x(), promo_pos, null);
 											pl2.knight[1].setSquare(new_s);
 
-											Board.instance.setSquare(new_s, randomMove.getSource().get_x(), promo_pos);
+											Board.instance.setSquare(new_s, randomMove.getDestinationSquare().get_x(), promo_pos);
 											promo_success = true;
 										} else if (pl2.knight[2].isPieceDead() == true){
 											pl2.knight[1].setIsDead(false);
 											Square new_s = null;
-											new_s = new Square(pl2.knight[1].getColor(), randomMove.getSource().get_x(), promo_pos, null);
+											new_s = new Square(pl2.knight[1].getColor(), randomMove.getDestinationSquare().get_x(), promo_pos, null);
 											pl2.knight[1].setSquare(new_s);
 
-											Board.instance.setSquare(new_s, randomMove.getSource().get_x(), promo_pos);
+											Board.instance.setSquare(new_s, randomMove.getDestinationSquare().get_x(), promo_pos);
 											promo_success = true;
 										}
 									}
@@ -583,18 +593,18 @@ public class UserProgram {
 										{
 											pl2.bishop[1].setIsDead(false);
 											Square new_s = null;
-											new_s = new Square(pl2.bishop[1].getColor(), randomMove.getSource().get_x(), promo_pos, null);
+											new_s = new Square(pl2.bishop[1].getColor(), randomMove.getDestinationSquare().get_x(), promo_pos, null);
 											pl2.bishop[1].setSquare(new_s);
 
-											Board.instance.setSquare(new_s, randomMove.getSource().get_x(), promo_pos);
+											Board.instance.setSquare(new_s, randomMove.getDestinationSquare().get_x(), promo_pos);
 											promo_success = true;
 										} else if (pl2.bishop[2].isPieceDead() == true){
 											pl2.bishop[1].setIsDead(false);
 											Square new_s = null;
-											new_s = new Square(pl2.bishop[1].getColor(), randomMove.getSource().get_x(), promo_pos, null);
+											new_s = new Square(pl2.bishop[1].getColor(), randomMove.getDestinationSquare().get_x(), promo_pos, null);
 											pl2.bishop[1].setSquare(new_s);
 
-											Board.instance.setSquare(new_s, randomMove.getSource().get_x(), promo_pos);
+											Board.instance.setSquare(new_s, randomMove.getDestinationSquare().get_x(), promo_pos);
 											promo_success = true;
 										}
 									}								
@@ -605,22 +615,27 @@ public class UserProgram {
 										{
 											pl2.queen.setIsDead(false);
 											Square new_s = null;
-											new_s = new Square(pl2.queen.getColor(), randomMove.getSource().get_x(), promo_pos, null);
+											new_s = new Square(pl2.queen.getColor(), randomMove.getDestinationSquare().get_x(), promo_pos, null);
 											pl2.queen.setSquare(new_s);
 
-											Board.instance.setSquare(new_s, randomMove.getSource().get_x(), promo_pos);
+											Board.instance.setSquare(new_s, randomMove.getDestinationSquare().get_x(), promo_pos);
 											promo_success = true;
 									}
 								}
 							 }
-								if (b.getSquare(randomMove.getSource().get_x(), randomMove.getSource().get_y()).getPiece().enpass == true)
+								
+								if (b.getSquare(randomMove.getDestinationSquare().get_x(), randomMove.getDestinationSquare().get_y()).getPiece() != null)
 								{
-									opp_x = b.getSquare(randomMove.getSource().get_x(), randomMove.getSource().get_y()).getPiece().en_x;
-									opp_y = b.getSquare(randomMove.getSource().get_x(), randomMove.getSource().get_y()).getPiece().en_y;
-									pl2.killPiece(b.getSquare(opp_x, opp_y));
+									if (b.getSquare(randomMove.getDestinationSquare().get_x(), randomMove.getDestinationSquare().get_y()).getPiece().enpass == true)
+									{
+										opp_x = b.getSquare(randomMove.getDestinationSquare().get_x(), randomMove.getDestinationSquare().get_y()).getPiece().en_x;
+										opp_y = b.getSquare(randomMove.getDestinationSquare().get_x(), randomMove.getDestinationSquare().get_y()).getPiece().en_y;
+										pl2.killPiece(b.getSquare(opp_x, opp_y));
+									}
 								}
 							}
 
+							/////////////////////////////////////////
 							if (promo_success == false)
 								Board.instance.setSquare(randomMove.getSource(), randomMove.getSource().get_x(), randomMove.getSource().get_y());
 						}
