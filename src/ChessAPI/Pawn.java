@@ -23,7 +23,7 @@ public class Pawn extends Piece {
 			//move piece to destination
 			destination.setPiece(this);
 			Board.setNull(this.getSquare().get_x(), this.getSquare().get_y());
-
+/*
 			if (destination.get_x() == 1 || destination.get_x() == 8)
 			{
 				// Any position other than King
@@ -53,6 +53,7 @@ public class Pawn extends Piece {
 
 				}
 			}
+*/
 			//set piece.square to destination square
 			this.setSquare(destination);
 			Board.setBoard(destination, this.getSquare().get_x(), this.getSquare().get_y());

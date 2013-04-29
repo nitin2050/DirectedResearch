@@ -95,6 +95,7 @@ public class Player {
 		{
 			// This piece does not belong to you
 			System.out.println(" This piece does not belong to you ");
+			
 			return false;
 		}
 		else {
@@ -266,6 +267,10 @@ public class Player {
 	private Move refineList(List<Move> listOfMoves, int no) {
 		no = 0;//new Random().nextInt(listOfMoves.size());
 
+		if (listOfMoves.size() == 0)
+		{
+			System.exit(0);
+		}
 		float bestHeuristic = listOfMoves.get(no).getHeuristicValue();
 
 		//Lets first find the best heuristic value in this list of Moves

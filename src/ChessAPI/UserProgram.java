@@ -55,14 +55,14 @@ public class UserProgram {
 			do
 			{
 				System.out.println("\nPLEASE SELECT PLAY MODE:");
-				System.out.print("1) Player Against Player\n2) Player Against AI\n3) AI Against AI\nQ) Quit");
+				System.out.print("1) Player Against Player\n2) Player Against AI\n3) AI Against AI\n4) AI Against AI (in continous mode)\nQ) Quit");
 				try {
 					selection = br.readLine();
 				} catch (IOException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-				if (selection.equals("1")||selection.equals("2")||selection.equals("3")){
+				if (selection.equals("1")||selection.equals("2")||selection.equals("3")||selection.equals("4")){
 
 					if(selection.equals("1"))
 				    	 playMode = 1;
@@ -70,13 +70,15 @@ public class UserProgram {
 				    	 playMode = 2;
 				    if(selection.equals("3"))
 				    	 playMode = 3;
+				    if(selection.equals("4"))
+				    	 playMode = 4;
 				}else{
 
 					if(selection.toUpperCase().equals("Q")){exit = "Q";}
 					else
 					System.out.println("Error: Wrong Input, Please Try Again");
 				}
-			}while(!selection.toUpperCase().equals("Q")&&!selection.equals("1")&&!selection.equals("2")&&!selection.equals("3"));
+			}while(!selection.toUpperCase().equals("Q")&&!selection.equals("1")&&!selection.equals("2")&&!selection.equals("3") &&!selection.equals("4"));
 
 			  if(playMode == 1){
 				  boolean result;
@@ -129,6 +131,7 @@ public class UserProgram {
 							//System.out.println("Now moving " + originalType + " from (" + pl1.originalSquare.get_x() + ", " + pl1.originalSquare.get_y() + ") to (" + s_rand.get_x() + ", " + s_rand.get_y() + ") ");
 							if (originalType.toString() == "Pawn")
 							{
+							/*
 								String promo_str = b.getSquare(d_x, d_y).getPiece().promotion;
 								int promo_pos = b.getSquare(d_x, d_y).getPiece().promo_pos;
 
@@ -213,7 +216,8 @@ public class UserProgram {
 											promo_success = true;
 									}
 								}
-							 }
+								
+							 }*/
 							if (b.getSquare(d_x, d_y).getPiece().enpass == true)
 							{
 								opp_x = b.getSquare(d_x, d_y).getPiece().en_x;
@@ -684,7 +688,7 @@ public class UserProgram {
 					playMode = 0;				  
 			  }
 
-			  if(playMode == 3){
+			  if(playMode == 3 || playMode == 4) {
 					Square s_rand = null;
 					String originalType = "";
 					boolean result;
@@ -926,8 +930,11 @@ public class UserProgram {
 							if (promo_success == false)
 								Board.instance.setSquare(randomMove.getSource(), randomMove.getSource().get_x(), randomMove.getSource().get_y());
 						}
-						Board.instance.displayBoard();
-						System.out.println(" ====================================================================================== ");
+						if (playMode == 3)
+						{
+							Board.instance.displayBoard();
+							System.out.println(" ====================================================================================== ");
+						}
 						
 						if (pl1.king.isPieceDead() == true)
 						{
@@ -943,20 +950,25 @@ public class UserProgram {
 						}
 
 						i++;
-						more = "n";
-						more = "yes";
-						System.out.println("Do you want to continue ? (y/n) : ");
-						/*try {
-							more = br.readLine();
-						} catch (IOException e) {
-							System.out.println("Error!");
-							System.exit(1);
-						}*/
-						
+				
+						if (playMode == 3)
+						{
+							more = "n";
+							System.out.println("Do you want to continue ? (y/n) : ");
+							try {
+								more = br.readLine();
+							} catch (IOException e) {
+								System.out.println("Error!");
+								System.exit(1);
+							}
+						} else if (playMode == 4)
+							more = "yes";
+
 					} while (more.charAt(0) == 'y');
 					//nitin playing around
 					playMode = 0;
 			  }
+			  Board.instance.displayBoard();
 		}while(!exit.equals("Q"));
 		System.out.println("\nGoodbye!");
 	}
