@@ -72,13 +72,14 @@ public class Queen extends Piece{
 			{
 				board[i][j] = Board.getBoard(i, j); 
 			}
-		boolean result = false;		
+		boolean result = false;	
 		int s_x = s.get_x();
 		int s_y = s.get_y();
 		int d_x = d.get_x();
 		int d_y = d.get_y();
 		int diff_x = d_x - s_x;
 		int diff_y = d_y - s_y;
+		System.out.println(" _isObst ");
 		if(s_x==d_x){
 			if(d_y>s_y){
 
@@ -118,6 +119,14 @@ public class Queen extends Piece{
 					s_x=s_x+diff_x/Math.abs(diff_x);
 				if (diff_y != 1)
 					s_y=s_y+diff_y/Math.abs(diff_y);
+
+				System.out.println(" Hello Queen (" + s_x + " " +s_y + ") dx = (" + d_x + ", " + d_y + "), diff_x = " + diff_x + " diff_y = " +diff_y);
+
+				if (s_x > 8 || s_y > 8 || d_x > 8 || d_y > 8)
+					break;
+				if (s_x < 1 || s_y < 1 || d_x < 1 || d_y < 1)
+					break;
+
 				if(board[s_x][s_y].getPiece() != null){
 					result = true;
 					break;
