@@ -1,5 +1,8 @@
 package ChessAPI;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -84,8 +87,18 @@ public class Player {
 	}
 
 	public boolean moveTo(Square s, Square d) {
+		System.out.println(" Move dest = " + d.get_x() + ", " + d.get_y());
 		if (s.getPiece() == null) {
-			System.out.println("piece object not found at the source location specified");
+			System.out.println("piece object not found at the source location specified " + s.get_x() + ", " + s.get_y());
+			Throwable t = new Throwable();
+			t.printStackTrace();
+			BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+			try {
+				String input = br.readLine();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 			return false;
 		} else if (s.getPiece().getColor() != this.getColor())
 		{
@@ -98,22 +111,46 @@ public class Player {
 
 			if (d.getPiece() != null && d.getPiece().getColor() == s.getPiece().getColor())
 			{
-				System.out.println(" Another piece of your color found at the destination location specified");
+/*
+				System.out.println(" Another piece of your color found at the destination location specified " + s.get_x() + ", " + s.get_y() + " d = " + d.get_x() + ", " + d.get_y());
+				String input = null;
+				BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+				try {
+					input = br.readLine();
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+	*/
 				return false;
 			} else {
 				result = true;
+				Piece temp_dead = null;
 				//System.out.println(" result = " + result);
 				if (result == true && s.getPiece().getType() != Type.Pawn)
 				{
-				if (d.getPiece() != null)
-				{
-					d.getPiece().setIsDead(true);
-					//System.out.println(d.getPiece().getColor() + " Player's " + d.getPiece().getType() + " at (" + d.get_x() + ", " + d.get_y() + ") is DEAD !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-					d.setPiece(null);
+					temp_dead = null;
+					temp_dead = d.getPiece();
+					if (d.getPiece() != null)
+					{
+						d.getPiece().setIsDead(true);
+						//	System.out.println(d.getPiece().getColor() + " Player's " + d.getPiece().getType() + " at (" + d.get_x() + ", " + d.get_y() + ") is DEAD !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+						d.setPiece(null);
+					}
+					updateDeadAlive();
 				}
-				updateDeadAlive();
-				}
+
 				result = s.getPiece().moveTo(d);
+				if (result == false)
+				{
+					if (temp_dead != null)
+					{
+						System.out.println(" temp_dead is not NULL ");
+						d.setPiece(temp_dead);
+						d.getPiece().setIsDead(false);
+						temp_dead.setIsDead(false);
+					}
+				}
 			}
 
 			//if a valid move is completed remove piece from souce
