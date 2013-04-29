@@ -79,7 +79,7 @@ public class Queen extends Piece{
 		int d_y = d.get_y();
 		int diff_x = d_x - s_x;
 		int diff_y = d_y - s_y;
-		System.out.println(" _isObst ");
+
 		if(s_x==d_x){
 			if(d_y>s_y){
 
@@ -119,8 +119,6 @@ public class Queen extends Piece{
 					s_x=s_x+diff_x/Math.abs(diff_x);
 				if (diff_y != 1)
 					s_y=s_y+diff_y/Math.abs(diff_y);
-
-				System.out.println(" Hello Queen (" + s_x + " " +s_y + ") dx = (" + d_x + ", " + d_y + "), diff_x = " + diff_x + " diff_y = " +diff_y);
 
 				if (s_x > 8 || s_y > 8 || d_x > 8 || d_y > 8)
 					break;
