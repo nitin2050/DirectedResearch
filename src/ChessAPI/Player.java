@@ -126,8 +126,11 @@ public class Player {
 					if (d.getPiece() != null)
 					{
 						d.getPiece().setIsDead(true);
-						//	System.out.println(d.getPiece().getColor() + " Player's " + d.getPiece().getType() + " at (" + d.get_x() + ", " + d.get_y() + ") is DEAD !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-						d.setPiece(null);
+							System.out.println(d.getPiece().getColor() + " Player's " + d.getPiece().getType() + " at (" + d.get_x() + ", " + d.get_y() + ") is DEAD !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+						if (d.getPiece().getType() != Type.King)
+							d.setPiece(null);
+						else
+							System.out.println(d.getPiece().getColor() + " Player's King is dead ");
 					}
 					updateDeadAlive();
 				}
@@ -147,8 +150,11 @@ public class Player {
 
 			//if a valid move is completed remove piece from souce
 			if(result) {
-				s.setPiece(null);
+				//s.setPiece(null);
+				if (d.getPiece().getType() != Type.King)
+					s.setPiece(null);
 				//System.out.println(" move completed from : " + s.get_x() + ", " + s.get_y() + ") to (" + d.get_x() + ", " + d.get_y() + ") ");
+				System.out.println(d.getPiece().getColor() + " Player's King is dead ");
 			}
 			myTurn = false;
 
@@ -162,11 +168,14 @@ public class Player {
 			System.out.println("piece object not found at the source location specified");
 			return false;
 		} else {
-				result = true;
+					result = true;
 				//System.out.println(" result = " + result);
 					s.getPiece().setIsDead(true);
 					//System.out.println(d.getPiece().getColor() + " Player's " + d.getPiece().getType() + " at (" + d.get_x() + ", " + d.get_y() + ") is DEAD !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-					s.setPiece(null);
+					if (s.getPiece().getType() != Type.King)
+						s.setPiece(null);
+					else
+						System.out.println(s.getPiece().getColor() + " Player's King is dead ");
 			}
 		return result;
 	}
@@ -178,7 +187,8 @@ public class Player {
 			//d.setPiece(null);
 
 			result = s.getPiece().moveTonoCheck(d);
-			s.setPiece(null);
+			if (d.getPiece().getType() != Type.King)
+				s.setPiece(null);
 			updateDeadAlive();
 			return result;
 	}

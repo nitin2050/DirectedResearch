@@ -366,13 +366,13 @@ public class UserProgram {
 						if (pl1.king.isPieceDead() == true)
 						{
 							System.out.println("Player 2 wins (" + pl2.getColor() + ")");
-							System.out.println("Player 1's King is Dead ");
+							System.out.println("Player 1's King is in Check Mate condition ");
 							break;
 						}
 						if (pl2.king.isPieceDead() == true)
 						{
 							System.out.println("Player 1 wins (" + pl1.getColor() + ")");
-							System.out.println("Player 2's King is Dead ");
+							System.out.println("Player 2's King is in Check Mate condition ");
 							break;
 						}
 
@@ -669,13 +669,13 @@ public class UserProgram {
 						if (pl1.king.isPieceDead() == true)
 						{
 							System.out.println("Player 2 wins (" + pl2.getColor() + ")");
-							System.out.println("Player 1's King is Dead ");
+							System.out.println("Player 1's King is in Check Mate condition ");
 							break;
 						}
 						if (pl2.king.isPieceDead() == true)
 						{
 							System.out.println("Player 1 wins (" + pl1.getColor() + ")");
-							System.out.println("Player 2's King is Dead ");
+							System.out.println("Player 2's King is in Check Mate condition ");
 							break;
 						}
 
@@ -947,13 +947,13 @@ public class UserProgram {
 						if (pl1.king.isPieceDead() == true)
 						{
 							System.out.println("Player 2 wins (" + pl2.getColor() + ")");
-							System.out.println("Player 1's King is Dead ");
+							System.out.println("Player 1's King is in Check Mate condition ");
 							break;
 						}
 						if (pl2.king.isPieceDead() == true)
 						{
 							System.out.println("Player 1 wins (" + pl1.getColor() + ")");
-							System.out.println("Player 2's King is Dead ");
+							System.out.println("Player 2's King is in Check Mate condition ");
 							break;
 						}
 
